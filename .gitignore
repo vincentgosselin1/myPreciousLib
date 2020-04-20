@@ -1,0 +1,10 @@
+#files to ignore
+
+*.hdb
+*.cdb
+*.tdf
+*.dpi
+*.kpt
+*.logdb
+*.flock
+*.ddb
