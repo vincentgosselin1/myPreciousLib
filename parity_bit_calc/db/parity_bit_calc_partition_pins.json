@@ -1,0 +1,57 @@
+{
+	"partitions" : [
+		{
+			"name" : "Top",
+			"pins" : [
+				{
+					"name" : "p_bit",
+					"strict" : false
+				},
+				{
+					"name" : "check_p_out",
+					"strict" : false
+				},
+				{
+					"name" : "clk",
+					"strict" : false
+				},
+				{
+					"name" : "resetn",
+					"strict" : false
+				},
+				{
+					"name" : "word_in[5]",
+					"strict" : false
+				},
+				{
+					"name" : "word_in[7]",
+					"strict" : false
+				},
+				{
+					"name" : "word_in[4]",
+					"strict" : false
+				},
+				{
+					"name" : "word_in[6]",
+					"strict" : false
+				},
+				{
+					"name" : "word_in[1]",
+					"strict" : false
+				},
+				{
+					"name" : "word_in[3]",
+					"strict" : false
+				},
+				{
+					"name" : "word_in[0]",
+					"strict" : false
+				},
+				{
+					"name" : "word_in[2]",
+					"strict" : false
+				}
+			]
+		}
+	]
+}
