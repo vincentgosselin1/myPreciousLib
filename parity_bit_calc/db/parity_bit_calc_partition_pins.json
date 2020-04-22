@@ -8,6 +8,10 @@
 					"strict" : false
 				},
 				{
+					"name" : "p_valid",
+					"strict" : false
+				},
+				{
 					"name" : "check_p_out",
 					"strict" : false
 				},
@@ -21,6 +25,10 @@
 				},
 				{
 					"name" : "word_in[5]",
+					"strict" : false
+				},
+				{
+					"name" : "word_valid",
 					"strict" : false
 				},
 				{

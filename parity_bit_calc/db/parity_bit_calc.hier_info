@@ -1,4 +1,5 @@
 |parity_bit_calc
+clk => p_valid~reg0.CLK
 clk => p_bit~reg0.CLK
 clk => check_p.CLK
 clk => sum_of_ones[0].CLK
@@ -137,6 +138,7 @@ resetn => i[28].ACLR
 resetn => i[29].ACLR
 resetn => i[30].ACLR
 resetn => i[31].ACLR
+resetn => p_valid~reg0.ACLR
 resetn => p_bit~reg0.ACLR
 resetn => word_in_reg[0].ACLR
 resetn => word_in_reg[1].ACLR
@@ -155,7 +157,16 @@ word_in[4] => word_in_reg[4].DATAIN
 word_in[5] => word_in_reg[5].DATAIN
 word_in[6] => word_in_reg[6].DATAIN
 word_in[7] => word_in_reg[7].DATAIN
-p_bit <= p_bit~reg0.DB_MAX_OUTPUT_PORT_TYPE
-check_p_out <= check_p.DB_MAX_OUTPUT_PORT_TYPE
+word_valid => word_in_reg[7].ENA
+word_valid => word_in_reg[6].ENA
+word_valid => word_in_reg[5].ENA
+word_valid => word_in_reg[4].ENA
+word_valid => word_in_reg[3].ENA
+word_valid => word_in_reg[2].ENA
+word_valid => word_in_reg[1].ENA
+word_valid => word_in_reg[0].ENA
+p_bit << p_bit~reg0.DB_MAX_OUTPUT_PORT_TYPE
+p_valid << p_valid~reg0.DB_MAX_OUTPUT_PORT_TYPE
+check_p_out << check_p.DB_MAX_OUTPUT_PORT_TYPE
 
 

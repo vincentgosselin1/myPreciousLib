@@ -1,4 +1,7 @@
 --parity_bit_calc.vhd with sm by Vincent Gosselin 2020
+--even parity, number of ones in a word must be even number for parity to be 0.
+
+
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -8,7 +11,7 @@ entity parity_bit_calc_sm is
 
 	generic
 	(
-		NUM_BITS : natural := 8
+		NUM_BITS : natural := 4
 	);
 	
 	port
@@ -24,7 +27,6 @@ entity parity_bit_calc_sm is
 		p_valid : out std_logic;
 		
 		--for sim
-		check_p_out : out std_logic;
 		num_of_ones_out : out  unsigned(NUM_BITS-1 downto 0);
 		index_out : out unsigned(NUM_BITS-1 downto 0);
 		busy_out : out std_logic
@@ -49,13 +51,12 @@ architecture rtl of parity_bit_calc_sm is
 	
 	-- Register to hold the current state
 	signal state   : state_type;
-	signal word_valid_reg : std_logic; 
 	signal busy : std_logic;
 	signal num_of_ones : unsigned(NUM_BITS-1 downto 0);
 	signal word_in_reg : std_logic_vector(NUM_BITS-1 downto 0);
 	signal index : unsigned(NUM_BITS-1 downto 0);
 	signal target_bit : std_logic;
-	signal target_bit_reg : std_logic;
+
 	
 begin
 
@@ -63,22 +64,6 @@ begin
 	busy_out <= busy;
 	num_of_ones_out <= num_of_ones;
 	index_out <= index;	
-	
-	
-	
-	--word_valid_reg
-	process(clk,resetn)
-	begin	
-		if resetn = '0' then
-			word_valid_reg <= '0';
-		elsif rising_edge(clk) then
-			if word_valid = '1' then
-				word_valid_reg <= '1';
-			else
-				word_valid_reg <= '0';
-			end if;
-		end if;
-	end process;
 
 	-- Logic to advance to the next state
 	process (clk, resetn)
@@ -88,16 +73,16 @@ begin
 		elsif (rising_edge(clk)) then
 			case state is
 				when idle =>
-					--wait for word_valid_reg, move to start.
-					if word_valid_reg = '1' then
+					--wait for word_valid to start. word_in should align.
+					if word_valid = '1' then
 						state <= s0;
 					end if;	
 				when s0 =>	
 					state <= s1;
 				when s1 =>
-					if index = NUM_BITS then
+					if index = NUM_BITS-1 then
 						state <= s4;
-					elsif target_bit_reg = '1' then
+					elsif target_bit = '1' then
 						state <= s2;
 					else 
 						state <= s3;
@@ -115,39 +100,64 @@ begin
 	end process;
 
 	-- Output depends solely on the current state
-	process (state,clk)
+	process (state,clk,resetn)
 	begin
-	if rising_edge(clk) then
+	if resetn = '0' then
+		--outputs are cleared
+		p_bit <= '0';
+		p_valid <= '0';
+		--all registers are cleared
+		num_of_ones <= to_unsigned(0, NUM_BITS);
+		index <= to_unsigned(0, NUM_BITS);
+		word_in_reg <= (others => '0');
+		target_bit <= '0';
+		
+		busy <= '0';
+		
+	elsif rising_edge(clk) then
 		case state is
 			when idle =>
-				--outputs are cleared
+				--outputs are cleared, sample word_in.
 					p_bit <= '0';
 					p_valid <= '0';
+					word_in_reg <= word_in;
 					
 			when s0 =>
-				---set busy, clear num_of_ones, clear checked move to s1, sample word_in.
+				---set busy, clear num_of_ones, clear checked move to s1.
 					busy <= '1';
 					num_of_ones <= to_unsigned(0, NUM_BITS);
 					index <= to_unsigned(0, NUM_BITS);
-					word_in_reg <= word_in;
-					target_bit_reg <= '0';
+					
+
 					
 			when s1 =>
 					--check word_in_reg(0), move to s2 or s3 or s4
 					target_bit <= word_in_reg(to_integer(index));
-					target_bit_reg <= target_bit;
 			when s2 =>
 				--Incr num_of_ones, move to s3
 					num_of_ones <= num_of_ones + 1;
 			when s3 =>
 				--incr index. move to s1.
-					index <= index + 1;
+					index <= index + 1; 
 			when s4 =>
-					p_bit <= '1';
-					p_valid <= '1';
+					--is num_of_ones an even number?
+					if(to_integer(num_of_ones) mod 2 = 0) then
+						p_bit <= '0';
+						p_valid <= '1';
+					else
+						p_bit <= '1';
+						p_valid <= '1';
+					end if;
+					
 			when s5 =>
-					--clear busy
+					--clear busy, index, num_of_ones
 					busy <= '0';
+					index <= to_unsigned(0, NUM_BITS);
+					num_of_ones <= to_unsigned(0, NUM_BITS);
+					
+					p_bit <= '0';
+					p_valid <= '0';
+					target_bit <= '0';
 		end case;
 	end if;
 	end process;

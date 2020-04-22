@@ -36,6 +36,12 @@ SIGNAL clk : STD_LOGIC;
 SIGNAL p_bit : STD_LOGIC;
 SIGNAL resetn : STD_LOGIC;
 SIGNAL word_in : STD_LOGIC_VECTOR(7 DOWNTO 0);
+signal word_valid : std_logic;
+signal p_valid : std_logic;
+
+
+constant clock_period : time := 20 ns; --50mhz
+
 COMPONENT parity_bit_calc
 	GENERIC ( NUM_BITS : INTEGER := 8 );
 	PORT
@@ -43,7 +49,9 @@ COMPONENT parity_bit_calc
 		clk		:	 IN STD_LOGIC;
 		resetn		:	 IN STD_LOGIC;
 		word_in		:	 IN STD_LOGIC_VECTOR(num_bits-1 DOWNTO 0);
-		p_bit		:	 OUT STD_LOGIC
+		p_bit		:	 OUT STD_LOGIC;
+		word_valid : in std_logic;
+		p_valid : out std_logic
 	);
 END COMPONENT;
 BEGIN
@@ -52,8 +60,10 @@ BEGIN
 	PORT MAP (
 	clk => clk,
 	p_bit => p_bit,
+	p_valid => p_valid,
 	resetn => resetn,
-	word_in => word_in
+	word_in => word_in,
+	word_valid => word_valid
 	);
 init : PROCESS                                               
 -- variable declarations                                     
@@ -64,7 +74,7 @@ END PROCESS init;
 
 clock : PROCESS
 	--constant init.
-	constant clock_period : time := 20 ns; --50mhz
+	
 
 	---clock running
 	BEGIN
@@ -84,18 +94,34 @@ BEGIN
 		
 		 -- code executes for every event on sensitivity list  
 		resetn <= '0';
+		word_valid <= '0';
 		wait for 1 us;
 		
 		resetn <= '1';
 		
 		--FIRST WORD
+		word_valid <= '1';
 		word_in <= x"01";
+		wait for clock_period;
+		word_valid <= '0';
+		word_in <= x"00";
 		wait for 1 us;
 		
+		--SECOND word
+		word_valid <= '1';
 		word_in <= x"02";
+		wait for clock_period;
+		word_valid <= '0';
+		word_in <= x"00";
 		wait for 1 us;
 		
+		
+		--THIRD word
+		word_valid <= '1';
 		word_in <= x"ff";
+		wait for clock_period;
+		word_valid <= '0';
+		word_in <= x"00";
 		wait for 1 us;
 		
 		
