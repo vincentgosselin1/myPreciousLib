@@ -1,0 +1,112 @@
+--parity_bit_calc.vhd with sm by Vincent Gosselin 2020
+
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity parity_bit_calc_sm is
+
+	generic
+	(
+		NUM_BITS : natural := 8
+	);
+	
+	port
+	(
+		--inputs
+		clk		  : in std_logic; --50 MHZ clock input from devkit
+		resetn	  : in std_logic;
+		word_in : in std_logic_vector(NUM_BITS-1 downto 0);
+		word_valid : in std_logic;
+		
+		--output
+		p_bit : out std_logic;
+		p_valid : out std_logic;
+		
+		--for sim
+		check_p_out : out std_logic;
+		i_out : out integer;
+		num_of_ones : out integer;
+		checked : out integer
+
+	);
+
+end entity;
+
+architecture rtl of parity_bit_calc_sm is
+
+	-- Build an enumerated type for the state machine
+	type state_type is (idle, start, s1, s2, s3, s4, end);
+	
+	--s0 sets busy
+	--s1 is for CHECK_WORD
+	--s2 is for Incr num_of_ones
+	--s3 is for Right_shift_1 and Incr Checked.
+	--s4 is for set p_bit, set p_valid.
+	--s5 clears busy.
+	
+	
+	-- Register to hold the current state
+	signal state   : state_type;
+	signal word_valid_reg : std_logic;  
+
+begin
+
+	--word_valid_reg
+	process(clk,resetn)
+	begin	
+		if resetn = '0' then
+			word_valid_reg <= '0';
+		elsif rising_edge(clk) then
+			if word_valid = '1' then
+				word_valid_reg <= '1';
+			else
+				word_valid_reg <= '0';
+			end if;
+		end if;
+	end process;
+
+	-- Logic to advance to the next state
+	process (clk, reset)
+	begin
+		if resetn = '0' then
+			state <= idle;
+		elsif (rising_edge(clk)) then
+			case state is
+				when idle =>
+					--wait for word_valid_reg, move to start.
+				when s0 =>
+					--set busy, move to s1.
+				when s1 =>
+					--check word(0), move to s2 or s3 or s4
+				when s2 =>
+					--Incr num_of_ones, move to s3
+				when s3 => 
+					--right_shift_1pos, incr checked. move to s1.
+				when s4 =>
+					--set p_bit/p_valid, move to end.
+				when s5 =>
+					--clear busy
+			end case;
+		end if;
+	end process;
+
+	-- Output depends solely on the current state
+	process (state)
+	begin
+		case state is
+			when s0 =>
+				--todo
+			when s1 =>
+				--todo
+			when s2 =>
+				--todo
+			when s3 =>
+				--todo
+			when s4 =>
+				--todo
+			when s5 =>
+				--todo
+		end case;
+	end process;
+
+end rtl;
