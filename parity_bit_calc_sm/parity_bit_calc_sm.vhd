@@ -88,7 +88,7 @@ begin
 						state <= s3;
 					end if;
 				when s2 =>
-					state <= s3;
+					state <= s1;
 				when s3 => 
 					state <= s1;
 				when s4 =>
@@ -103,6 +103,7 @@ begin
 	process (state,clk,resetn)
 	begin
 	if resetn = '0' then
+		--CLEAR ALL
 		--outputs are cleared
 		p_bit <= '0';
 		p_valid <= '0';
@@ -117,25 +118,29 @@ begin
 	elsif rising_edge(clk) then
 		case state is
 			when idle =>
-				--outputs are cleared, sample word_in.
-					p_bit <= '0';
-					p_valid <= '0';
-					word_in_reg <= word_in;
+				--just wait.
 					
 			when s0 =>
-				---set busy, clear num_of_ones, clear checked move to s1.
+				---init all
 					busy <= '1';
 					num_of_ones <= to_unsigned(0, NUM_BITS);
 					index <= to_unsigned(0, NUM_BITS);
+					target_bit <= '0';
+						
+					--outputs are cleared
+					p_bit <= '0';
+					p_valid <= '0';
 					
-
+					--sample word
+					word_in_reg <= word_in;
 					
 			when s1 =>
-					--check word_in_reg(0), move to s2 or s3 or s4
+					--check word_in_reg(0)
 					target_bit <= word_in_reg(to_integer(index));
 			when s2 =>
-				--Incr num_of_ones, move to s3
+				--Incr num_of_ones, incr index. move to s1
 					num_of_ones <= num_of_ones + 1;
+					index <= index + 1; 
 			when s3 =>
 				--incr index. move to s1.
 					index <= index + 1; 
@@ -150,7 +155,7 @@ begin
 					end if;
 					
 			when s5 =>
-					--clear busy, index, num_of_ones
+					--clear all;
 					busy <= '0';
 					index <= to_unsigned(0, NUM_BITS);
 					num_of_ones <= to_unsigned(0, NUM_BITS);
@@ -158,6 +163,17 @@ begin
 					p_bit <= '0';
 					p_valid <= '0';
 					target_bit <= '0';
+					
+					--outputs are cleared
+					p_bit <= '0';
+					p_valid <= '0';
+					--all registers are cleared
+					num_of_ones <= to_unsigned(0, NUM_BITS);
+					index <= to_unsigned(0, NUM_BITS);
+					word_in_reg <= (others => '0');
+					target_bit <= '0';
+					busy <= '0';
+		
 		end case;
 	end if;
 	end process;

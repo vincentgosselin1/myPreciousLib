@@ -9,7 +9,7 @@ z2
 cModel Technology
 dC:/intelFPGA_lite/17.1/quartus/MyDev/myPreciousLib/parity_bit_calc
 Eparity_bit_calc_sm
-Z0 w1587611502
+Z0 w1587648670
 Z1 DPx4 ieee 11 numeric_std 0 22 :ASDNFgHXf_ih3J@9F3Ze1
 Z2 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
 Z3 DPx4 ieee 14 std_logic_1164 0 22 eNV`TJ_GofJTzYa?f<@Oe1
@@ -22,9 +22,9 @@ VB=]?mP`_Ced[G;8_:FGRU3
 !s100 1K>>OoR31lfF_m]aL2XZ62
 Z7 OV;C;10.5b;63
 32
-Z8 !s110 1587611575
+Z8 !s110 1587648837
 !i10b 1
-Z9 !s108 1587611575.000000
+Z9 !s108 1587648837.000000
 Z10 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/intelFPGA_lite/17.1/quartus/MyDev/myPreciousLib/parity_bit_calc_sm/parity_bit_calc_sm.vhd|
 Z11 !s107 C:/intelFPGA_lite/17.1/quartus/MyDev/myPreciousLib/parity_bit_calc_sm/parity_bit_calc_sm.vhd|
 !i113 1
@@ -37,8 +37,8 @@ R3
 DEx4 work 18 parity_bit_calc_sm 0 22 B=]?mP`_Ced[G;8_:FGRU3
 l61
 L38
-VZQ7Al7WEPcn0NcVAGQQ9M1
-!s100 CMAg<Wm_]F:f5WWnW5hYh3
+VDjTW:EL>?hMiCUjICeKzb1
+!s100 VDXW1<^V7c8aTOZ^<P=Y`1
 R7
 32
 R8
@@ -63,11 +63,11 @@ VXVS6ZeNPEi5k9fSS:_WFC3
 !s100 QO:7iJU1]4e5BW74M0:H>2
 R7
 32
-R8
+Z17 !s110 1587648838
 !i10b 1
 R9
-Z17 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/intelFPGA_lite/17.1/quartus/MyDev/myPreciousLib/parity_bit_calc_sm/simulation/modelsim/parity_bit_calc_sm_tb.vhd|
-Z18 !s107 C:/intelFPGA_lite/17.1/quartus/MyDev/myPreciousLib/parity_bit_calc_sm/simulation/modelsim/parity_bit_calc_sm_tb.vhd|
+Z18 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/intelFPGA_lite/17.1/quartus/MyDev/myPreciousLib/parity_bit_calc_sm/simulation/modelsim/parity_bit_calc_sm_tb.vhd|
+Z19 !s107 C:/intelFPGA_lite/17.1/quartus/MyDev/myPreciousLib/parity_bit_calc_sm/simulation/modelsim/parity_bit_calc_sm_tb.vhd|
 !i113 1
 R12
 R13
@@ -75,18 +75,18 @@ Aparity_bit_calc_sm_arch
 R1
 R2
 R3
-Z19 DEx4 work 21 parity_bit_calc_sm_tb 0 22 XVS6ZeNPEi5k9fSS:_WFC3
+Z20 DEx4 work 21 parity_bit_calc_sm_tb 0 22 XVS6ZeNPEi5k9fSS:_WFC3
 l64
 L33
-VH?RAo2ZL2ahW3SNan0M`h3
-!s100 cce21a;BlPIT[YEYXNB7P3
+Z21 VH?RAo2ZL2ahW3SNan0M`h3
+Z22 !s100 cce21a;BlPIT[YEYXNB7P3
 R7
 32
-R8
+R17
 !i10b 1
 R9
-R17
 R18
+R19
 !i113 1
 R12
 R13
