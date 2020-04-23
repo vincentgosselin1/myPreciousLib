@@ -35,7 +35,7 @@ ARCHITECTURE parity_bit_calc_sm_arch OF parity_bit_calc_sm_tb IS
 -- signals                                                   
 SIGNAL busy_out : STD_LOGIC;
 SIGNAL clk : STD_LOGIC;
-SIGNAL index_out : UNSIGNED(3 DOWNTO 0);
+SIGNAL index_out : integer;
 SIGNAL num_of_ones_out : UNSIGNED(3 DOWNTO 0);
 SIGNAL p_bit : STD_LOGIC;
 SIGNAL p_valid : STD_LOGIC;
@@ -57,7 +57,7 @@ COMPONENT parity_bit_calc_sm
 		p_bit		:	 OUT STD_LOGIC;
 		p_valid		:	 OUT STD_LOGIC;
 		num_of_ones_out		:	 OUT UNSIGNED(num_bits-1 DOWNTO 0);
-		index_out		:	 OUT UNSIGNED(num_bits-1 DOWNTO 0);
+		index_out		:	 out integer;
 		busy_out		:	 OUT STD_LOGIC
 	);
 END COMPONENT;
@@ -106,6 +106,8 @@ begin
 		
 		resetn <= '1';
 		
+		wait for 1 us;
+		
 		--FIRST WORD
 		word_valid <= '1';
 		word_in <= x"0";
@@ -150,6 +152,78 @@ begin
 		--sixth word
 		word_valid <= '1';
 		word_in <= x"6";
+		wait for clock_period;
+		word_valid <= '0';
+		--word_in <= x"0";
+		wait for 1 us;
+
+		--more!!!
+		word_valid <= '1';
+		word_in <= x"7";
+		wait for clock_period;
+		word_valid <= '0';
+		--word_in <= x"0";
+		wait for 1 us;
+
+		--more!!!
+		word_valid <= '1';
+		word_in <= x"8";
+		wait for clock_period;
+		word_valid <= '0';
+		--word_in <= x"0";
+		wait for 1 us;
+
+		--more!!!
+		word_valid <= '1';
+		word_in <= x"9";
+		wait for clock_period;
+		word_valid <= '0';
+		--word_in <= x"0";
+		wait for 1 us;
+
+		--more!!!
+		word_valid <= '1';
+		word_in <= x"a";
+		wait for clock_period;
+		word_valid <= '0';
+		--word_in <= x"0";
+		wait for 1 us;
+
+		--more!!!
+		word_valid <= '1';
+		word_in <= x"b";
+		wait for clock_period;
+		word_valid <= '0';
+		--word_in <= x"0";
+		wait for 1 us;
+
+		--more!!!
+		word_valid <= '1';
+		word_in <= x"c";
+		wait for clock_period;
+		word_valid <= '0';
+		--word_in <= x"0";
+		wait for 1 us;
+
+		--more!!!
+		word_valid <= '1';
+		word_in <= x"d";
+		wait for clock_period;
+		word_valid <= '0';
+		--word_in <= x"0";
+		wait for 1 us;
+
+		--more!!!
+		word_valid <= '1';
+		word_in <= x"e";
+		wait for clock_period;
+		word_valid <= '0';
+		--word_in <= x"0";
+		wait for 1 us;
+
+		--more!!!
+		word_valid <= '1';
+		word_in <= x"f";
 		wait for clock_period;
 		word_valid <= '0';
 		--word_in <= x"0";

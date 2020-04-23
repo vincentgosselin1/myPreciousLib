@@ -1,11 +1,11 @@
-Analysis & Synthesis Status : Successful - Thu Apr 23 10:21:46 2020
+Analysis & Synthesis Status : Successful - Thu Apr 23 15:22:01 2020
 Quartus Prime Version : 17.1.0 Build 590 10/25/2017 SJ Lite Edition
 Revision Name : parity_bit_calc_sm
 Top-level Entity Name : parity_bit_calc_sm
 Family : Cyclone V
 Logic utilization (in ALMs) : N/A
-Total registers : 25
-Total pins : 18
+Total registers : 54
+Total pins : 46
 Total virtual pins : 0
 Total block memory bits : 0
 Total DSP Blocks : 0

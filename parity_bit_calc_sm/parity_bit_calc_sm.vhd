@@ -28,7 +28,7 @@ entity parity_bit_calc_sm is
 		
 		--for sim
 		num_of_ones_out : out  unsigned(NUM_BITS-1 downto 0);
-		index_out : out unsigned(NUM_BITS-1 downto 0);
+		index_out : out integer;
 		busy_out : out std_logic
 
 	);
@@ -38,7 +38,7 @@ end entity;
 architecture rtl of parity_bit_calc_sm is
 
 	-- Build an enumerated type for the state machine
-	type state_type is (reset_state, idle, s0, s1, s2, s3, s4, s5);
+	type state_type is (reset_state, idle, s0, s1, s2, s3, s4, s5, s23);
 	
 	--rs for reset state.
 	--idle, waits for valid
@@ -55,9 +55,21 @@ architecture rtl of parity_bit_calc_sm is
 	signal busy : std_logic;
 	signal num_of_ones : unsigned(NUM_BITS-1 downto 0);
 	signal word_in_reg : std_logic_vector(NUM_BITS-1 downto 0);
-	signal index : unsigned(NUM_BITS-1 downto 0);
+	signal index :	integer;
 	signal target_bit : std_logic;
 	signal word_valid_reg : std_logic;
+	--signal clkdiv2 : std_logic;
+	
+	
+	--components declarations
+	COMPONENT clock_divider_v1
+	GENERIC ( DIVISOR : integer);
+	PORT
+	(
+		clock_in		:	 IN STD_LOGIC;
+		clock_out		:	 OUT STD_LOGIC
+	);
+	END COMPONENT;
 
 	
 begin
@@ -65,7 +77,20 @@ begin
 	--assign
 	busy_out <= busy;
 	num_of_ones_out <= num_of_ones;
-	index_out <= index;	
+	index_out <= index;
+	--clkdiv2_out <= clkdiv2;	
+	
+	
+	--used by next_logic_FSM. This is to allow 2 clock cycle per state for DFF registering purposes.
+--	inst1 : clock_divider_v1
+--	GENERIC map ( DIVISOR => 2 )
+--	PORT map
+--	(
+--		clock_in		=> clk,
+--		clock_out	=> clkdiv2
+--	);
+
+	
 
 	-- Logic to advance to the next state
 	process (clk, resetn)
@@ -84,9 +109,13 @@ begin
 				when s0 =>	
 					state <= s1;
 				when s1 =>
-					if index = NUM_BITS-1 then
+					if index = NUM_BITS  then
 						state <= s4;
-					elsif target_bit = '1' then
+					else
+						state <= s23;
+					end if;
+				when s23 => 
+					if target_bit = '1' then
 						state <= s2;
 					else 
 						state <= s3;
@@ -113,7 +142,7 @@ begin
 		p_valid <= '0';
 		--all registers are cleared
 		num_of_ones <= to_unsigned(0, NUM_BITS);
-		index <= to_unsigned(0, NUM_BITS);
+		index <= 0;
 		word_in_reg <= (others => '0');
 		target_bit <= '0';
 		
@@ -133,30 +162,34 @@ begin
 				---init all
 					busy <= '1';
 					num_of_ones <= to_unsigned(0, NUM_BITS);
-					index <= to_unsigned(0, NUM_BITS);
+					index <= 0;
 						
 					--outputs are cleared
 					p_bit <= '0';
 					p_valid <= '0';
 					
 					--set target_bit
-					target_bit <= word_in_reg(to_integer(index));
+					--target_bit <= word_in_reg(index);
 					
 					
 			when s1 =>
-					--s1 makes decisions.
+					if(index /= NUM_BITS) then
+						target_bit <= word_in_reg(index);
+					end if;
 					
 			when s2 =>
 				--Incr num_of_ones, incr index. move to s1
 					num_of_ones <= num_of_ones + 1;
 					index <= index + 1; 	
 				--set target_bit
-					target_bit <= word_in_reg(to_integer(index));
+					--target_bit <= word_in_reg(index);
 			when s3 =>
 				--incr index. move to s1.
 					index <= index + 1; 	
 					--set target_bit
-					target_bit <= word_in_reg(to_integer(index));
+					--target_bit <= word_in_reg(index);
+			when s23 =>
+						--no action taken.
 			when s4 =>
 					--is num_of_ones an even number?
 					if(to_integer(num_of_ones) mod 2 = 0) then
@@ -170,7 +203,7 @@ begin
 			when s5 =>
 					--clear all;
 					busy <= '0';
-					index <= to_unsigned(0, NUM_BITS);
+					index <= 0;
 					num_of_ones <= to_unsigned(0, NUM_BITS);
 					
 					p_bit <= '0';
@@ -182,7 +215,7 @@ begin
 					p_valid <= '0';
 					--all registers are cleared
 					num_of_ones <= to_unsigned(0, NUM_BITS);
-					index <= to_unsigned(0, NUM_BITS);
+					index <= 0;
 					word_in_reg <= (others => '0');
 					target_bit <= '0';
 					busy <= '0';
