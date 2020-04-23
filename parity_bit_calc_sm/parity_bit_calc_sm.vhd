@@ -38,8 +38,9 @@ end entity;
 architecture rtl of parity_bit_calc_sm is
 
 	-- Build an enumerated type for the state machine
-	type state_type is (idle, s0, s1, s2, s3, s4, s5);
+	type state_type is (reset_state, idle, s0, s1, s2, s3, s4, s5);
 	
+	--rs for reset state.
 	--idle, waits for valid
 	--s0 sets busy, clear num_of_ones
 	--s1 is for CHECK_WORD
@@ -56,6 +57,7 @@ architecture rtl of parity_bit_calc_sm is
 	signal word_in_reg : std_logic_vector(NUM_BITS-1 downto 0);
 	signal index : unsigned(NUM_BITS-1 downto 0);
 	signal target_bit : std_logic;
+	signal word_valid_reg : std_logic;
 
 	
 begin
@@ -69,12 +71,14 @@ begin
 	process (clk, resetn)
 	begin
 		if resetn = '0' then
-			state <= idle;
+			state <= reset_state;
 		elsif (rising_edge(clk)) then
 			case state is
+				when reset_state =>
+					state <= idle;	
 				when idle =>
 					--wait for word_valid to start. word_in should align.
-					if word_valid = '1' then
+					if word_valid_reg = '1' then
 						state <= s0;
 					end if;	
 				when s0 =>	
@@ -117,33 +121,42 @@ begin
 		
 	elsif rising_edge(clk) then
 		case state is
+			when reset_state =>
+				--on power-on. do nothing.
+		
 			when idle =>
-				--just wait.
+				--sample word_in, word_valid. Could be put outside of fsm.
+					word_in_reg <= word_in;
+					word_valid_reg <= word_valid;
 					
 			when s0 =>
 				---init all
 					busy <= '1';
 					num_of_ones <= to_unsigned(0, NUM_BITS);
 					index <= to_unsigned(0, NUM_BITS);
-					target_bit <= '0';
 						
 					--outputs are cleared
 					p_bit <= '0';
 					p_valid <= '0';
 					
-					--sample word
-					word_in_reg <= word_in;
+					--set target_bit
+					target_bit <= word_in_reg(to_integer(index));
+					
 					
 			when s1 =>
-					--check word_in_reg(0)
-					target_bit <= word_in_reg(to_integer(index));
+					--s1 makes decisions.
+					
 			when s2 =>
 				--Incr num_of_ones, incr index. move to s1
 					num_of_ones <= num_of_ones + 1;
-					index <= index + 1; 
+					index <= index + 1; 	
+				--set target_bit
+					target_bit <= word_in_reg(to_integer(index));
 			when s3 =>
 				--incr index. move to s1.
-					index <= index + 1; 
+					index <= index + 1; 	
+					--set target_bit
+					target_bit <= word_in_reg(to_integer(index));
 			when s4 =>
 					--is num_of_ones an even number?
 					if(to_integer(num_of_ones) mod 2 = 0) then
