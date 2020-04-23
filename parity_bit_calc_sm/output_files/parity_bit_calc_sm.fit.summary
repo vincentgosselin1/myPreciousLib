@@ -1,13 +1,13 @@
-Fitter Status : Successful - Wed Apr 22 17:24:45 2020
+Fitter Status : Successful - Thu Apr 23 15:33:28 2020
 Quartus Prime Version : 17.1.0 Build 590 10/25/2017 SJ Lite Edition
 Revision Name : parity_bit_calc_sm
 Top-level Entity Name : parity_bit_calc_sm
 Family : Cyclone V
 Device : 5CGXFC7C7F23C8
 Timing Models : Final
-Logic utilization (in ALMs) : 14 / 56,480 ( < 1 % )
-Total registers : 33
-Total pins : 18 / 268 ( 7 % )
+Logic utilization (in ALMs) : 37 / 56,480 ( < 1 % )
+Total registers : 71
+Total pins : 46 / 268 ( 17 % )
 Total virtual pins : 0
 Total block memory bits : 0 / 7,024,640 ( 0 % )
 Total RAM Blocks : 0 / 686 ( 0 % )

@@ -123,6 +123,14 @@ begin
 		word_valid <= '0';
 		--word_in <= x"0";
 		wait for 1 us;
+
+		--SECOND word
+		word_valid <= '1';
+		word_in <= x"2";
+		wait for clock_period;
+		word_valid <= '0';
+		--word_in <= x"0";
+		wait for 1 us;
 		
 		
 		--THIRD word
