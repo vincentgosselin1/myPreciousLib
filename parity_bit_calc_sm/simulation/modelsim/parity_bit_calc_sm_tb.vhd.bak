@@ -35,7 +35,7 @@ ARCHITECTURE parity_bit_calc_sm_arch OF parity_bit_calc_sm_tb IS
 -- signals                                                   
 SIGNAL busy_out : STD_LOGIC;
 SIGNAL clk : STD_LOGIC;
-SIGNAL index_out : integer;
+SIGNAL index_out : UNSIGNED(4 DOWNTO 0);
 SIGNAL num_of_ones_out : UNSIGNED(3 DOWNTO 0);
 SIGNAL p_bit : STD_LOGIC;
 SIGNAL p_valid : STD_LOGIC;
@@ -57,7 +57,7 @@ COMPONENT parity_bit_calc_sm
 		p_bit		:	 OUT STD_LOGIC;
 		p_valid		:	 OUT STD_LOGIC;
 		num_of_ones_out		:	 OUT UNSIGNED(num_bits-1 DOWNTO 0);
-		index_out		:	 out integer;
+		index_out		:	 out OUT UNSIGNED(num_bits DOWNTO 0);
 		busy_out		:	 OUT STD_LOGIC
 	);
 END COMPONENT;
@@ -126,7 +126,7 @@ begin
 
 		--SECOND word
 		word_valid <= '1';
-		word_in <= x"1";
+		word_in <= x"2";
 		wait for clock_period;
 		word_valid <= '0';
 		--word_in <= x"0";

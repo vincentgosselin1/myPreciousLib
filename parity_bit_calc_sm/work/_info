@@ -9,105 +9,145 @@ z2
 cModel Technology
 dC:/intelFPGA_lite/17.1/quartus/MyDev/myPreciousLib/parity_bit_calc
 vclock_divider_v1
-Z0 !s110 1587670240
 !i10b 1
+VDg1SIo80bB@j0V0VzS_@n1
+r1
+!s85 0
+31
 !s100 P2M7adLinLzl^2bISTZaH0
 IF;iL;=lUJBVCHI2K8oofd1
-VDg1SIo80bB@j0V0VzS_@n1
-Z1 dC:/intelFPGA_lite/17.1/quartus/MyDev/myPreciousLib/parity_bit_calc_sm
+Z0 dC:/intelFPGA_lite/17.1/quartus/MyDev/myPreciousLib/parity_bit_calc_sm
 w1585862042
 8C:/intelFPGA_lite/17.1/quartus/MyDev/myPreciousLib/clock_divider_v1/clock_divider_v1.v
 FC:/intelFPGA_lite/17.1/quartus/MyDev/myPreciousLib/clock_divider_v1/clock_divider_v1.v
 L0 2
 OV;L;10.5b;63
-r1
-!s85 0
-31
-Z2 !s108 1587670240.000000
+!s108 1587670240.000000
 !s107 C:/intelFPGA_lite/17.1/quartus/MyDev/myPreciousLib/clock_divider_v1/clock_divider_v1.v|
 !s90 -reportprogress|300|-work|work|-stats=none|C:/intelFPGA_lite/17.1/quartus/MyDev/myPreciousLib/clock_divider_v1/clock_divider_v1.v|
 !i113 1
 o-work work
 tCvgOpt 0
 Eparity_bit_calc_sm
-Z3 w1587669698
-Z4 DPx4 ieee 11 numeric_std 0 22 :ASDNFgHXf_ih3J@9F3Ze1
-Z5 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
-Z6 DPx4 ieee 14 std_logic_1164 0 22 eNV`TJ_GofJTzYa?f<@Oe1
-R1
-Z7 8C:/intelFPGA_lite/17.1/quartus/MyDev/myPreciousLib/parity_bit_calc_sm/parity_bit_calc_sm.vhd
-Z8 FC:/intelFPGA_lite/17.1/quartus/MyDev/myPreciousLib/parity_bit_calc_sm/parity_bit_calc_sm.vhd
+Z1 w1587681637
+Z2 DPx4 ieee 11 numeric_std 0 22 :ASDNFgHXf_ih3J@9F3Ze1
+Z3 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
+Z4 DPx4 ieee 14 std_logic_1164 0 22 eNV`TJ_GofJTzYa?f<@Oe1
+R0
+Z5 8C:/intelFPGA_lite/17.1/quartus/MyDev/myPreciousLib/parity_bit_calc_sm/parity_bit_calc_sm.vhd
+Z6 FC:/intelFPGA_lite/17.1/quartus/MyDev/myPreciousLib/parity_bit_calc_sm/parity_bit_calc_sm.vhd
 l0
 L10
-VXZPlaOTW6nbULLONf?hQ[2
-!s100 XhdU93=XEgNV52zNj`=@B2
-Z9 OV;C;10.5b;63
+VR3c5<G`_gGjjF;JRU`b1B0
+!s100 3^DMN2lhF]1_ZH1^3f<EM2
+Z7 OV;C;10.5b;63
 32
-R0
+Z8 !s110 1587683327
 !i10b 1
-R2
+Z9 !s108 1587683327.000000
 Z10 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/intelFPGA_lite/17.1/quartus/MyDev/myPreciousLib/parity_bit_calc_sm/parity_bit_calc_sm.vhd|
 Z11 !s107 C:/intelFPGA_lite/17.1/quartus/MyDev/myPreciousLib/parity_bit_calc_sm/parity_bit_calc_sm.vhd|
 !i113 1
 Z12 o-work work -2002 -explicit
 Z13 tExplicit 1 CvgOpt 0
 Artl
-R4
-R5
-R6
-DEx4 work 18 parity_bit_calc_sm 0 22 XZPlaOTW6nbULLONf?hQ[2
-l75
-L38
-V8icY]`Da`cP:WoaH:kUZY3
-!s100 h3]KS7GKg@?hS5=22eKGC3
-R9
-32
-R0
-!i10b 1
 R2
+R3
+R4
+DEx4 work 18 parity_bit_calc_sm 0 22 R3c5<G`_gGjjF;JRU`b1B0
+l52
+L38
+V3QV63S0SzE:;AD0Z_T;aW3
+!s100 Jfb@4AhD4Ja]AhgT5L;162
+R7
+32
+R8
+!i10b 1
+R9
 R10
 R11
 !i113 1
 R12
 R13
 Eparity_bit_calc_sm_tb
-Z14 w1587670230
+Z14 w1587681352
+R2
+R3
 R4
-R5
-R6
-R1
+R0
 Z15 8C:/intelFPGA_lite/17.1/quartus/MyDev/myPreciousLib/parity_bit_calc_sm/simulation/modelsim/parity_bit_calc_sm_tb.vhd
 Z16 FC:/intelFPGA_lite/17.1/quartus/MyDev/myPreciousLib/parity_bit_calc_sm/simulation/modelsim/parity_bit_calc_sm_tb.vhd
 l0
 L31
 VXVS6ZeNPEi5k9fSS:_WFC3
 !s100 QO:7iJU1]4e5BW74M0:H>2
-R9
+R7
 32
-R0
+R8
 !i10b 1
-R2
+R9
 Z17 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/intelFPGA_lite/17.1/quartus/MyDev/myPreciousLib/parity_bit_calc_sm/simulation/modelsim/parity_bit_calc_sm_tb.vhd|
 Z18 !s107 C:/intelFPGA_lite/17.1/quartus/MyDev/myPreciousLib/parity_bit_calc_sm/simulation/modelsim/parity_bit_calc_sm_tb.vhd|
 !i113 1
 R12
 R13
 Aparity_bit_calc_sm_arch
+R2
+R3
 R4
-R5
-R6
 DEx4 work 21 parity_bit_calc_sm_tb 0 22 XVS6ZeNPEi5k9fSS:_WFC3
 l64
 L33
-VH3zAoV;T;nY6bAAC73:GX2
-!s100 2:ViOnXhB8DaVLhCY]cRC0
-R9
+VHzFjBV`nhV5mf^LFPik@j1
+!s100 a4>fIG5mXPKCTP>iZ4VQf0
+R7
 32
-R0
+R8
 !i10b 1
-R2
+R9
 R17
 R18
+!i113 1
+R12
+R13
+Eparity_bit_calc_sm_tb16
+Z19 w1587683326
+R2
+R3
+R4
+R0
+Z20 8C:/intelFPGA_lite/17.1/quartus/MyDev/myPreciousLib/parity_bit_calc_sm/simulation/modelsim/parity_bit_calc_sm_tb16.vhd
+Z21 FC:/intelFPGA_lite/17.1/quartus/MyDev/myPreciousLib/parity_bit_calc_sm/simulation/modelsim/parity_bit_calc_sm_tb16.vhd
+l0
+L31
+V98OW347cKnzl7QgkRL^mR2
+!s100 4[CSc:3[YjmKS1LK2ko8V2
+R7
+32
+Z22 !s110 1587683328
+!i10b 1
+R9
+Z23 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/intelFPGA_lite/17.1/quartus/MyDev/myPreciousLib/parity_bit_calc_sm/simulation/modelsim/parity_bit_calc_sm_tb16.vhd|
+Z24 !s107 C:/intelFPGA_lite/17.1/quartus/MyDev/myPreciousLib/parity_bit_calc_sm/simulation/modelsim/parity_bit_calc_sm_tb16.vhd|
+!i113 1
+R12
+R13
+Aparity_bit_calc_sm_arch
+R2
+R3
+R4
+Z25 DEx4 work 23 parity_bit_calc_sm_tb16 0 22 98OW347cKnzl7QgkRL^mR2
+l64
+L33
+VQ;Zobg3KeWb1`mNT1]mLh0
+!s100 59]BT3415?1L4j3MkXA271
+R7
+32
+R22
+!i10b 1
+R9
+R23
+R24
 !i113 1
 R12
 R13
