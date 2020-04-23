@@ -111,7 +111,7 @@ begin
 		word_in <= x"0";
 		wait for clock_period;
 		word_valid <= '0';
-		word_in <= x"0";
+		--word_in <= x"0";
 		wait for 1 us;
 		
 		--SECOND word
@@ -119,24 +119,40 @@ begin
 		word_in <= x"1";
 		wait for clock_period;
 		word_valid <= '0';
-		word_in <= x"0";
+		--word_in <= x"0";
 		wait for 1 us;
 		
 		
 		--THIRD word
 		word_valid <= '1';
-		word_in <= x"2";
+		word_in <= x"3";
 		wait for clock_period;
 		word_valid <= '0';
-		word_in <= x"0";
+		--word_in <= x"0";
 		wait for 1 us;
 		
 		--fourth word
 		word_valid <= '1';
-		word_in <= x"a";
+		word_in <= x"4";
 		wait for clock_period;
 		word_valid <= '0';
-		word_in <= x"0";
+		--word_in <= x"0";
+		wait for 1 us;
+
+		--fifth word
+		word_valid <= '1';
+		word_in <= x"5";
+		wait for clock_period;
+		word_valid <= '0';
+		--word_in <= x"0";
+		wait for 1 us;
+
+		--sixth word
+		word_valid <= '1';
+		word_in <= x"6";
+		wait for clock_period;
+		word_valid <= '0';
+		--word_in <= x"0";
 		wait for 1 us;
 
 WAIT;                                                        
