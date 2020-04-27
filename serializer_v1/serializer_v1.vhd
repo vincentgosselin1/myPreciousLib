@@ -37,7 +37,7 @@ architecture rtl of serializer_v1 is
 begin
 
 	--word_in_reg
-	process(clk_word, resetn)
+	process(clk_word, resetn, bit_out_done)
 	begin
 		if resetn = '0' or bit_out_done = '1' then
 			word_in_reg <= (others => '0');
