@@ -1,0 +1,126 @@
+-- Copyright (C) 2017  Intel Corporation. All rights reserved.
+-- Your use of Intel Corporation's design tools, logic functions 
+-- and other software and tools, and its AMPP partner logic 
+-- functions, and any output files from any of the foregoing 
+-- (including device programming or simulation files), and any 
+-- associated documentation or information are expressly subject 
+-- to the terms and conditions of the Intel Program License 
+-- Subscription Agreement, the Intel Quartus Prime License Agreement,
+-- the Intel FPGA IP License Agreement, or other applicable license
+-- agreement, including, without limitation, that your use is for
+-- the sole purpose of programming logic devices manufactured by
+-- Intel and sold by Intel or its authorized distributors.  Please
+-- refer to the applicable agreement for further details.
+
+-- ***************************************************************************
+-- This file contains a Vhdl test bench template that is freely editable to   
+-- suit user's needs .Comments are provided in each section to help the user  
+-- fill out necessary details.                                                
+-- ***************************************************************************
+-- Generated on "04/26/2020 21:42:25"
+                                                            
+-- Vhdl Test Bench template for design  :  serializer_v1
+-- 
+-- Simulation tool : ModelSim-Altera (VHDL)
+-- 
+
+LIBRARY ieee;                                               
+USE ieee.std_logic_1164.all;                                
+
+ENTITY serializer_v1_vhd_tst IS
+END serializer_v1_vhd_tst;
+ARCHITECTURE serializer_v1_arch OF serializer_v1_vhd_tst IS
+-- constants                                                 
+-- signals                                                   
+SIGNAL bit_out : STD_LOGIC;
+SIGNAL bit_valid : STD_LOGIC;
+SIGNAL clk : STD_LOGIC;
+SIGNAL resetn : STD_LOGIC;
+SIGNAL word_in : STD_LOGIC_VECTOR(3 DOWNTO 0);
+SIGNAL word_valid : STD_LOGIC;
+
+
+--constant init.
+constant clock_period : time := 20 ns; --50mhz
+
+COMPONENT serializer_v1
+	PORT (
+	bit_out : OUT STD_LOGIC;
+	bit_valid : OUT STD_LOGIC;
+	clk : IN STD_LOGIC;
+	resetn : IN STD_LOGIC;
+	word_in : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+	word_valid : IN STD_LOGIC
+	);
+END COMPONENT;
+BEGIN
+	i1 : serializer_v1
+	PORT MAP (
+-- list connections between master ports and signals
+	bit_out => bit_out,
+	bit_valid => bit_valid,
+	clk => clk,
+	resetn => resetn,
+	word_in => word_in,
+	word_valid => word_valid
+	);
+init : PROCESS                                               
+-- variable declarations                                     
+BEGIN                                                        
+        -- code that executes only once                      
+WAIT;                                                       
+END PROCESS init;  
+
+clock : PROCESS
+	
+
+	---clock running
+	BEGIN
+	CLK <='1';
+	wait for clock_period/2;
+	CLK <='0';
+	wait for clock_period/2;
+
+END PROCESS clock;
+
+                                         
+always : PROCESS                                              
+-- optional sensitivity list                                  
+-- (        )                                                 
+-- variable declarations                                      
+BEGIN                                                         
+        -- code executes for every event on sensitivity list 
+
+			resetn <= '0';
+			word_in <= (others => '0');
+			word_valid <= '0';
+			wait for 60 ns;
+			
+			resetn <= '1';
+			
+			
+			--word1
+			wait for 100 ns;
+			word_in <= "1011";
+			word_valid <= '1';
+			wait for 20 ns;
+			word_valid <= '0';
+			
+			--word2
+			wait for 100 ns;
+			word_in <= "0110";
+			word_valid <= '1';
+			wait for 20 ns;
+			word_valid <= '0';
+			
+			--word2
+			wait for 100 ns;
+			word_in <= "1010";
+			word_valid <= '1';
+			wait for 20 ns;
+			word_valid <= '0';
+			
+			
+WAIT;                                                        
+END PROCESS always;                                          
+END serializer_v1_arch;

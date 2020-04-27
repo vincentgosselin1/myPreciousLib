@@ -175,7 +175,7 @@ begin
 
 		--more!!!
 		word_valid <= '1';
-		word_in <= x"02ff";
+		word_in <= x"dfff";
 		wait for clock_period;
 		word_valid <= '0';
 		--word_in <= x"0";
@@ -183,7 +183,7 @@ begin
 
 		--more!!!
 		word_valid <= '1';
-		word_in <= x"03ff";
+		word_in <= x"efff";
 		wait for clock_period;
 		word_valid <= '0';
 		--word_in <= x"0";
