@@ -1,10 +1,9 @@
-C:/intelFPGA_lite/17.1/quartus/MyDev/myPreciousLib/serializer_v1/serializer_v1.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/intelFPGA_lite/17.1/quartus/MyDev/myPreciousLib/serializer_v1/serializer_v1.vhd
+C:/intelFPGA_lite/17.1/quartus/MyDev/myPreciousLib/serializer_v1/simulation/modelsim/serializer_v1.vht {1 {vcom -work work -2002 -explicit -stats=none C:/intelFPGA_lite/17.1/quartus/MyDev/myPreciousLib/serializer_v1/simulation/modelsim/serializer_v1.vht
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
 -- Loading package STANDARD
 -- Loading package TEXTIO
 -- Loading package std_logic_1164
--- Loading package NUMERIC_STD
--- Compiling entity serializer_v1
--- Compiling architecture rtl of serializer_v1
+-- Compiling entity serializer_v1_vhd_tst
+-- Compiling architecture serializer_v1_arch of serializer_v1_vhd_tst
 
 } {} {}}

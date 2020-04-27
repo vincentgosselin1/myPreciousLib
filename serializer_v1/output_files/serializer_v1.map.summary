@@ -1,11 +1,11 @@
-Analysis & Synthesis Status : Successful - Sun Apr 26 21:51:36 2020
+Analysis & Synthesis Status : Successful - Mon Apr 27 12:07:04 2020
 Quartus Prime Version : 17.1.0 Build 590 10/25/2017 SJ Lite Edition
 Revision Name : serializer_v1
 Top-level Entity Name : serializer_v1
 Family : Cyclone V
 Logic utilization (in ALMs) : N/A
 Total registers : 39
-Total pins : 9
+Total pins : 10
 Total virtual pins : 0
 Total block memory bits : 0
 Total DSP Blocks : 0

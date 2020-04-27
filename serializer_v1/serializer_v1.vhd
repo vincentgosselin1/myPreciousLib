@@ -15,11 +15,12 @@ entity serializer_v1 is
 
 	port 
 	(
-		clk			 : in std_logic;
+		clk_word			 : in std_logic;--used for sampling word_in
+		clk_bit			:in std_logic; --used for outputting bits on serial pin.
 		resetn		: in std_logic;
 		word_in		 : in std_logic_vector((DATA_WIDTH-1) downto 0);
 		word_valid : in std_logic;
-		bit_out		 : out std_logic;
+		bit_out		 : out std_logic; -- serial pin
 		bit_valid : out std_logic
 	);
 
@@ -29,30 +30,39 @@ architecture rtl of serializer_v1 is
 
 	signal word_in_reg : std_logic_vector((DATA_WIDTH-1) downto 0);
 	signal busy : std_logic;
-	signal index : integer;
+	signal index : integer := DATA_WIDTH;
+	signal bit_out_done : std_logic;
 	
 	
 begin
 
-	process (clk, resetn)
+	--word_in_reg
+	process(clk_word, resetn)
 	begin
 		if resetn = '0' then
 			word_in_reg <= (others => '0');
 			busy <= '0';
-			
-			bit_out <= '0';
-			bit_valid <= '0';
-			
-			index <= DATA_WIDTH;
-
-		elsif (rising_edge(clk)) then
-				if (word_valid = '1') then --send a single clock word_valid;
+		elsif rising_edge(clk_word) then
+			if (word_valid = '1') then --send a single clock word_valid;
 					word_in_reg <= word_in;
 					busy <= '1';
-				elsif (busy = '1' and word_valid = '0') then
+			end if;
+		end if;
+	end process;
+	
+	--bit_out
+	process (clk_bit, resetn, busy)
+	begin
+		if resetn = '0' and busy = '0' then
+			bit_out <= '0';
+			bit_valid <= '0';
+			index <= DATA_WIDTH;
+			
+
+		elsif (rising_edge(clk_bit)) then
+				if (busy = '1') then
 					if(index = 0) then
 						index <= DATA_WIDTH;
-						busy <= '0';
 						bit_valid <= '0';
 						bit_out <= '0';
 					else 

@@ -6,6 +6,6 @@ add wave -position insertpoint sim:/serializer_v1_vhd_tst/i1/*
 
 #add wave
 
-run 1 us
+run 100 us
 #run 200000 us
 wave zoom full
