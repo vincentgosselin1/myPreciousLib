@@ -39,7 +39,7 @@ begin
 	--word_in_reg
 	process(clk_word, resetn)
 	begin
-		if resetn = '0' then
+		if resetn = '0' or bit_out_done = '1' then
 			word_in_reg <= (others => '0');
 			busy <= '0';
 		elsif rising_edge(clk_word) then
@@ -53,10 +53,11 @@ begin
 	--bit_out
 	process (clk_bit, resetn, busy)
 	begin
-		if resetn = '0' and busy = '0' then
+		if resetn = '0' or busy = '0' then
 			bit_out <= '0';
 			bit_valid <= '0';
 			index <= DATA_WIDTH;
+			bit_out_done <= '0';
 			
 
 		elsif (rising_edge(clk_bit)) then
@@ -65,10 +66,12 @@ begin
 						index <= DATA_WIDTH;
 						bit_valid <= '0';
 						bit_out <= '0';
+						bit_out_done <= '1';
 					else 
 						bit_out <= word_in_reg(index-1);
 						index <= index - 1;
 						bit_valid <= '1';
+						bit_out_done <= '0';
 					end if;
 				end if;
 		end if;

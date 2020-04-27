@@ -9,7 +9,7 @@ z2
 cModel Technology
 dC:/intelFPGA_lite/17.1/quartus/MyDev/myGalvo_v2
 Eserializer_v1
-Z0 w1588003608
+Z0 w1588016354
 Z1 DPx4 ieee 11 numeric_std 0 22 :ASDNFgHXf_ih3J@9F3Ze1
 Z2 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
 Z3 DPx4 ieee 14 std_logic_1164 0 22 eNV`TJ_GofJTzYa?f<@Oe1
@@ -22,9 +22,9 @@ VClWgaZgh3S2cJ[i0iNFD<0
 !s100 fR0aQRmbhn7CbW8G9=kMz0
 Z7 OV;C;10.5b;63
 32
-Z8 !s110 1588003642
+Z8 !s110 1588016611
 !i10b 1
-Z9 !s108 1588003642.000000
+Z9 !s108 1588016611.000000
 Z10 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/intelFPGA_lite/17.1/quartus/MyDev/myPreciousLib/serializer_v1/serializer_v1.vhd|
 Z11 !s107 C:/intelFPGA_lite/17.1/quartus/MyDev/myPreciousLib/serializer_v1/serializer_v1.vhd|
 !i113 1
@@ -37,8 +37,8 @@ R3
 DEx4 work 13 serializer_v1 0 22 ClWgaZgh3S2cJ[i0iNFD<0
 l37
 L29
-VYXB654=KdKAkQi54SBd563
-!s100 Ln09e>=mHI>5:jO?gj`S43
+VW:n2:AimDmd1g_dYzdM1[3
+!s100 dXKP5@oGiJacIaiaN?:A30
 R7
 32
 R8
@@ -50,7 +50,7 @@ R11
 R12
 R13
 Eserializer_v1_vhd_tst
-Z14 w1588003505
+Z14 w1588016611
 R2
 R3
 R4
@@ -76,8 +76,8 @@ R3
 Z19 DEx4 work 21 serializer_v1_vhd_tst 0 22 1GV_1^5h]na44Ug5ZX<XQ0
 l61
 L32
-Z20 V^L7Jz5OKJjW5aL8DFz8gW3
-Z21 !s100 cTHafZD;HUlTNMTDhEmc=0
+VUYh:3<8Ida8N=Wbc]@O@N3
+!s100 6^0hBcD5?eEe352kB`VEj2
 R7
 32
 R8
