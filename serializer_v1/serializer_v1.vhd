@@ -53,7 +53,7 @@ begin
 	--bit_out
 	process (clk_bit, resetn, busy)
 	begin
-		if resetn = '0' or busy = '0' then
+		if resetn = '0' then
 			bit_out <= '0';
 			bit_valid <= '0';
 			index <= DATA_WIDTH;
@@ -73,6 +73,8 @@ begin
 						bit_valid <= '1';
 						bit_out_done <= '0';
 					end if;
+				else
+						bit_out_done <= '0';
 				end if;
 		end if;
 	end process;

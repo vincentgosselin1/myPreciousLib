@@ -125,7 +125,7 @@ BEGIN
 			word_valid <= '0';
 			
 			--word2
-			wait for 2800 ns;
+			wait for 3200 ns;
 			word_in <= "0110";
 			word_valid <= '1';
 			wait for 20 ns;
