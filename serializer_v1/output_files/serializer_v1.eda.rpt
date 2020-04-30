@@ -1,5 +1,5 @@
 EDA Netlist Writer report for serializer_v1
-Sun Apr 26 21:42:25 2020
+Mon Apr 27 16:06:45 2020
 Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
 
 
@@ -8,7 +8,9 @@ Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
 ---------------------
   1. Legal Notice
   2. EDA Netlist Writer Summary
-  3. EDA Netlist Writer Messages
+  3. Simulation Settings
+  4. Simulation Generated Files
+  5. EDA Netlist Writer Messages
 
 
 
@@ -34,11 +36,43 @@ refer to the applicable agreement for further details.
 +-------------------------------------------------------------------+
 ; EDA Netlist Writer Summary                                        ;
 +---------------------------+---------------------------------------+
-; EDA Netlist Writer Status ; Successful - Sun Apr 26 21:42:25 2020 ;
+; EDA Netlist Writer Status ; Successful - Mon Apr 27 16:06:45 2020 ;
 ; Revision Name             ; serializer_v1                         ;
 ; Top-level Entity Name     ; serializer_v1                         ;
 ; Family                    ; Cyclone V                             ;
+; Simulation Files Creation ; Successful                            ;
 +---------------------------+---------------------------------------+
+
+
++----------------------------------------------------------------------------------------------------------------------------+
+; Simulation Settings                                                                                                        ;
++---------------------------------------------------------------------------------------------------+------------------------+
+; Option                                                                                            ; Setting                ;
++---------------------------------------------------------------------------------------------------+------------------------+
+; Tool Name                                                                                         ; ModelSim-Altera (VHDL) ;
+; Generate functional simulation netlist                                                            ; Off                    ;
+; Time scale                                                                                        ; 1 ps                   ;
+; Truncate long hierarchy paths                                                                     ; Off                    ;
+; Map illegal HDL characters                                                                        ; Off                    ;
+; Flatten buses into individual nodes                                                               ; Off                    ;
+; Maintain hierarchy                                                                                ; Off                    ;
+; Bring out device-wide set/reset signals as ports                                                  ; Off                    ;
+; Enable glitch filtering                                                                           ; Off                    ;
+; Do not write top level VHDL entity                                                                ; Off                    ;
+; Disable detection of setup and hold time violations in the input registers of bi-directional pins ; Off                    ;
+; Architecture name in VHDL output netlist                                                          ; structure              ;
+; Generate third-party EDA tool command script for RTL functional simulation                        ; Off                    ;
+; Generate third-party EDA tool command script for gate-level simulation                            ; Off                    ;
++---------------------------------------------------------------------------------------------------+------------------------+
+
+
++--------------------------------------------------------------------------------------------------------+
+; Simulation Generated Files                                                                             ;
++--------------------------------------------------------------------------------------------------------+
+; Generated Files                                                                                        ;
++--------------------------------------------------------------------------------------------------------+
+; C:/intelFPGA_lite/17.1/quartus/MyDev/myPreciousLib/serializer_v1/simulation/modelsim/serializer_v1.vho ;
++--------------------------------------------------------------------------------------------------------+
 
 
 +-----------------------------+
@@ -47,15 +81,15 @@ refer to the applicable agreement for further details.
 Info: *******************************************************************
 Info: Running Quartus Prime EDA Netlist Writer
     Info: Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
-    Info: Processing started: Sun Apr 26 21:42:24 2020
-Info: Command: quartus_eda --read_settings_files=on --write_settings_files=off serializer_v1 -c serializer_v1 --gen_testbench
-Info (119006): Selected device 5CGXFC7C7F23C8 for design "serializer_v1"
+    Info: Processing started: Mon Apr 27 16:06:43 2020
+Info: Command: quartus_eda --read_settings_files=off --write_settings_files=off serializer_v1 -c serializer_v1
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
-Info (201002): Generated VHDL Test Bench File C:/intelFPGA_lite/17.1/quartus/MyDev/myPreciousLib/serializer_v1/simulation/modelsim/serializer_v1.vht for simulation
-Info: Quartus Prime EDA Netlist Writer was successful. 0 errors, 1 warning
-    Info: Peak virtual memory: 4717 megabytes
-    Info: Processing ended: Sun Apr 26 21:42:25 2020
-    Info: Elapsed time: 00:00:01
-    Info: Total CPU time (on all processors): 00:00:01
+Warning (10905): Generated the EDA functional simulation netlist because it is the only supported netlist type for this device.
+Info (204019): Generated file serializer_v1.vho in folder "C:/intelFPGA_lite/17.1/quartus/MyDev/myPreciousLib/serializer_v1/simulation/modelsim/" for EDA simulation tool
+Info: Quartus Prime EDA Netlist Writer was successful. 0 errors, 2 warnings
+    Info: Peak virtual memory: 4740 megabytes
+    Info: Processing ended: Mon Apr 27 16:06:45 2020
+    Info: Elapsed time: 00:00:02
+    Info: Total CPU time (on all processors): 00:00:02
 
 

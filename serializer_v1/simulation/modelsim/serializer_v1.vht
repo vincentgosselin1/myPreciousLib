@@ -32,13 +32,13 @@ END serializer_v1_vhd_tst;
 ARCHITECTURE serializer_v1_arch OF serializer_v1_vhd_tst IS
 -- constants                                                 
 -- signals                                                   
-SIGNAL bit_out : STD_LOGIC;
-SIGNAL bit_valid : STD_LOGIC;
+SIGNAL bit_out, bit_out1 : STD_LOGIC;
+SIGNAL bit_valid, bit_valid1 : STD_LOGIC;
 SIGNAL clk : STD_LOGIC;
 signal clk_2 : std_logic;
 SIGNAL resetn : STD_LOGIC;
 SIGNAL word_in : STD_LOGIC_VECTOR(3 DOWNTO 0);
-SIGNAL word_valid : STD_LOGIC;
+SIGNAL word_valid, word_valid1 : STD_LOGIC;
 
 
 --constant init.
@@ -70,6 +70,19 @@ BEGIN
 	word_in => word_in,
 	word_valid => word_valid
 	);
+
+i2 : serializer_v1
+	PORT MAP (
+	clk_word => clk,
+	clk_bit => clk_2,
+	bit_out => bit_out1,
+	bit_valid => bit_valid1,
+	resetn => resetn,
+	word_in => word_in,
+	word_valid => word_valid1
+	);
+
+
 init : PROCESS                                               
 -- variable declarations                                     
 BEGIN                                                        
@@ -112,6 +125,7 @@ BEGIN
 			resetn <= '0';
 			word_in <= (others => '0');
 			word_valid <= '0';
+			word_valid1 <= '0';
 			wait for 60 ns;
 			
 			resetn <= '1';
@@ -125,8 +139,15 @@ BEGIN
 			word_valid <= '0';
 			
 			--word2
-			wait for 3200 ns;
+			wait for 2200 ns;
 			word_in <= "0110";
+			word_valid1 <= '1';
+			wait for 20 ns;
+			word_valid1 <= '0';
+
+			--word3
+			wait for 1700 ns;
+			word_in <= "1010";
 			word_valid <= '1';
 			wait for 20 ns;
 			word_valid <= '0';
