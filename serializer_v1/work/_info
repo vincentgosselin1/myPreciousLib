@@ -22,9 +22,9 @@ VClWgaZgh3S2cJ[i0iNFD<0
 !s100 fR0aQRmbhn7CbW8G9=kMz0
 Z7 OV;C;10.5b;63
 32
-Z8 !s110 1588257014
+Z8 !s110 1588262358
 !i10b 1
-Z9 !s108 1588257014.000000
+Z9 !s108 1588262358.000000
 Z10 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/intelFPGA_lite/17.1/quartus/MyDev/myPreciousLib/serializer_v1/serializer_v1.vhd|
 Z11 !s107 C:/intelFPGA_lite/17.1/quartus/MyDev/myPreciousLib/serializer_v1/serializer_v1.vhd|
 !i113 1
@@ -62,29 +62,29 @@ V1GV_1^5h]na44Ug5ZX<XQ0
 !s100 l4C7lBQkQa>zW06_;J]@[3
 R7
 32
-R8
+Z17 !s110 1588262359
 !i10b 1
-R9
-Z17 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/intelFPGA_lite/17.1/quartus/MyDev/myPreciousLib/serializer_v1/simulation/modelsim/serializer_v1.vht|
-Z18 !s107 C:/intelFPGA_lite/17.1/quartus/MyDev/myPreciousLib/serializer_v1/simulation/modelsim/serializer_v1.vht|
+Z18 !s108 1588262359.000000
+Z19 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/intelFPGA_lite/17.1/quartus/MyDev/myPreciousLib/serializer_v1/simulation/modelsim/serializer_v1.vht|
+Z20 !s107 C:/intelFPGA_lite/17.1/quartus/MyDev/myPreciousLib/serializer_v1/simulation/modelsim/serializer_v1.vht|
 !i113 1
 R12
 R13
 Aserializer_v1_arch
 R2
 R3
-Z19 DEx4 work 21 serializer_v1_vhd_tst 0 22 1GV_1^5h]na44Ug5ZX<XQ0
+Z21 DEx4 work 21 serializer_v1_vhd_tst 0 22 1GV_1^5h]na44Ug5ZX<XQ0
 l61
 L32
-VW1AhHRo;2k^k`:47IM]m[3
-!s100 a29M[PdW_[9zj8B?JjGP50
+Z22 VW1AhHRo;2k^k`:47IM]m[3
+Z23 !s100 a29M[PdW_[9zj8B?JjGP50
 R7
 32
-R8
-!i10b 1
-R9
 R17
+!i10b 1
 R18
+R19
+R20
 !i113 1
 R12
 R13
