@@ -38,7 +38,7 @@ SIGNAL clk : STD_LOGIC;
 signal clk_2 : std_logic;
 SIGNAL resetn : STD_LOGIC;
 SIGNAL word_in : STD_LOGIC_VECTOR(3 DOWNTO 0);
-SIGNAL word_valid, word_valid1 : STD_LOGIC;
+SIGNAL word_valid, word_valid1, word_valid2 : STD_LOGIC;
 
 
 --constant init.
@@ -126,6 +126,7 @@ BEGIN
 			word_in <= (others => '0');
 			word_valid <= '0';
 			word_valid1 <= '0';
+			word_valid2 <= '0';
 			wait for 60 ns;
 			
 			resetn <= '1';
@@ -135,22 +136,32 @@ BEGIN
 			wait for 6000 ns;
 			word_in <= "1011";
 			word_valid <= '1';
+			word_valid2 <= '1';
 			wait for 20 ns;
 			word_valid <= '0';
+			word_valid2 <= '0';
 			
 			--word2
 			wait for 2200 ns;
 			word_in <= "0110";
+			word_valid <= '1';
 			word_valid1 <= '1';
+			word_valid2 <= '1';
 			wait for 20 ns;
+			word_valid <= '0';
 			word_valid1 <= '0';
+			word_valid2 <= '0';
 
 			--word3
 			wait for 1700 ns;
 			word_in <= "1010";
 			word_valid <= '1';
+			word_valid1 <= '1';
+			word_valid2 <= '1';
 			wait for 20 ns;
 			word_valid <= '0';
+			word_valid1 <= '0';
+			word_valid2 <= '0';
 			
 			
 			
