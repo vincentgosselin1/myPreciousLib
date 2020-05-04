@@ -16,7 +16,7 @@ entity pulse_gen_ena is
 		-- Output ports
 		pulse	:	out std_logic
 	);
-end pulse_gen;
+end pulse_gen_ena;
 
 
 
