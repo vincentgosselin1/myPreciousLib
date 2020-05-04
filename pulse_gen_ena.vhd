@@ -3,7 +3,7 @@ LIBRARY ieee;
 USE ieee.std_logic_1164.all;
 USE ieee.numeric_std.ALL;  
 
-entity pulse_gen is
+entity pulse_gen_ena is
 
 	port
 	(
@@ -20,7 +20,7 @@ end pulse_gen;
 
 
 
-architecture rtl of pulse_gen is
+architecture rtl of pulse_gen_ena is
 
 	-- Declarations (optional)
 	signal dff1 : std_logic;
@@ -28,7 +28,7 @@ architecture rtl of pulse_gen is
 
 begin
 
-	process(clk, resetn, input, dff1, dff2)
+	process(clk, resetn, input, dff1, dff2, ena)
 	begin
 		if resetn = '0' then
 			dff1 <= '0';
