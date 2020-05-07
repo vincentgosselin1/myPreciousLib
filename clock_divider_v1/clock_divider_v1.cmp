@@ -17,7 +17,7 @@
 -- Created on Thu Apr 23 12:06:15 2020
 
 COMPONENT clock_divider_v1
-	GENERIC ( DIVISOR : integer(27 DOWNTO 0) := 8 );
+	GENERIC ( DIVISOR : integer );
 	PORT
 	(
 		clock_in		:	 IN STD_LOGIC;
