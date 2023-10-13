@@ -1,0 +1,94 @@
+m255
+K4
+z2
+!s11e MIXED_VERSIONS
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dc:/mydev/myPreciousLib/even_parity_detector
+Eeven_parity_detector
+Z1 w1697156150
+Z2 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
+Z3 DPx4 ieee 14 std_logic_1164 0 22 cVAk:aDinOX8^VGI1ekP<3
+!i122 1
+R0
+Z4 8even_parity_detector.vhd
+Z5 Feven_parity_detector.vhd
+l0
+L4 1
+VUzJBQ2I@Eg?_V9jboodmm1
+!s100 YoW[MaQ<4=U[1C1Wzan]]3
+Z6 OV;C;2020.1;71
+31
+Z7 !s110 1697157616
+!i10b 1
+Z8 !s108 1697157616.000000
+Z9 !s90 -93|-work|work|even_parity_detector.vhd|
+Z10 !s107 even_parity_detector.vhd|
+!i113 1
+Z11 o-93 -work work
+Z12 tExplicit 1 CvgOpt 0
+Artl
+R2
+R3
+Z13 DEx4 work 20 even_parity_detector 0 22 UzJBQ2I@Eg?_V9jboodmm1
+!i122 1
+l15
+L13 15
+VZ_ba3eFzDAC[0[_k>lOPD2
+!s100 1K_PjM>BKYUE6Wo<Jo_fB3
+R6
+31
+R7
+!i10b 1
+R8
+R9
+R10
+!i113 1
+R11
+R12
+Eeven_parity_detector_tb
+Z14 w1697155762
+R2
+R3
+!i122 2
+R0
+Z15 8even_parity_detector_tb.vhd
+Z16 Feven_parity_detector_tb.vhd
+l0
+L4 1
+VFTjB=F^WQ39>7<>eD811?0
+!s100 7KAb_OEWPdc?Af0Ye9CO@3
+R6
+31
+Z17 !s110 1697157625
+!i10b 1
+Z18 !s108 1697157625.000000
+Z19 !s90 -93|-work|work|even_parity_detector_tb.vhd|
+!s107 even_parity_detector_tb.vhd|
+!i113 1
+R11
+R12
+Atb
+R13
+R2
+R3
+DEx4 work 23 even_parity_detector_tb 0 22 FTjB=F^WQ39>7<>eD811?0
+!i122 2
+l19
+L7 45
+VcX>A84<4A740153hjMnST2
+!s100 Fnj5z;KAVCi<3THD>E9>l2
+R6
+31
+R17
+!i10b 1
+R18
+R19
+Z20 !s107 even_parity_detector_tb.vhd|
+!i113 1
+R11
+R12
