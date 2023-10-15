@@ -8,6 +8,7 @@ architecture tb of even_parity_detector_tb is
   component even_parity_detector
     port(
       i_clk  : in std_logic;
+      i_rstn : in std_logic;
       i_data : in std_logic_vector(1 downto 0);
       even   : out std_logic
       );

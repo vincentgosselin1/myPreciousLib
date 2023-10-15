@@ -12,17 +12,24 @@ end even_parity_detector;
 
 architecture rtl of even_parity_detector is
   signal odd : std_logic;
+  signal odd_dff : std_logic;
 begin
   process(i_clk)
+  variable tmp : std_logic;
   begin
     if rising_edge(i_clk) then
       if i_rstn = '0' then
         even <= '0';
+        tmp := '0';
+        odd_dff <= '0';
       else
-      odd  <= i_data(0) xor i_data(1);
-      even <= not odd;
+        odd_dff <= odd;
+        even <= not odd_dff;
       end if;
     end if;
+
+    --combinatorial logic
+    odd  <= i_data(0) xor i_data(1);
   end process;
 end rtl;
 
