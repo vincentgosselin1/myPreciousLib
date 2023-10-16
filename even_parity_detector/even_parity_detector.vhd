@@ -5,7 +5,7 @@ entity even_parity_detector is
   port(
     i_clk  : in  std_logic;
     i_rstn : in std_logic;
-    i_data : in  std_logic_vector(1 downto 0);
+    i_data : in  std_logic_vector(7 downto 0);
     o_even   : out std_logic
     );
 end even_parity_detector;
@@ -13,7 +13,7 @@ end even_parity_detector;
 architecture rtl of even_parity_detector is
   signal odd : std_logic;
   signal odd_dff : std_logic;
-  signal data_in_dff : std_logic_vector(1 downto 0);
+  signal data_in_dff : std_logic_vector(7 downto 0);
   signal even_dff : std_logic;
   signal even : std_logic;
 begin
@@ -30,7 +30,15 @@ begin
   end process;
 
   --combinatorial logic
-  odd  <= data_in_dff(0) xor data_in_dff(1);
+  p_xor_network : process(data_in_dff)
+    variable tmp : std_logic;
+  begin
+    tmp := '0';
+    for i in 7 downto 0 loop
+      tmp := tmp xor data_in_dff(i);
+    end loop;
+      odd <= tmp;
+  end process;
 
   p_odd_dff : process(i_clk)
   begin

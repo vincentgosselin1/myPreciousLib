@@ -9,11 +9,11 @@ architecture tb of even_parity_detector_tb is
     port(
       i_clk  : in std_logic;
       i_rstn : in std_logic;
-      i_data : in std_logic_vector(1 downto 0);
+      i_data : in std_logic_vector(7 downto 0);
       o_even   : out std_logic
       );
   end component;
-  signal test_in : std_logic_vector(1 downto 0);
+  signal test_in : std_logic_vector(7 downto 0);
   signal test_out: std_logic;
   signal clk : std_logic;
   signal rstn : std_logic;
@@ -38,21 +38,21 @@ begin
   -- test vector generator
   process
   begin
-    test_in <= "00";
+    test_in <= X"00";
     rstn <= '0';
     wait for 200 ns;
     rstn <= '1';
     wait for 200 ns;
 
     --test starts
-    test_in <= "00";
+    test_in <= X"00";
     wait for 200 ns;
     rstn <= '1';
-    test_in <= "01";
+    test_in <= X"01";
     wait for 200 ns;
-    test_in <= "10";
+    test_in <= X"02";
     wait for 200 ns;
-    test_in <= "11";
+    test_in <= X"03";
     wait for 200 ns;
   end process;
 end tb;
