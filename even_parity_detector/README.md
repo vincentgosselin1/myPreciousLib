@@ -5,6 +5,6 @@ run_sim.sh\
 modelsim vsim.wlf
 
 
-#initial steps to config modelsim
-vlib work
-vmap work work
+#initial steps to config modelsim\
+vlib work\
+vmap work work\
