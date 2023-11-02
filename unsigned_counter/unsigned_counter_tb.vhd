@@ -56,7 +56,7 @@ begin
 
     --test starts
     ena <= '1';
-    --wait for 20000000 ns;
+    --wait for 2000 us;
     wait for 2000 us;
     
   end process;
