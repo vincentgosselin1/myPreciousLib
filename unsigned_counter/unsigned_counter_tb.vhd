@@ -34,7 +34,7 @@ begin
       o_count   => count
       );
 
-  
+  --running clock 20ns period -> 50Mhz
   process
   begin
     clk <= '0';
