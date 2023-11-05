@@ -1,0 +1,8 @@
+#run this for easiercode gen, perl file
+
+perl easier_uvm_gen.pl
+
+#shitty code gen, perl error :
+
+Can't locate File/Copy/Recursive.pm in @INC (you may need to install the File::Copy::Recursive module) (@INC contains: /usr/lib/perl5/site_perl /usr/share/perl5/site_perl /usr/lib/perl5/vendor_perl /usr/share/perl5/vendor_perl /usr/lib/perl5/core_perl /usr/share/perl5/core_perl) at easier_uvm_gen.pl line 146.
+BEGIN failed--compilation aborted at easier_uvm_gen.pl line 146.
