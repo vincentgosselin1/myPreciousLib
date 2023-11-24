@@ -1,0 +1,1 @@
+g++ -Wall -O -g a.cc 
