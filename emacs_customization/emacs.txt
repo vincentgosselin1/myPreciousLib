@@ -16,3 +16,28 @@
  ;; If there is more than one, they won't work right.
  )
 (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
+
+
+
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ansi-color-names-vector
+   ["#212526" "#ff4b4b" "#b4fa70" "#fce94f" "#729fcf" "#e090d7" "#8cc4ff" "#eeeeec"])
+ '(custom-enabled-themes '(manoj-dark))
+ '(package-selected-packages '(dumb-jump)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+(add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
+(require 'animate)
+;; all i did was to "load-file animate.el" command.
+;; after that I modified .emacs to include the animate package
+;; after that I use "load-file ~/.emacs command. 
