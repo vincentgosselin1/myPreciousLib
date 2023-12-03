@@ -41,3 +41,7 @@
 ;; all i did was to "load-file animate.el" command.
 ;; after that I modified .emacs to include the animate package
 ;; after that I use "load-file ~/.emacs command. 
+
+
+rm -f TAGS
+find . -name "*.[ch]" -print | xargs etags -a
