@@ -49,3 +49,6 @@ find . -name "*.[ch]" -print | xargs etags -a
 
 cd /path/to/source-root
 find . -name "*.cpp" -print -or -name "*.h" -print | xargs etags --append
+
+#grep the fuckout
+grep  -nH --null dut  *.sv
