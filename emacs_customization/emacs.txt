@@ -52,3 +52,27 @@ find . -name "*.cpp" -print -or -name "*.h" -print | xargs etags --append
 
 #grep the fuckout
 grep  -nH --null dut  *.sv
+
+
+;my own stuff
+(defalias 'wss (read-kbd-macro "M-x window-swap-states"))
+
+
+; Window configuration setters/
+(defalias 'W  'rw )  ; Return-To-Window-Config-
+(defalias 'W2 'rw2)  ; Return-To-Window-Config-
+(defalias 'W3 'rw3)  ; Return-To-Window-Config-
+(defalias 'W4 'rw4)  ; Return-To-Window-Config-4
+(defalias 'W5 'rw5)  ; Return-To-Window-Config-
+
+(defalias 'rw  (read-kbd-macro "C-x r j w")) ; Return-To-Window-Config-
+(defalias 'rw2 (read-kbd-macro "C-x r j 5")) ; Return-To-Window-Config-
+(defalias 'rw3 (read-kbd-macro "C-x r j 6")) ; Return-To-Window-Config-
+(defalias 'rw4 (read-kbd-macro "C-x r j 7")) ; Return-To-Window-Config-4
+(defalias 'rw5 (read-kbd-macro "C-x r j 8")) ; Return-To-Window-Config-5
+
+(defalias 'sw  (read-kbd-macro "C-x r w w")) ; Set-Window-Config-w    in: reg w
+(defalias 'sw2 (read-kbd-macro "C-x r w 5")) ; Set-Window-Config-w2 + 3 = reg 5
+(defalias 'sw3 (read-kbd-macro "C-x r w 6")) ; Set-Window-Config-w3 + 3 = reg 6
+(defalias 'sw4 (read-kbd-macro "C-x r w 7")) ; Set-Window-Config-w4 + 3 = reg 7
+(defalias 'sw5 (read-kbd-macro "C-x r w 8")) ; Set-Window-Config-w5 + 3 = reg 8
