@@ -76,3 +76,7 @@ grep  -nH --null dut  *.sv
 (defalias 'sw3 (read-kbd-macro "C-x r w 6")) ; Set-Window-Config-w3 + 3 = reg 6
 (defalias 'sw4 (read-kbd-macro "C-x r w 7")) ; Set-Window-Config-w4 + 3 = reg 7
 (defalias 'sw5 (read-kbd-macro "C-x r w 8")) ; Set-Window-Config-w5 + 3 = reg 8
+
+
+;my own stuff
+(defalias 'wss (read-kbd-macro "M-x window-swap-states"))
