@@ -80,3 +80,4 @@ grep  -nH --null dut  *.sv
 
 ;my own stuff
 (defalias 'wss (read-kbd-macro "M-x window-swap-states"))
+(defalias 'sss (read-kbd-macro "C-u M-x shell"))
