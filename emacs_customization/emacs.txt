@@ -85,6 +85,7 @@ grep  -nH --null dut  *.sv
 (defalias 'iii (read-kbd-macro "C-u 100 C-^ }"))
 
 
+(windmove-default-keybindings) ;;to change window super fast, Shift + Arrows
 
 ;; My ediff customizations
 
