@@ -1,5 +1,5 @@
 #this is to be copied in ~/.emacs
-
+#Vincent Gosselin, 2024.
 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
@@ -86,6 +86,8 @@ grep  -nH --null dut  *.sv
 
 
 (windmove-default-keybindings) ;;to change window super fast, Shift + Arrows
+
+;; M-x global-linum-mode
 
 ;; My ediff customizations
 
