@@ -83,6 +83,9 @@ grep  -nH --null dut  *.sv
 (defalias 'sss (read-kbd-macro "C-u M-x shell"))
 (defalias 'ooo (read-kbd-macro "C-u 100 C-x }"))
 (defalias 'iii (read-kbd-macro "C-u 100 C-^ }"))
+(defalias 'aaa (read-kbd-macro "M-! run_sim.sh"))
+(defalias 'vvv (read-kbd-macro "M-! show_waves.sh"))
+(defalias 'eee (read-kbd-macro "C-x C-f ~/.emacs"))
 
 
 (windmove-default-keybindings) ;;to change window super fast, Shift + Arrows
@@ -90,7 +93,7 @@ grep  -nH --null dut  *.sv
 ;; M-x global-linum-mode
 (global-linum-mode t)
 (push (cons "\\*shell\\*" display-buffer--same-window-action) display-buffer-alist)
-(setq dired-dwim-target t) ;; open 2 dired windows, SHIFT-C to copy over the files.
+(setq dired-dwim-target t) ;; open 2 dired windows, SHIFT-C to copy over the files.x
 ;; My ediff customizations
 
 (defun dired-ediff-marked-files ()
