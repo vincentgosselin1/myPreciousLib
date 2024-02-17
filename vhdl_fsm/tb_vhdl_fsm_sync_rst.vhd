@@ -52,7 +52,7 @@ begin
     wait for 200 ns;
     wait for 200 ns;
     wait for 200 ns;
-
   end process;
+  
 end tb;
 
