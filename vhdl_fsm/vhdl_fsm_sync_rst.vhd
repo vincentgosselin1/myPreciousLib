@@ -5,8 +5,8 @@ use ieee.numeric_std.all;
 entity vhdl_fsm_sync_rst is
   port(
     i_clock : in  std_logic;
-    i_p     : in  std_logic;
     i_reset : in  std_logic;
+    i_p     : in  std_logic;
     o_r     : out std_logic
     );
 end vhdl_fsm_sync_rst;
