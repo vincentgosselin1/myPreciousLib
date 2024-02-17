@@ -90,6 +90,7 @@ grep  -nH --null dut  *.sv
 ;; M-x global-linum-mode
 (global-linum-mode t)
 (push (cons "\\*shell\\*" display-buffer--same-window-action) display-buffer-alist)
+(setq dired-dwim-target t) ;; open 2 dired windows, SHIFT-C to copy over the files.
 ;; My ediff customizations
 
 (defun dired-ediff-marked-files ()
