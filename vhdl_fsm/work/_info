@@ -1,0 +1,97 @@
+m255
+K4
+z2
+!s11e vcom 2020.1 2020.02, Feb 28 2020
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dc:/mydev/myPreciousLib/vhdl_fsm
+Evhdl_fsm
+Z1 w1708173882
+Z2 DPx4 ieee 11 numeric_std 0 22 aU^R8eGcicLcUFIaBQSL>3
+Z3 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
+Z4 DPx4 ieee 14 std_logic_1164 0 22 cVAk:aDinOX8^VGI1ekP<3
+!i122 5
+R0
+Z5 8vhdl_fsm.vhd
+Z6 Fvhdl_fsm.vhd
+l0
+L5 1
+V1X;W5[[O23A7OHfMmze7H3
+!s100 =`^6Q8_GGjScUC;Idle>R0
+Z7 OV;C;2020.1;71
+31
+Z8 !s110 1708173883
+!i10b 1
+Z9 !s108 1708173883.000000
+Z10 !s90 -93|-work|work|vhdl_fsm.vhd|
+Z11 !s107 vhdl_fsm.vhd|
+!i113 1
+Z12 o-93 -work work
+Z13 tExplicit 1 CvgOpt 0
+Artl
+R2
+R3
+R4
+DEx4 work 8 vhdl_fsm 0 22 1X;W5[[O23A7OHfMmze7H3
+!i122 5
+l18
+L14 38
+VQ73:PSMP8P;C67n<PZgVl0
+!s100 >i>1J2BUUGD0dIR3A6ZHQ1
+R7
+31
+R8
+!i10b 1
+R9
+R10
+R11
+!i113 1
+R12
+R13
+Evhdl_fsm_sync_rst
+Z14 w1708174712
+R2
+R3
+R4
+!i122 10
+R0
+Z15 8vhdl_fsm_sync_rst.vhd
+Z16 Fvhdl_fsm_sync_rst.vhd
+l0
+L5 1
+V^EF]J72U]9=8Y]^lgoU:23
+!s100 =[f7zDNL`d0GX<YYI1m^E0
+R7
+31
+Z17 !s110 1708174715
+!i10b 1
+Z18 !s108 1708174715.000000
+Z19 !s90 -93|-work|work|vhdl_fsm_sync_rst.vhd|
+Z20 !s107 vhdl_fsm_sync_rst.vhd|
+!i113 1
+R12
+R13
+Artl
+R2
+R3
+R4
+Z21 DEx4 work 17 vhdl_fsm_sync_rst 0 22 ^EF]J72U]9=8Y]^lgoU:23
+!i122 10
+l18
+Z22 L14 40
+V3G9Yl2oZn<Q2_Rza;g5zB1
+!s100 aZhS4bRWmWH30D@VZSZlL2
+R7
+31
+R17
+!i10b 1
+R18
+R19
+R20
+!i113 1
+R12
+R13
