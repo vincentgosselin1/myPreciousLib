@@ -1,0 +1,3 @@
+# Reading pref.tcl
+# OpenFile vsim.wlf
+add wave -position insertpoint vsim:/tb_vhdl_fsm_sync_rst/u0_vhdl_fsm_sync/*

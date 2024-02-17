@@ -9,29 +9,73 @@ z2
 !i10f 100
 cModel Technology
 Z0 dc:/mydev/myPreciousLib/vhdl_fsm
-Evhdl_fsm
-Z1 w1708173882
+Etb_vhdl_fsm_sync_rst
+Z1 w1708175850
 Z2 DPx4 ieee 11 numeric_std 0 22 aU^R8eGcicLcUFIaBQSL>3
 Z3 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
 Z4 DPx4 ieee 14 std_logic_1164 0 22 cVAk:aDinOX8^VGI1ekP<3
+!i122 24
+R0
+Z5 8tb_vhdl_fsm_sync_rst.vhd
+Z6 Ftb_vhdl_fsm_sync_rst.vhd
+l0
+L5 1
+VS1G[VFL_I^HaF6N=V8[Q@0
+!s100 ^OnMjhmLk3flO6H:]5RPk0
+Z7 OV;C;2020.1;71
+31
+Z8 !s110 1708178615
+!i10b 1
+Z9 !s108 1708178615.000000
+Z10 !s90 -93|-work|work|tb_vhdl_fsm_sync_rst.vhd|
+Z11 !s107 tb_vhdl_fsm_sync_rst.vhd|
+!i113 1
+Z12 o-93 -work work
+Z13 tExplicit 1 CvgOpt 0
+Atb
+Z14 DEx4 work 17 vhdl_fsm_sync_rst 0 22 VL:9k6L]R`CG^:d1al2d00
+R2
+R3
+R4
+Z15 DEx4 work 20 tb_vhdl_fsm_sync_rst 0 22 S1G[VFL_I^HaF6N=V8[Q@0
+!i122 24
+l22
+Z16 L8 50
+Z17 VISF1;iOIGUVC7dGg4P3Xm3
+Z18 !s100 D7jY@iP?ET75Dbb<Ch@c;3
+R7
+31
+R8
+!i10b 1
+R9
+R10
+R11
+!i113 1
+R12
+R13
+Evhdl_fsm
+Z19 w1708173882
+R2
+R3
+R4
 !i122 5
 R0
-Z5 8vhdl_fsm.vhd
-Z6 Fvhdl_fsm.vhd
+Z20 8vhdl_fsm.vhd
+Z21 Fvhdl_fsm.vhd
 l0
 L5 1
 V1X;W5[[O23A7OHfMmze7H3
 !s100 =`^6Q8_GGjScUC;Idle>R0
-Z7 OV;C;2020.1;71
+R7
 31
-Z8 !s110 1708173883
+Z22 !s110 1708173883
 !i10b 1
-Z9 !s108 1708173883.000000
-Z10 !s90 -93|-work|work|vhdl_fsm.vhd|
-Z11 !s107 vhdl_fsm.vhd|
+Z23 !s108 1708173883.000000
+Z24 !s90 -93|-work|work|vhdl_fsm.vhd|
+Z25 !s107 vhdl_fsm.vhd|
 !i113 1
-Z12 o-93 -work work
-Z13 tExplicit 1 CvgOpt 0
+R12
+R13
 Artl
 R2
 R3
@@ -44,34 +88,34 @@ VQ73:PSMP8P;C67n<PZgVl0
 !s100 >i>1J2BUUGD0dIR3A6ZHQ1
 R7
 31
-R8
+R22
 !i10b 1
-R9
-R10
-R11
+R23
+R24
+R25
 !i113 1
 R12
 R13
 Evhdl_fsm_sync_rst
-Z14 w1708174712
+Z26 w1708175415
 R2
 R3
 R4
-!i122 10
+!i122 23
 R0
-Z15 8vhdl_fsm_sync_rst.vhd
-Z16 Fvhdl_fsm_sync_rst.vhd
+Z27 8vhdl_fsm_sync_rst.vhd
+Z28 Fvhdl_fsm_sync_rst.vhd
 l0
 L5 1
-V^EF]J72U]9=8Y]^lgoU:23
-!s100 =[f7zDNL`d0GX<YYI1m^E0
+VVL:9k6L]R`CG^:d1al2d00
+!s100 LFE;LTFTaPYWJ0<@2_DWK3
 R7
 31
-Z17 !s110 1708174715
+Z29 !s110 1708178612
 !i10b 1
-Z18 !s108 1708174715.000000
-Z19 !s90 -93|-work|work|vhdl_fsm_sync_rst.vhd|
-Z20 !s107 vhdl_fsm_sync_rst.vhd|
+Z30 !s108 1708178612.000000
+Z31 !s90 -93|-work|work|vhdl_fsm_sync_rst.vhd|
+Z32 !s107 vhdl_fsm_sync_rst.vhd|
 !i113 1
 R12
 R13
@@ -79,19 +123,19 @@ Artl
 R2
 R3
 R4
-Z21 DEx4 work 17 vhdl_fsm_sync_rst 0 22 ^EF]J72U]9=8Y]^lgoU:23
-!i122 10
+R14
+!i122 23
 l18
-Z22 L14 40
+L14 40
 V3G9Yl2oZn<Q2_Rza;g5zB1
 !s100 aZhS4bRWmWH30D@VZSZlL2
 R7
 31
-R17
+R29
 !i10b 1
-R18
-R19
-R20
+R30
+R31
+R32
 !i113 1
 R12
 R13
