@@ -9,13 +9,15 @@ entity vhdl_case is
 end vhdl_case;
 
 architecture rtl of vhdl_case is
+  type state_type is (start_s, end_s);      --define states
+  signal state : state_type;            --signal for the different states.
 begin
-  process(i_p)
+  process(state)
   begin
-    case i_p is
-      when "00" =>                      -- Select a single value
+    case state is
+      when start_s =>                      -- Select a single value
         A <= '1';
-      when "10" =>
+      when end_s =>
         A <= '1';                       -- More than one statement in a branch
         B <= '1';
       when others =>                    -- Mop up the rest
