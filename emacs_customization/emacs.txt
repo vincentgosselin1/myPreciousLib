@@ -67,7 +67,7 @@ grep  -nH --null dut  *.sv
 (defalias 'iii (read-kbd-macro "C-u 100 C-^ }"))
 (defalias 'aaa (read-kbd-macro "M-! run_sim.sh"))
 (defalias 'vvv (read-kbd-macro "M-! show_waves.sh"))
-(defalias 'eee (read-kbd-macro "C-x C-f ~/.emacs"))
+(defalias 'gde (read-kbd-macro "C-x C-f ~/.emacs"))
 (defalias 'lde (read-kbd-macro "M-x load-file RET ~/.emacs")) 
 (defalias 'ddd (read-kbd-macro "C-x 3 C-x o C-x d"));;dired in current shell
 
