@@ -49,6 +49,15 @@ begin
   end process;
 
   --decode the current state to create the output
-  o_r <= '1' when state = D else '0';
+  process(state)
+  begin
+    case state is
+    when D =>
+      o_r <= '1';
+    when others =>
+      o_r <= '0';
+  end case;
+end process;
+
 end rtl;
 
