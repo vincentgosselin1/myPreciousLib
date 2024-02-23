@@ -69,7 +69,9 @@ grep  -nH --null dut  *.sv
 (defalias 'vvv (read-kbd-macro "M-! show_waves.sh"))
 (defalias 'gde (read-kbd-macro "C-x C-f ~/.emacs"))
 (defalias 'lde (read-kbd-macro "M-x load-file RET ~/.emacs")) 
-(defalias 'ddd (read-kbd-macro "C-x 3 C-x o C-x d"));;dired in current shell
+(defalias 'ddd (read-kbd-macro "C-x 3 C-x o C-x d"));;open dired from current shell on the right side.
+(defalias 'vghome (read-kbd-macro "C-x C-f c:/mydev/myPreciousLib")) ;;myprecious, soooo precious
+(defalias 'ssss (read-kbd-macro "C-x 3 C-x o M-x sss")) ;;open a shell from current dired buffer on the right side
 
 
 (windmove-default-keybindings) ;;to change window super fast, Shift + Arrows
@@ -78,7 +80,16 @@ grep  -nH --null dut  *.sv
 (global-linum-mode t)
 (push (cons "\\*shell\\*" display-buffer--same-window-action) display-buffer-alist)
 (setq dired-dwim-target t) ;; open 2 dired windows, SHIFT-C to copy over the files.x
+
+
 ;; My ediff customizations
+;; how to use this :
+;; in Dired (C-x d RET)
+;; mark files with "m", unmark them with "u"
+;; to diff them use "="
+;; fall into the ediff buffer
+;; "q" to quit and come back to previous screen
+
 
 (defun dired-ediff-marked-files ()
   "Compare two marked files in Dired with ediff."
