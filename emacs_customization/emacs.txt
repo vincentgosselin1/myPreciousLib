@@ -74,6 +74,25 @@ grep  -nH --null dut  *.sv
 (defalias 'sssr (read-kbd-macro "C-x 3 C-x o M-x sss")) ;;open a shell from current dired buffer on the right.
 (defalias 'sssd (read-kbd-macro "C-x 2 C-x o M-x sss")) ;;open a shell from current dired buffer down.
 
+;;some stuff i found on the internet
+;;Note "<<my_fct>>" = "M-x my_fct RET"
+(defalias 'B (read-kbd-macro "<<ediff-buffers>> 2*RET <<t1>>"))
+(defalias 'B- (read-kbd-macro "C-x o <<B>>"))
+(defalias 'b- 'B-) ; Diff-Previous
+(defalias 'D (read-kbd-macro "<<ediff-directories>>"))
+;;need psvn for the next one.
+(defalias 'R (read-kbd-macro "<<svn-file-show-svn-ediff>> C-x 5 o C-x 5 o <<t1>>")) ; Diff-Current
+(defalias 'R0  (read-kbd-macro "C-0 M-x svn-file-show-svn-ediff RET C-u C-x q")) ; Diff-Revision
+(defalias 'RP (read-kbd-macro "C-x v ~ prev RET <<B>>")) ; Diff-Previous
+(defalias 'Rp 'RP)  ; Diff-Previous
+(defalias 'my_truncate   (read-kbd-macro "C-1 <<toggle-truncate-lines>>"))
+(defalias 'my_truncate2 (read-kbd-macro "C-x 5 o <<my_truncate>> C-x o <<my_truncate>> C-x 5 o"))
+(defalias 't1 'my_truncate2); Truncate lines in both buffers 
+(defalias 'E (read-kbd-macro "<<ediff-revision>>")) ;; Ediff-Last -Rev.
+(defalias 'E0 (read-kbd-macro "C-0 <<ediff-revision>> C-u C-x q RET C-u C-x RET")) ;; Ediff-Specific-Rev
+
+
+
 
 (windmove-default-keybindings) ;;to change window super fast, Shift + Arrows
 
