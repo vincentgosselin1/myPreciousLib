@@ -92,6 +92,11 @@ grep  -nH --null dut  *.sv
 (defalias 'E0 (read-kbd-macro "C-0 <<ediff-revision>> C-u C-x q RET C-u C-x RET")) ;; Ediff-Specific-Rev
 
 
+;;change theme
+(defalias 'turn_on_the_light (read-kbd-macro "<<load-theme>> whiteboard"))
+(defalias 'turn_off_the_light (read-kbd-macro "<<load-theme>> manoj-dark"))
+
+
 
 
 (windmove-default-keybindings) ;;to change window super fast, Shift + Arrows
