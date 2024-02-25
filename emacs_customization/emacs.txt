@@ -98,7 +98,7 @@ grep  -nH --null dut  *.sv
 
 
 ;;change theme
-(defalias 'turn-on-the-light (read-kbd-macro "<<load-theme>> whiteboard"))
+(defalias 'turn-on-the-light (read-kbd-macro "<<load-theme>> dichromacy"))
 (defalias 'turn-off-the-light (read-kbd-macro "<<load-theme>> manoj-dark"))
 
 
