@@ -79,7 +79,6 @@ grep  -nH --null dut  *.sv
 ;;git checkout HEAD -- even_parity_detector.vhd
 
 
-
 ;;some stuff i found on the internet
 ;;Note "<<my_fct>>" = "M-x my_fct RET"
 (defalias 'B (read-kbd-macro "<<ediff-buffers>> 2*RET <<t1>>"))
@@ -99,8 +98,8 @@ grep  -nH --null dut  *.sv
 
 
 ;;change theme
-(defalias 'turn_on_the_light (read-kbd-macro "<<load-theme>> whiteboard"))
-(defalias 'turn_off_the_light (read-kbd-macro "<<load-theme>> manoj-dark"))
+(defalias 'turn-on-the-light (read-kbd-macro "<<load-theme>> whiteboard"))
+(defalias 'turn-off-the-light (read-kbd-macro "<<load-theme>> manoj-dark"))
 
 
 
