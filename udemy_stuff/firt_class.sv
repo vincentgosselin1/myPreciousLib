@@ -7,10 +7,10 @@ module tb();
    first f1;// Name of the instance
 
    initial begin
-      f1 = new();      
+      f1 = new();
       $display("----------");
       $display("The value of the x is %0b", f1.x);
-      $display("----------);
-end
+      $display("----------");
+   end
 
 endmodule
