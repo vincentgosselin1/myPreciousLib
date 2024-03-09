@@ -75,6 +75,7 @@ grep  -nH --null dut  *.sv
 (defalias 'sssd (read-kbd-macro "C-x 2 C-x o M-x sss")) ;;open a shell from current dired buffer down.
 (defalias 'gss "git status .")
 (defalias 'grf "git checkout HEAD -- ");; Git Reset File -- file.txt to input.
+(defalias 'uuu (read-kbd-macro "C-x C-f c:/mydev/myPreciousLib/udemy_stuff RET C-x 3 C-x C-f c:/mydev/myPreciousLib/vhdl_fsm RET C-x 3 C-x C-f c:/mydev/myPreciousLib/unsigned_counter RET")) ;;open 3 dired side to side at specific files location
 ;;to reset a working copy of a file from HEAD.
 ;;git checkout HEAD -- even_parity_detector.vhd
 
