@@ -1,6 +1,3 @@
-#this is to be copied in ~/.emacs
-#Vincent Gosselin, 2024.
-
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (custom-set-variables
@@ -11,34 +8,19 @@
  '(ansi-color-names-vector
    ["#212526" "#ff4b4b" "#b4fa70" "#fce94f" "#729fcf" "#e090d7" "#8cc4ff" "#eeeeec"])
  '(custom-enabled-themes '(manoj-dark))
- '(package-selected-packages '(dumb-jump)))
+ '(ediff-split-window-function 'split-window-horizontally)
+ '(package-selected-packages '(## magit magit-svn company dumb-jump)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
-(add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
+;;(add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
 (require 'animate)
-;; all i did was to "load-file animate.el" command.
-;; after that I modified .emacs to include the animate package
-;; after that I use "load-file ~/.emacs command. 
 
-
-rm -f TAGS
-find . -name "*.[ch]" -print | xargs etags -a
-
-
-cd /path/to/source-root
-find . -name "*.cpp" -print -or -name "*.h" -print | xargs etags --append
-
-#grep the fuckout
-grep  -nH --null dut  *.sv
-
-
-;my own stuff
-(defalias 'wss (read-kbd-macro "M-x window-swap-states"))
-
+;;Hey Vincent, Enjoy
+;;You can put this in your ‘~/.emacs’:
 
 ; Window configuration setters/
 (defalias 'W  'rw )  ; Return-To-Window-Config-
@@ -46,19 +28,22 @@ grep  -nH --null dut  *.sv
 (defalias 'W3 'rw3)  ; Return-To-Window-Config-
 (defalias 'W4 'rw4)  ; Return-To-Window-Config-4
 (defalias 'W5 'rw5)  ; Return-To-Window-Config-
+(defalias 'W6 'rw6)  ; Return-To-Window-Config-
 
 (defalias 'rw  (read-kbd-macro "C-x r j w")) ; Return-To-Window-Config-
 (defalias 'rw2 (read-kbd-macro "C-x r j 5")) ; Return-To-Window-Config-
 (defalias 'rw3 (read-kbd-macro "C-x r j 6")) ; Return-To-Window-Config-
 (defalias 'rw4 (read-kbd-macro "C-x r j 7")) ; Return-To-Window-Config-4
 (defalias 'rw5 (read-kbd-macro "C-x r j 8")) ; Return-To-Window-Config-5
+(defalias 'rw6 (read-kbd-macro "C-x r j 9")) ; Return-To-Window-Config-5
+
 
 (defalias 'sw  (read-kbd-macro "C-x r w w")) ; Set-Window-Config-w    in: reg w
 (defalias 'sw2 (read-kbd-macro "C-x r w 5")) ; Set-Window-Config-w2 + 3 = reg 5
 (defalias 'sw3 (read-kbd-macro "C-x r w 6")) ; Set-Window-Config-w3 + 3 = reg 6
 (defalias 'sw4 (read-kbd-macro "C-x r w 7")) ; Set-Window-Config-w4 + 3 = reg 7
-(defalias 'sw5 (read-kbd-macro "C-x r w 8")) ; Set-Window-Config-w5 + 3 = reg 8
-
+(defalias 'sw5 (read-kbd-macro "C-x r w 8")) ; set-window-Config-w5 + 3 = reg 8
+(defalias 'sw6 (read-kbd-macro "C-x r w 9")) ; set-window-Config-w6 + 3 = reg 9
 
 ;my own stuff
 (defalias 'wss (read-kbd-macro "M-x window-swap-states"))
@@ -67,17 +52,18 @@ grep  -nH --null dut  *.sv
 (defalias 'iii (read-kbd-macro "C-u 100 C-^ }"))
 (defalias 'aaa (read-kbd-macro "M-! run_sim.sh"))
 (defalias 'vvv (read-kbd-macro "M-! show_waves.sh"))
-(defalias 'gde (read-kbd-macro "C-x C-f ~/.emacs"))
+(defalias 'gde (read-kbd-macro "C-x 1 C-x C-f ~/.emacs RET C-x 3 C-x o C-x C-f c:/mydev/myPreciousLib RET C-x 2 C-x o C-x C-f c:/mydev RET C-x o"))
 (defalias 'lde (read-kbd-macro "M-x load-file RET ~/.emacs")) 
-(defalias 'ddd (read-kbd-macro "C-x 3 C-x o C-x d"));;open dired from current shell on the right side.
-(defalias 'vghome (read-kbd-macro "C-x C-f c:/mydev/myPreciousLib")) ;;myprecious, soooo precious
-(defalias 'sssr (read-kbd-macro "C-x 3 C-x o M-x sss")) ;;open a shell from current dired buffer on the right.
-(defalias 'sssd (read-kbd-macro "C-x 2 C-x o M-x sss")) ;;open a shell from current dired buffer down.
+(defalias 'dddr (read-kbd-macro "C-x 3 C-x o C-x d"));;dired from current shell to the right
+(defalias 'vghome (read-kbd-macro "C-x C-f c:/mydev/myPreciousLib"))
+(defalias 'sssr (read-kbd-macro "C-x 3 C-x o M-x sss")) ;;open a shell from current dired buffer on
+(defalias 'sssd (read-kbd-macro "C-x 2 C-x o M-x sss")) ;;open a shell from current dired buffer on
 (defalias 'gss "git status .")
 (defalias 'grf "git checkout HEAD -- ");; Git Reset File -- file.txt to input.
-(defalias 'uuu (read-kbd-macro "C-x C-f c:/mydev/myPreciousLib/udemy_stuff RET C-x 3 C-x C-f c:/mydev/myPreciousLib/vhdl_fsm RET C-x 3 C-x C-f c:/mydev/myPreciousLib/unsigned_counter RET")) ;;open 3 dired side to side at specific files location
-;;to reset a working copy of a file from HEAD.
-;;git checkout HEAD -- even_parity_detector.vhd
+(defalias 'uuu (read-kbd-macro "C-x 1 C-x C-f c:/mydev/myPreciousLib/udemy_stuff RET C-x 3 C-x o C-x C-f c:/mydev/myPreciousLib/vhdl_fsm RET C-x 3 C-x o C-x C-f c:/mydev/myPreciousLib/unsigned_counter RET")) ;;open 3 dired side to side at specific files location
+
+;;info-apropos is usefull
+;;C-h f , for emacs function checkup
 
 
 ;;some stuff i found on the internet
@@ -97,15 +83,20 @@ grep  -nH --null dut  *.sv
 (defalias 'E (read-kbd-macro "<<ediff-revision>>")) ;; Ediff-Last -Rev.
 (defalias 'E0 (read-kbd-macro "C-0 <<ediff-revision>> C-u C-x q RET C-u C-x RET")) ;; Ediff-Specific-Rev
 
-
 ;;change theme
 (defalias 'turn-on-the-light (read-kbd-macro "<<load-theme>> dichromacy"))
 (defalias 'turn-off-the-light (read-kbd-macro "<<load-theme>> manoj-dark"))
+;;(load-theme 'sanityinc-tomorrow-day t)
+;;(load-theme 'sanityinc-tomorrow-night t)
 
+;;(windmove-default-keybindings) ;;to change window super fast, Shift + Arrows
 
-
-
-(windmove-default-keybindings) ;;to change window super fast, Shift + Arrows
+;;(add-to-list 'load-path "~/.emacs.d/elpa/psvn")
+;;(require 'psvn)
 
 ;; M-x global-linum-mode
+
 (global-linum-mode t)
+(push (cons "\\*shell\\*" display-buffer--same-window-action) display-buffer-alist)
+(setq dired-dwim-target t)
+
