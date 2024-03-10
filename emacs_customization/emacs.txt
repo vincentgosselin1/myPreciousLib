@@ -62,6 +62,7 @@
 (defalias 'gss "git status .")
 (defalias 'grf "git checkout HEAD -- ");; Git Reset File -- file.txt to input.
 (defalias 'uuu (read-kbd-macro "C-x 1 C-x C-f c:/mydev/myPreciousLib/udemy_stuff RET C-x 3 C-x o C-x C-f c:/mydev/myPreciousLib/vhdl_fsm RET C-x 3 C-x o C-x C-f c:/mydev/myPreciousLib/unsigned_counter RET C-x +")) ;;open 3 dired side to side at specific files location
+(defalias 'k2 (read-kbd-macro "C-x k RET C-x o C-x k RET"))
 
 ;;info-apropos is usefull
 ;;C-h f , for emacs function checkup
