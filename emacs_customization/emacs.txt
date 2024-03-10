@@ -52,7 +52,8 @@
 (defalias 'iii (read-kbd-macro "C-u 100 C-^ }"))
 (defalias 'aaa (read-kbd-macro "M-! run_sim.sh"))
 (defalias 'vvv (read-kbd-macro "M-! show_waves.sh"))
-(defalias 'gde (read-kbd-macro "C-x 1 C-x C-f ~/.emacs RET C-x 3 C-x o C-x C-f c:/mydev/myPreciousLib RET C-x 2 C-x o C-x C-f c:/mydev RET C-x o"))
+(defalias 'gde (read-kbd-macro "C-x C-f ~/.emacs"))
+(defalias 'gdep (read-kbd-macro "C-x 1 C-x C-f ~/.emacs RET C-x 3 C-x o C-x C-f c:/mydev/myPreciousLib RET C-x 2 C-x o C-x C-f c:/mydev RET C-x o"))
 (defalias 'lde (read-kbd-macro "M-x load-file RET ~/.emacs")) 
 (defalias 'dddr (read-kbd-macro "C-x 3 C-x o C-x d"));;dired from current shell to the right
 (defalias 'vghome (read-kbd-macro "C-x C-f c:/mydev/myPreciousLib"))
@@ -60,7 +61,7 @@
 (defalias 'sssd (read-kbd-macro "C-x 2 C-x o M-x sss")) ;;open a shell from current dired buffer on
 (defalias 'gss "git status .")
 (defalias 'grf "git checkout HEAD -- ");; Git Reset File -- file.txt to input.
-(defalias 'uuu (read-kbd-macro "C-x 1 C-x C-f c:/mydev/myPreciousLib/udemy_stuff RET C-x 3 C-x o C-x C-f c:/mydev/myPreciousLib/vhdl_fsm RET C-x 3 C-x o C-x C-f c:/mydev/myPreciousLib/unsigned_counter RET")) ;;open 3 dired side to side at specific files location
+(defalias 'uuu (read-kbd-macro "C-x 1 C-x C-f c:/mydev/myPreciousLib/udemy_stuff RET C-x 3 C-x o C-x C-f c:/mydev/myPreciousLib/vhdl_fsm RET C-x 3 C-x o C-x C-f c:/mydev/myPreciousLib/unsigned_counter RET C-x +")) ;;open 3 dired side to side at specific files location
 
 ;;info-apropos is usefull
 ;;C-h f , for emacs function checkup
