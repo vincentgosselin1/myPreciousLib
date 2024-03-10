@@ -19,8 +19,7 @@
 ;;(add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
 (require 'animate)
 
-;;Hey Vincent, Enjoy
-;;You can put this in your ‘~/.emacs’:
+;;put this in your ‘~/.emacs’:
 
 ; Window configuration setters/
 (defalias 'W  'rw )  ; Return-To-Window-Config-
@@ -59,10 +58,12 @@
 (defalias 'vghome (read-kbd-macro "C-x C-f c:/mydev/myPreciousLib"))
 (defalias 'sssr (read-kbd-macro "C-x 3 C-x o M-x sss")) ;;open a shell from current dired buffer on
 (defalias 'sssd (read-kbd-macro "C-x 2 C-x o M-x sss")) ;;open a shell from current dired buffer on
+(defalias 'getc (read-kbd-macro "C-x 3 C-x o C-x C-f c:/mydev/myPreciousLib/emacs_customization/emacs.txt")) ;; Get the clone
 (defalias 'gss "git status .")
 (defalias 'grf "git checkout HEAD -- ");; Git Reset File -- file.txt to input.
 (defalias 'uuu (read-kbd-macro "C-x 1 C-x C-f c:/mydev/myPreciousLib/udemy_stuff RET C-x 3 C-x o C-x C-f c:/mydev/myPreciousLib/vhdl_fsm RET C-x 3 C-x o C-x C-f c:/mydev/myPreciousLib/unsigned_counter RET C-x +")) ;;open 3 dired side to side at specific files location
 (defalias 'k2 (read-kbd-macro "C-x k RET C-x o C-x k RET"))
+(defalias 'chan (read-kbd-macro "M-x uuu RET C-x 0 M-x sssd RET C-x o M-x sssd RET C-x + cd .. RET cd .. RET"))
 
 ;;info-apropos is usefull
 ;;C-h f , for emacs function checkup
@@ -102,3 +103,5 @@
 (push (cons "\\*shell\\*" display-buffer--same-window-action) display-buffer-alist)
 (setq dired-dwim-target t)
 
+
+(url-handler-mode)
