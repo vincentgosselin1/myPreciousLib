@@ -1,5 +1,17 @@
+//                              -*- Mode: Verilog -*-
+// Filename        : tb.sv
+// Description     : cool example sv
+// Author          : 
+// Created On      : Mon Mar 11 20:27:00 2024
+// Last Modified By: 
+// Last Modified On: Mon Mar 11 20:27:00 2024
+// Update Count    : 0
+// Status          : Unknown, Use with caution!
+
 `include "uvm_macros.svh" ///`uvm_info
 import uvm_pkg::*;
+
+`define LENGTH 4
 
 // This is the base transaction object that will be used
 // in the environment to initiate new transactions and 
@@ -133,7 +145,8 @@ class scoreboard extends uvm_scoreboard;
    function new(string name="scoreboard", uvm_component parent=null);
       super.new(name, parent);
    endfunction
-
+   
+   
    bit[`LENGTH-1:0] 	ref_pattern;
    bit [`LENGTH-1:0] 	act_pattern;
    bit 			exp_out;
@@ -182,26 +195,26 @@ endclass
 // Create an intermediate container called "agent" to hold
 // driver, monitor and sequencer          
 class agent extends uvm_agent;
-  `uvm_component_utils(agent)
-  function new(string name="agent", uvm_component parent=null);
-    super.new(name, parent);
-  endfunction
-  
-  driver 		d0; 		// Driver handle
-  monitor 		m0; 		// Monitor handle
-  uvm_sequencer #(Item)	s0; 		// Sequencer Handle
+   `uvm_component_utils(agent)
+   function new(string name="agent", uvm_component parent=null);
+      super.new(name, parent);
+   endfunction
+   
+   driver 		d0; 		// Driver handle
+   monitor 		m0; 		// Monitor handle
+   uvm_sequencer #(Item)	s0; 		// Sequencer Handle
 
-  virtual function void build_phase(uvm_phase phase);
-    super.build_phase(phase);
-    s0 = uvm_sequencer#(Item)::type_id::create("s0", this);
-    d0 = driver::type_id::create("d0", this);
-    m0 = monitor::type_id::create("m0", this);
-  endfunction
-  
-  virtual function void connect_phase(uvm_phase phase);
-    super.connect_phase(phase);
-    d0.seq_item_port.connect(s0.seq_item_export);
-  endfunction
+   virtual function void build_phase(uvm_phase phase);
+      super.build_phase(phase);
+      s0 = uvm_sequencer#(Item)::type_id::create("s0", this);
+      d0 = driver::type_id::create("d0", this);
+      m0 = monitor::type_id::create("m0", this);
+   endfunction
+   
+   virtual function void connect_phase(uvm_phase phase);
+      super.connect_phase(phase);
+      d0.seq_item_port.connect(s0.seq_item_export);
+   endfunction
 
 endclass
 
@@ -210,120 +223,122 @@ endclass
 // then be reused later and all components in it would be
 // automatically connected and available for use
 class env extends uvm_env;
-  `uvm_component_utils(env)
-  function new(string name="env", uvm_component parent=null);
-    super.new(name, parent);
-  endfunction
-  
-  agent 		a0; 		// Agent handle
-  scoreboard	sb0; 		// Scoreboard handle
-    
-  virtual function void build_phase(uvm_phase phase);
-    super.build_phase(phase);
-    a0 = agent::type_id::create("a0", this);
-    sb0 = scoreboard::type_id::create("sb0", this);
-  endfunction
-  
-  virtual function void connect_phase(uvm_phase phase);
-    super.connect_phase(phase);
-    a0.m0.mon_analysis_port.connect(sb0.m_analysis_imp);
-  endfunction
+   `uvm_component_utils(env)
+   function new(string name="env", uvm_component parent=null);
+      super.new(name, parent);
+   endfunction
+   
+   agent 		a0; 		// Agent handle
+   scoreboard	sb0; 		// Scoreboard handle
+   
+   virtual function void build_phase(uvm_phase phase);
+      super.build_phase(phase);
+      a0 = agent::type_id::create("a0", this);
+      sb0 = scoreboard::type_id::create("sb0", this);
+   endfunction
+   
+   virtual function void connect_phase(uvm_phase phase);
+      super.connect_phase(phase);
+      a0.m0.mon_analysis_port.connect(sb0.m_analysis_imp);
+   endfunction
 endclass
 
 
 // Test class instantiates the environment and starts it.
 class base_test extends uvm_test;
-  `uvm_component_utils(base_test)
-  function new(string name = "base_test", uvm_component parent=null);
-    super.new(name, parent);
-  endfunction
-  
-  env  				e0;
-  bit[`LENGTH-1:0]  pattern = 4'b1011;
-  gen_item_seq 		seq;
-  virtual  	des_if 	vif;
-  
-  virtual function void build_phase(uvm_phase phase);
-    super.build_phase(phase);
-    
-    // Create the environment
-    e0 = env::type_id::create("e0", this);
-    
-    // Get virtual IF handle from top level and pass it to everything
-    // in env level
-    if (!uvm_config_db#(virtual des_if)::get(this, "", "des_vif", vif))
-      `uvm_fatal("TEST", "Did not get vif")      
-    uvm_config_db#(virtual des_if)::set(this, "e0.a0.*", "des_vif", vif);
-    
-    // Setup pattern queue and place into config db
-    uvm_config_db#(bit[`LENGTH-1:0])::set(this, "*", "ref_pattern", pattern);
-    
-    // Create sequence and randomize it
-    seq = gen_item_seq::type_id::create("seq");
-    seq.randomize();
-  endfunction
-  
-  virtual task run_phase(uvm_phase phase);
-    phase.raise_objection(this);
-    apply_reset();
-    seq.start(e0.a0.s0);
-    #200;
-    phase.drop_objection(this);
-  endtask
-  
-  virtual task apply_reset();
-    vif.rstn <= 0;
-    vif.in <= 0;
-    repeat(5) @ (posedge vif.clk);
-    vif.rstn <= 1;
-    repeat(10) @ (posedge vif.clk);
-  endtask
+   `uvm_component_utils(base_test)
+   function new(string name = "base_test", uvm_component parent=null);
+      super.new(name, parent);
+   endfunction
+   
+   env  				e0;
+   bit [`LENGTH-1:0] pattern = 4'b1011;
+   gen_item_seq 		seq;
+   virtual 	     des_if 	vif;
+   
+   virtual function void build_phase(uvm_phase phase);
+      super.build_phase(phase);
+      
+      // Create the environment
+      e0 = env::type_id::create("e0", this);
+      
+      // Get virtual IF handle from top level and pass it to everything
+      // in env level
+      if (!uvm_config_db#(virtual des_if)::get(this, "", "des_vif", vif))
+	`uvm_fatal("TEST", "Did not get vif")      
+      uvm_config_db#(virtual des_if)::set(this, "e0.a0.*", "des_vif", vif);
+      
+      // Setup pattern queue and place into config db
+      uvm_config_db#(bit[`LENGTH-1:0])::set(this, "*", "ref_pattern", pattern);
+      
+      // Create sequence and randomize it
+      seq = gen_item_seq::type_id::create("seq");
+      seq.randomize();
+   endfunction
+   
+   virtual task run_phase(uvm_phase phase);
+      phase.raise_objection(this);
+      apply_reset();
+      seq.start(e0.a0.s0);
+      #200;
+      phase.drop_objection(this);
+   endtask
+   
+   virtual task apply_reset();
+      vif.rstn <= 0;
+      vif.in <= 0;
+      repeat(5) @ (posedge vif.clk);
+      vif.rstn <= 1;
+      repeat(10) @ (posedge vif.clk);
+   endtask
 endclass
-    
+
 class test_1011 extends base_test;
-  `uvm_component_utils(test_1011)
-  function new(string name="test_1011", uvm_component parent=null);
-    super.new(name, parent);
-  endfunction
-  
-  virtual function void build_phase(uvm_phase phase);
-    pattern = 4'b1011;
-    super.build_phase(phase);
-    seq.randomize() with { num inside {[300:500]}; };
-  endfunction
+   `uvm_component_utils(test_1011)
+   function new(string name="test_1011", uvm_component parent=null);
+      super.new(name, parent);
+   endfunction
+   
+   virtual function void build_phase(uvm_phase phase);
+      pattern = 4'b1011;
+      super.build_phase(phase);
+      seq.randomize() with { num inside {[300:500]}; };
+   endfunction
 endclass
 
 
 // The interface allows verification components to access DUT signals
 // using a virtual interface handle
 interface des_if (input bit clk);
-  	logic rstn;
-	logic in;
-	logic out;
+   logic   rstn;
+   logic   in;
+   logic   out;
 
-	clocking cb @(posedge clk);
+   clocking cb @(posedge clk);
       default input #1step output #3ns;
-		input out;
-		output in;
-	endclocking
+      input out;
+      output in;
+   endclocking
 endinterface
 
 
 module tb;
-  reg clk;
-  
-  always #10 clk =~ clk;
-  des_if _if (clk);
-	
-	det_1011 u0 	( .clk(clk),
-                     .rstn(_if.rstn),
-                     .in(_if.in),
-                     .out(_if.out));
-  
-  
-  initial begin
-    clk <= 0;
-    uvm_config_db#(virtual des_if)::set(null, "uvm_test_top", "des_vif", _if);
-    run_test("test_1011");
-  end
+
+   
+   reg clk;
+   
+   always #10 clk =~ clk;
+   des_if _if (clk);
+   
+   det_1011 u0 	( .clk(clk),
+                  .rstn(_if.rstn),
+                  .in(_if.in),
+                  .out(_if.out));
+   
+   
+   initial begin
+      clk <= 0;
+      uvm_config_db#(virtual des_if)::set(null, "uvm_test_top", "des_vif", _if);
+      run_test("test_1011");
+   end
 endmodule
