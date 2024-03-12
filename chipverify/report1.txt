@@ -1,0 +1,13 @@
+UVM_INFO testbench.sv(149) @ 350: uvm_test_top.e0.sb0 [SCBD] in=1 out=0 ref=0b1011 act=0b111
+UVM_INFO testbench.sv(149) @ 370: uvm_test_top.e0.sb0 [SCBD] in=1 out=0 ref=0b1011 act=0b1111
+UVM_INFO testbench.sv(149) @ 390: uvm_test_top.e0.sb0 [SCBD] in=0 out=0 ref=0b1011 act=0b1110
+UVM_INFO testbench.sv(149) @ 410: uvm_test_top.e0.sb0 [SCBD] in=1 out=0 ref=0b1011 act=0b1101
+UVM_INFO testbench.sv(149) @ 430: uvm_test_top.e0.sb0 [SCBD] in=1 out=0 ref=0b1011 act=0b1011
+UVM_INFO testbench.sv(166) @ 430: uvm_test_top.e0.sb0 [SCBD] Pattern found to match, next out should be 1
+UVM_INFO testbench.sv(149) @ 450: uvm_test_top.e0.sb0 [SCBD] in=1 out=0 ref=0b1011 act=0b111
+UVM_ERROR testbench.sv(156) @ 450: uvm_test_top.e0.sb0 [SCBD] ERROR ! out=0 exp=1
+UVM_INFO testbench.sv(149) @ 470: uvm_test_top.e0.sb0 [SCBD] in=0 out=0 ref=0b1011 act=0b1110
+...
+** Report counts by severity
+UVM_INFO :  527
+UVM_WARNING :    0
