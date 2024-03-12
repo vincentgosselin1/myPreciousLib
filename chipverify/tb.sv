@@ -334,7 +334,12 @@ module tb;
                   .rstn(_if.rstn),
                   .in(_if.in),
                   .out(_if.out));
-   
+
+
+   initial begin
+      $dumpvars;
+      $dumpfile("dump.vcd"); 
+   end   
    
    initial begin
       clk <= 0;
