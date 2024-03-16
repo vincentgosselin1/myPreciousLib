@@ -1,4 +1,4 @@
-//                              -*- Mode: Verilog -*-
+//                              -*- Mode: SystemVerilog -*-
 // Filename        : tb.sv
 // Description     : mux4to1_tb
 // Author          : Vincent Gosselin
