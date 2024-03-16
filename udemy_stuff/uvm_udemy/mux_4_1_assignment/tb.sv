@@ -93,6 +93,39 @@ class driver extends uvm_driver #(transaction);
    endtask
 endclass
 
+
+class monitor extends uvm_monitor;
+   `uvm_component_utils(monitor)
+   
+   uvm_analysis_port #(transaction) send;
+   transaction t;
+   virtual mux_if vif;
+   
+   function new(input string path = "monitor", uvm_component parent = null);
+      super.new(path, parent);
+      send = new("send", this);
+   endfunction
+      
+   virtual function void build_phase(uvm_phase phase);
+      super.build_phase(phase);
+      t = transaction::type_id::create("t");      
+      if(!uvm_config_db #(virtual mux_if)::get(this,"","vif",vif)) 
+	`uvm_error("MON","Unable to access uvm_config_db");
+   endfunction
+   
+   virtual task run_phase(uvm_phase phase);
+      forever begin
+         #10;
+         t.abcd = vif.abcd;
+         t.sel = vif.sel;
+         t.y = vif.y;
+         `uvm_info("MON", $sformatf("Data send to Scoreboard abcd : %0d , sel : %0d and y : %0d", t.abcd,t.sel,t.y), UVM_NONE);
+         send.write(t);
+      end
+   endtask
+endclass
+
+
 //////////////////////////////////////////////////////////////interface
 interface mux_if();
    logic [3:0] 		      abcd;
@@ -100,8 +133,7 @@ interface mux_if();
    logic  		      y;
 endinterface
 
-
-
+//////////////////////////////testbench top
 
 module tb();
    
