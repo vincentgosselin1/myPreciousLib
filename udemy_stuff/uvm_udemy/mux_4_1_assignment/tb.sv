@@ -15,9 +15,11 @@
      
       /////////////////////////Transaction
 `include "uvm_macros.svh"
-      import uvm_pkg::*;
+import uvm_pkg::*;
 
 class transaction extends uvm_sequence_item;
+   //`uvm_object_utils(transaction)
+   
    rand bit [3:0] abcd;
    rand bit [1:0] sel;
    bit 	  y;
@@ -33,6 +35,34 @@ class transaction extends uvm_sequence_item;
    `uvm_object_utils_end
    
 endclass
+
+
+//////////////////////////////////////////////////////////////
+class generator extends uvm_sequence #(transaction);
+   `uvm_object_utils(generator)
+   
+   transaction t;
+   integer 		      i;
+   
+   function new(input string path = "generator");
+      super.new(path);
+   endfunction
+   
+   
+   virtual task body();
+      t = transaction::type_id::create("t");
+      repeat(10) 
+        begin
+           start_item(t);
+           t.randomize();
+           `uvm_info("GEN",$sformatf("Data send to Driver abcd :%0d , sel :%0d",t.abcd,t.sel), UVM_NONE);
+           finish_item(t);
+        end
+   endtask
+   
+endclass
+
+
 
 //interface
 
@@ -61,10 +91,12 @@ module tb();
    
    //add dut (.a(aif.a), .b(aif.b), .y(aif.y), .clk(aif.clk), .rst(aif.rst));
    
+/* -----\/----- EXCLUDED -----\/-----
    initial begin
       $dumpfile("dump.vcd");
       $dumpvars;
    end
+ -----/\----- EXCLUDED -----/\----- */
    
    initial begin  
       //uvm_config_db #(virtual add_if)::set(null, "*", "aif", aif);
