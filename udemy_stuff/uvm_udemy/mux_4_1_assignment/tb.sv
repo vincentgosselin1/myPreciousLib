@@ -146,21 +146,39 @@ class scoreboard extends uvm_scoreboard;
       tr = t;
       `uvm_info("SCO",$sformatf("Data rcvd from Monitor abcd: %0d , sel : %0d and y : %0d",tr.abcd,tr.sel,tr.y), UVM_NONE);      
 
-      //todo later
-      /* -----\/----- EXCLUDED -----\/-----
-       if(tr.sel == tr.a + tr.b)
-       `uvm_info("SCO","Test Passed", UVM_NONE)
-       else
-       `uvm_info("SCO","Test Failed", UVM_NONE);
-       -----/\----- EXCLUDED -----/\----- */
+      case (tr.sel)
+	2'b00 : begin
+	   if(tr.y == tr.abcd[0]) begin
+	      `uvm_info("SCO","Test Passed", UVM_NONE)
+	   end else begin
+	     `uvm_info("SCO","Test Failed", UVM_NONE);
+	   end
+	end
+	2'b01 : begin
+	   if(tr.y == tr.abcd[1]) begin
+	      `uvm_info("SCO","Test Passed", UVM_NONE)
+	   end else begin
+	     `uvm_info("SCO","Test Failed", UVM_NONE);
+	   end
+	end
+	2'b10 : begin
+	   if(tr.y == tr.abcd[2]) begin
+	      `uvm_info("SCO","Test Passed", UVM_NONE)
+	   end else begin
+	     `uvm_info("SCO","Test Failed", UVM_NONE);
+	   end
+	end
+	2'b11 : begin
+	   if(tr.y == tr.abcd[3]) begin
+	      `uvm_info("SCO","Test Passed", UVM_NONE)
+	   end else begin
+	     `uvm_info("SCO","Test Failed", UVM_NONE);
+	   end
+	end
+      endcase // case (tr.sel)
+      
    endfunction // write
 
-   //if (tr.sel = "00" and tr.abcd = "0001")
-   //begin
-   //if(y = '1')
-   //test pass
-   //else
-   //test fail   
 endclass // scoreboard
 
 //////////////////////////////agent
