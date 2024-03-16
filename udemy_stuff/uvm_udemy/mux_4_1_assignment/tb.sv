@@ -125,6 +125,47 @@ class monitor extends uvm_monitor;
    endtask
 endclass
 
+//////////////////////////////////////////////////scoreboard
+class scoreboard extends uvm_scoreboard;
+   `uvm_component_utils(scoreboard)
+   
+   uvm_analysis_imp #(transaction,scoreboard) imp;
+   transaction tr;
+   
+   function new(input string path = "scoreboard", uvm_component parent = null);
+      super.new(path, parent);
+      imp = new("imp", this);
+   endfunction
+   
+   virtual function void build_phase(uvm_phase phase);
+      super.build_phase(phase);
+      tr = transaction::type_id::create("tr");
+   endfunction
+   
+   virtual function void write(input transaction t);
+      tr = t;
+      `uvm_info("SCO",$sformatf("Data rcvd from Monitor abcd: %0d , sel : %0d and y : %0d",tr.abcd,tr.sel,tr.y), UVM_NONE);      
+
+      //todo later
+/* -----\/----- EXCLUDED -----\/-----
+      if(tr.sel == tr.a + tr.b)
+        `uvm_info("SCO","Test Passed", UVM_NONE)
+      else
+        `uvm_info("SCO","Test Failed", UVM_NONE);
+ -----/\----- EXCLUDED -----/\----- */
+   endfunction // write
+
+   //if (tr.sel = "00" and tr.abcd = "0001")
+      //begin
+      //if(y = '1')
+   //test pass
+   //else
+   //test fail
+   
+   
+   
+endclass
+
 
 //////////////////////////////////////////////////////////////interface
 interface mux_if();
