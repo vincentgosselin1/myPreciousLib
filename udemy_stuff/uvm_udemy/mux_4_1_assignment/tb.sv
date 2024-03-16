@@ -144,7 +144,7 @@ class scoreboard extends uvm_scoreboard;
    
    virtual function void write(input transaction t);
       tr = t;
-      `uvm_info("SCO",$sformatf("Data rcvd from Monitor abcd: %0d , sel : %0d and y : %0d",tr.abcd,tr.sel,tr.y), UVM_NONE);      
+      `uvm_info("SCO",$sformatf("Data rcvd from Monitor abcd: %0b , sel : %0b and y : %0b",tr.abcd,tr.sel,tr.y), UVM_NONE);      
 
       case (tr.sel)
 	2'b00 : begin
