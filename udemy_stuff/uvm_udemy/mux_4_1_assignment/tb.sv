@@ -11,12 +11,11 @@
       ////////////////////////// Testbench Code
 
 `timescale 1ns / 1ps
-     
-     
-      /////////////////////////Transaction
 `include "uvm_macros.svh"
 import uvm_pkg::*;
 
+
+//////////////////////////////////////////////////transaction
 class transaction extends uvm_sequence_item;
    //`uvm_object_utils(transaction)
    
@@ -62,16 +61,45 @@ class generator extends uvm_sequence #(transaction);
    
 endclass
 
+////////////////////////////////////////////////////////////////////
 
+class driver extends uvm_driver #(transaction);
+   `uvm_component_utils(driver)
+   
+   function new(input string path = "driver", uvm_component parent = null);
+      super.new(path, parent);
+   endfunction
+   
+   transaction t;
+   virtual mux_if vif;
+   
+   
+   virtual function void build_phase(uvm_phase phase);
+      super.build_phase(phase);
+      t = transaction::type_id::create("t");
+      if(!uvm_config_db #(virtual mux_if)::get(this,"","vif",vif)) 
+        `uvm_error("DRV","Unable to access uvm_config_db");
+   endfunction
+   
+   virtual task run_phase(uvm_phase phase);
+      forever begin
+         seq_item_port.get_next_item(t);
+         vif.abcd <= t.abcd;
+         vif.sel  <= t.sel;
+         `uvm_info("DRV", $sformatf("Trigger DUT abcd: %0d , sel :  %0d",t.abcd, t.sel), UVM_NONE); 
+         seq_item_port.item_done();
+         #10;  
+      end
+   endtask
+endclass
 
-//interface
-
-////////////////////////////////////////////////////////////
-interface mux4_1_if();
+//////////////////////////////////////////////////////////////interface
+interface mux_if();
    logic [3:0] 		      abcd;
    logic [1:0] 		      sel;
    logic  		      y;
 endinterface
+
 
 
 
