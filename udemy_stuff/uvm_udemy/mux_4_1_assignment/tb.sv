@@ -8,7 +8,7 @@
 // Update Count    : 0
 // Status          : WIP
 
-      ////////////////////////// Testbench Code
+////////////////////////// Testbench Code
 
 `timescale 1ns / 1ps
 `include "uvm_macros.svh"
@@ -21,7 +21,7 @@ class transaction extends uvm_sequence_item;
    
    rand bit [3:0] abcd;
    rand bit [1:0] sel;
-   bit 	  y;
+   bit		  y;
    
    function new(input string inst = "transaction");
       super.new(inst);
@@ -41,7 +41,7 @@ class generator extends uvm_sequence #(transaction);
    `uvm_object_utils(generator)
    
    transaction t;
-   integer 		      i;
+   integer	  i;
    
    function new(input string path = "generator");
       super.new(path);
@@ -105,7 +105,7 @@ class monitor extends uvm_monitor;
       super.new(path, parent);
       send = new("send", this);
    endfunction
-      
+   
    virtual function void build_phase(uvm_phase phase);
       super.build_phase(phase);
       t = transaction::type_id::create("t");      
@@ -147,17 +147,17 @@ class scoreboard extends uvm_scoreboard;
       `uvm_info("SCO",$sformatf("Data rcvd from Monitor abcd: %0d , sel : %0d and y : %0d",tr.abcd,tr.sel,tr.y), UVM_NONE);      
 
       //todo later
-/* -----\/----- EXCLUDED -----\/-----
-      if(tr.sel == tr.a + tr.b)
-        `uvm_info("SCO","Test Passed", UVM_NONE)
-      else
-        `uvm_info("SCO","Test Failed", UVM_NONE);
- -----/\----- EXCLUDED -----/\----- */
+      /* -----\/----- EXCLUDED -----\/-----
+       if(tr.sel == tr.a + tr.b)
+       `uvm_info("SCO","Test Passed", UVM_NONE)
+       else
+       `uvm_info("SCO","Test Failed", UVM_NONE);
+       -----/\----- EXCLUDED -----/\----- */
    endfunction // write
 
    //if (tr.sel = "00" and tr.abcd = "0001")
-      //begin
-      //if(y = '1')
+   //begin
+   //if(y = '1')
    //test pass
    //else
    //test fail   
@@ -191,43 +191,82 @@ class agent extends uvm_agent;
    endfunction
 endclass
 
+//////////////////////////////environment
+class env extends uvm_env;
+   `uvm_component_utils(env)
 
+   scoreboard s;
+   agent a;
+
+
+   function new(input string path = "env", uvm_component parent = null);
+      super.new(path, parent);
+   endfunction
+   
+   virtual function void build_phase(uvm_phase phase);
+      super.build_phase(phase);
+      s = scoreboard::type_id::create("s",this);
+      a = agent::type_id::create("a",this);
+   endfunction
+   
+   
+   virtual function void connect_phase(uvm_phase phase);
+      super.connect_phase(phase);
+      a.m.send.connect(s.imp);
+   endfunction
+   
+endclass
+
+////////////////////////////////////////////
+
+class test extends uvm_test;
+   `uvm_component_utils(test)
+   
+   
+   function new(input string path = "test", uvm_component parent = null);
+      super.new(path, parent);
+   endfunction
+   
+   generator gen;
+   env e;
+   
+   virtual function void build_phase(uvm_phase phase);
+      super.build_phase(phase);
+      gen = generator::type_id::create("gen");
+      e = env::type_id::create("e",this);
+   endfunction
+   
+   virtual task run_phase(uvm_phase phase);
+      phase.raise_objection(this);
+      gen.start(e.a.seqr);
+      #50;
+      phase.drop_objection(this);
+   endtask
+endclass // test
 
 //////////////////////////////////////////////////////////////interface
 interface mux_if();
    logic [3:0] 		      abcd;
-   logic [1:0] 		      sel;
-   logic  		      y;
+   logic [1:0]		      sel;
+   logic		      y;
 endinterface
 
 //////////////////////////////testbench top
 
 module tb();
    
-/* -----\/----- EXCLUDED -----\/-----
-   add_if aif();
+   mux_if vif();
    
-   initial begin
-      aif.clk = 0;
-      aif.rst = 0;
-   end  
- -----/\----- EXCLUDED -----/\----- */
+   mux dut (.abcd(vif.abcd), .sel(vif.sel), .y(vif.y));
    
-   //always #10 aif.clk = ~aif.clk;
-   
-   
-   //add dut (.a(aif.a), .b(aif.b), .y(aif.y), .clk(aif.clk), .rst(aif.rst));
-   
-/* -----\/----- EXCLUDED -----\/-----
    initial begin
       $dumpfile("dump.vcd");
       $dumpvars;
    end
- -----/\----- EXCLUDED -----/\----- */
    
    initial begin  
-      //uvm_config_db #(virtual add_if)::set(null, "*", "aif", aif);
-      //run_test("test");
+      uvm_config_db #(virtual mux_if)::set(null, "uvm_test_top.e.a*", "vif", vif);
+      run_test("test");
    end
    
 endmodule
