@@ -152,28 +152,28 @@ class scoreboard extends uvm_scoreboard;
 	   if(tr.y == tr.abcd[0]) begin
 	      `uvm_info("SCO","Test Passed", UVM_NONE)
 	   end else begin
-	     `uvm_info("SCO","Test Failed", UVM_NONE);
+	     `uvm_error("SCO","Test Failed");
 	   end
 	end
 	2'b01 : begin
 	   if(tr.y == tr.abcd[1]) begin
 	      `uvm_info("SCO","Test Passed", UVM_NONE)
 	   end else begin
-	     `uvm_info("SCO","Test Failed", UVM_NONE);
+	     `uvm_error("SCO","Test Failed");
 	   end
 	end
 	2'b10 : begin
 	   if(tr.y == tr.abcd[2]) begin
 	      `uvm_info("SCO","Test Passed", UVM_NONE)
 	   end else begin
-	     `uvm_info("SCO","Test Failed", UVM_NONE);
+	     `uvm_error("SCO","Test Failed");
 	   end
 	end
 	2'b11 : begin
 	   if(tr.y == tr.abcd[3]) begin
 	      `uvm_info("SCO","Test Passed", UVM_NONE)
 	   end else begin
-	     `uvm_info("SCO","Test Failed", UVM_NONE);
+	     `uvm_error("SCO","Test Failed");
 	   end
 	end
       endcase // case (tr.sel)
