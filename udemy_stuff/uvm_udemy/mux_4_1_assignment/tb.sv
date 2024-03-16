@@ -146,6 +146,7 @@ class scoreboard extends uvm_scoreboard;
       tr = t;
       `uvm_info("SCO",$sformatf("Data rcvd from Monitor abcd: %0b , sel : %0b and y : %0b",tr.abcd,tr.sel,tr.y), UVM_NONE);      
 
+      //Data compare is here!
       case (tr.sel)
 	2'b00 : begin
 	   if(tr.y == tr.abcd[0]) begin
