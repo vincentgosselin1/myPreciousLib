@@ -59,12 +59,19 @@ class generator extends uvm_sequence #(transaction);
    
    virtual task body();
       t = transaction::type_id::create("t");
-      repeat(10) 
+      repeat(9) 
         begin
-           start_item(t);
+           start_item(t);	   
            t.randomize();
            finish_item(t);
 	   `uvm_info("GEN",$sformatf("Data send to Driver din :%0d , ena :%0d",t.din,t.ena), UVM_NONE);  
+        end
+      begin
+           start_item(t);
+	   t.ena = 1'b1;
+	   t.din = 1'b1;	 
+           finish_item(t);
+	   `uvm_info("GEN",$sformatf("Forcing! Data send to Driver din :%0d , ena :%0d",t.din,t.ena), UVM_NONE);  
         end
    endtask
    
