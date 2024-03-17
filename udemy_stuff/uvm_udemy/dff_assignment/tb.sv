@@ -29,6 +29,8 @@ endinterface
 class transaction extends uvm_sequence_item;
    rand bit		      din;
    rand bit		      ena;
+   bit			      dout;
+			      
    
    function new(input string inst = "transaction");
       super.new(inst);
@@ -37,6 +39,7 @@ class transaction extends uvm_sequence_item;
    `uvm_object_utils_begin(transaction)
       `uvm_field_int(din, UVM_DEFAULT)
       `uvm_field_int(ena, UVM_DEFAULT)
+      `uvm_field_int(dout, UVM_DEFAULT)
    `uvm_object_utils_end
    
 endclass
@@ -61,7 +64,7 @@ class generator extends uvm_sequence #(transaction);
            start_item(t);
            t.randomize();
            finish_item(t);
-	   `uvm_info("GEN",$sformatf("Data send to Driver a :%0d , b :%0d",t.din,t.ena), UVM_NONE);  
+	   `uvm_info("GEN",$sformatf("Data send to Driver din :%0d , ena :%0d",t.din,t.ena), UVM_NONE);  
         end
    endtask
    
@@ -72,7 +75,7 @@ endclass
 class driver extends uvm_driver #(transaction);
    `uvm_component_utils(driver)
    
-   function new(input string path = "drive", uvm_component parent);
+   function new(input string path = "drive", uvm_component parent = null);
       super.new(path, parent);
    endfunction
    
@@ -114,6 +117,156 @@ class driver extends uvm_driver #(transaction);
       
    endtask
 endclass
+
+//////////////////////////////monitor
+class monitor extends uvm_monitor;
+   `uvm_component_utils(monitor)
+   
+   uvm_analysis_port #(transaction) send;
+   
+   function new(input string path = "monitor", uvm_component parent = null);
+      super.new(path, parent);
+      send = new("send", this);
+   endfunction
+   
+   transaction t;
+   virtual dff_if vif;
+   
+   virtual function void build_phase(uvm_phase phase);
+      super.build_phase(phase);
+      t = transaction::type_id::create("transaction");
+      if(!uvm_config_db #(virtual dff_if)::get(this,"","vif",vif)) 
+	`uvm_error("MON","Unable to access uvm_config_db");
+   endfunction
+   
+   virtual task run_phase(uvm_phase phase);
+      @(negedge vif.rst);
+      forever begin
+         repeat(2)@(posedge vif.clk);
+         t.din = vif.din;
+         t.ena = vif.ena;
+         t.dout = vif.dout;
+         `uvm_info("MON", $sformatf("Data send to Scoreboard din : %0d , ena : %0d and dout : %0d", t.din,t.ena,t.dout), UVM_NONE);
+         send.write(t);
+      end
+   endtask
+endclass
+
+//////////////////////////////scoreboard
+class scoreboard extends uvm_scoreboard;
+   `uvm_component_utils(scoreboard)
+   
+   uvm_analysis_imp #(transaction,scoreboard) imp;
+   
+   transaction data;
+   
+   function new(input string path = "scoreboard", uvm_component parent = null);
+      super.new(path, parent);
+      imp = new("imp", this);
+   endfunction
+   
+   virtual function void build_phase(uvm_phase phase);
+      super.build_phase(phase);
+      data = transaction::type_id::create("data");
+   endfunction
+   
+   virtual function void write(input transaction t);
+      data = t;
+      `uvm_info("SCO",$sformatf("Data rcvd from Monitor din: %0d , ena : %0d and dout : %0d",t.din,t.ena,t.dout), UVM_NONE);
+      //Data compare happens here!
+/* -----\/----- EXCLUDED -----\/-----
+      if(data.y == data.a + data.b)
+	`uvm_info("SCO","Test Passed", UVM_NONE)
+      else
+	`uvm_info("SCO","Test Failed", UVM_NONE);
+ -----/\----- EXCLUDED -----/\----- */
+   endfunction
+endclass
+////////////////////////////////////////////////
+
+
+class agent extends uvm_agent;
+   `uvm_component_utils(agent)
+   
+   
+   function new(input string path = "agent", uvm_component parent = null);
+      super.new(path, parent);
+   endfunction
+   
+   monitor m;
+   driver d;
+   uvm_sequencer #(transaction) seqr;
+   
+   
+   virtual function void build_phase(uvm_phase phase);
+      super.build_phase(phase);
+      m = monitor::type_id::create("m",this);
+      d = driver::type_id::create("d",this);
+      seqr = uvm_sequencer #(transaction)::type_id::create("seqr",this);
+   endfunction
+   
+   
+   virtual function void connect_phase(uvm_phase phase);
+      super.connect_phase(phase);
+      d.seq_item_port.connect(seqr.seq_item_export);
+   endfunction
+endclass
+
+/////////////////////////////////////////////////////
+
+class env extends uvm_env;
+   `uvm_component_utils(env)
+   
+   
+   function new(input string path = "env", uvm_component parent = null);
+      super.new(path, parent);
+   endfunction
+   
+   scoreboard s;
+   agent a;
+   
+   virtual function void build_phase(uvm_phase phase);
+      super.build_phase(phase);
+      s = scoreboard::type_id::create("s",this);
+      a = agent::type_id::create("a",this);
+   endfunction
+   
+   
+   virtual function void connect_phase(uvm_phase phase);
+      super.connect_phase(phase);
+      a.m.send.connect(s.imp);
+   endfunction
+   
+endclass
+
+////////////////////////////////////////////
+
+class test extends uvm_test;
+   `uvm_component_utils(test)
+   
+   
+   function new(input string path = "test", uvm_component parent = null);
+      super.new(path, parent);
+   endfunction
+   
+   generator gen;
+   env e;
+   
+   virtual function void build_phase(uvm_phase phase);
+      super.build_phase(phase);
+      gen = generator::type_id::create("gen",this);
+      e = env::type_id::create("env",this);
+   endfunction
+   
+   virtual task run_phase(uvm_phase phase);
+      phase.raise_objection(this);
+      gen.start(e.a.seqr);
+      #60;
+      phase.drop_objection(this);
+      
+   endtask
+endclass
+//////////////////////////////////////
 
 
 
