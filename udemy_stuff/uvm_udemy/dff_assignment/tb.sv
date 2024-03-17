@@ -30,7 +30,7 @@ class transaction extends uvm_sequence_item;
    rand bit		      din;
    rand bit		      ena;
    bit			      dout;
-			      
+   
    
    function new(input string inst = "transaction");
       super.new(inst);
@@ -173,13 +173,24 @@ class scoreboard extends uvm_scoreboard;
    virtual function void write(input transaction t);
       data = t;
       `uvm_info("SCO",$sformatf("Data rcvd from Monitor din: %0d , ena : %0d and dout : %0d",t.din,t.ena,t.dout), UVM_NONE);
+      
       //Data compare happens here!
-/* -----\/----- EXCLUDED -----\/-----
-      if(data.y == data.a + data.b)
-	`uvm_info("SCO","Test Passed", UVM_NONE)
-      else
-	`uvm_info("SCO","Test Failed", UVM_NONE);
- -----/\----- EXCLUDED -----/\----- */
+      if(data.ena == 1'b1) begin
+	 if(data.dout == data.din) begin
+	    `uvm_info("SCO","Test Passed", UVM_NONE);	 
+	 end else begin
+	    `uvm_error("SCO","Test failed");
+	 end
+      end
+      
+      
+      
+      /* -----\/----- EXCLUDED -----\/-----
+       if(data.y == data.a + data.b)
+       `uvm_info("SCO","Test Passed", UVM_NONE)
+       else
+       `uvm_info("SCO","Test Failed", UVM_NONE);
+       -----/\----- EXCLUDED -----/\----- */
    endfunction
 endclass
 ////////////////////////////////////////////////
