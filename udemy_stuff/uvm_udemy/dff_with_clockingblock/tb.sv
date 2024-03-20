@@ -25,6 +25,9 @@ interface dff_if(input bit clk);
    logic		      ena;
    logic		      dout;
 
+   //SIGNALS DIRECTIONS INSIDE A CLOCKING BLOCK
+   //ARE WITH RESPECT TO THE TESTBENCH AND NOT
+   //THE DUT
    clocking cb @(posedge clk);
       input		      #1ns rst,din,ena;
       output		      #5  dout;
