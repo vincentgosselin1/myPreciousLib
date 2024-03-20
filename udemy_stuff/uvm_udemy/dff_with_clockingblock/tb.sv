@@ -19,7 +19,7 @@ import uvm_pkg::*;
 
 //////////////////////////////////////////////////////////////interface
 interface dff_if(input bit clk);
-//   logic 		      clk;
+   //   logic 		      clk;
    logic		      rst;
    logic		      din;
    logic		      ena;
@@ -31,7 +31,7 @@ interface dff_if(input bit clk);
    endclocking // cb
 
    clocking cb2 @(posedge clk);
-      input		      #1ns rst,din,ena,dout;
+      input		      #4ns rst,din,ena,dout;
    endclocking // cb
 
    modport cb_drv_mp (clocking cb);
@@ -100,17 +100,18 @@ class driver extends uvm_driver #(transaction);
    endfunction
    
    transaction data;
-   virtual dff_if.cb_drv_mp vif;
-   
+//   virtual dff_if.cb_drv_mp vif;
+     virtual dff_if vif; 
    
    
    ///////////////////reset logic
    task reset_dut();
-      vif.cb.rst <= 1'b1;
-      vif.cb.din   <= 0;
-      vif.cb.ena   <= 0;
-      repeat(5) @(posedge vif.clk);
-      vif.cb.rst <= 1'b0; 
+      vif.cb_drv_mp.cb.rst <= 1'b1;
+      vif.cb_drv_mp.cb.din   <= 0;
+      vif.cb_drv_mp.cb.ena   <= 0;
+      //      repeat(5) @(posedge vif.clk);
+      repeat(5) @(vif.cb);
+      vif.cb_drv_mp.cb.rst <= 1'b0; 
       `uvm_info("DRV", "Reset Done", UVM_NONE);
    endtask
    
@@ -128,11 +129,12 @@ class driver extends uvm_driver #(transaction);
       reset_dut();
       forever begin 
          seq_item_port.get_next_item(data);
-         vif.cb.din <= data.din;
-         vif.cb.ena <= data.ena;
+         vif.cb_drv_mp.cb.din <= data.din;
+         vif.cb_drv_mp.cb.ena <= data.ena;
          seq_item_port.item_done(); 
-         `uvm_info("DRV", $sformatf("Trigger DUT ena: %0d , din :  %0d",data.ena, data.din), UVM_NONE); 
-         repeat(2) @(posedge vif.clk);
+         `uvm_info("DRV", $sformatf("Trigger DUT ena: %0d , din :  %0d",data.ena, data.din), UVM_NONE);
+	 repeat(2)@(vif.cb);
+	 //         repeat(2) @(posedge vif.clk);
       end
       
    endtask
@@ -144,7 +146,8 @@ class monitor extends uvm_monitor;
    
    uvm_analysis_port #(transaction) send;
    transaction t;
-   virtual dff_if.cb_mon_mp vif;
+   //virtual dff_if.cb_mon_mp vif;
+   virtual dff_if vif;
    
    function new(input string path = "monitor", uvm_component parent = null);
       super.new(path, parent);
@@ -159,12 +162,13 @@ class monitor extends uvm_monitor;
    endfunction
    
    virtual task run_phase(uvm_phase phase);
-      @(negedge vif.cb.rst);
+      @(negedge vif.cb_mon_mp.cb2.rst);
       forever begin
-         repeat(2)@(posedge vif.clk);
-         t.din = vif.cb2.din;
-         t.ena = vif.cb2.ena;
-         t.dout = vif.cb2.dout;
+//         repeat(2)@(posedge vif.clk);
+	 repeat(2) @(vif.cb2);	
+         t.din <= vif.cb_mon_mp.cb2.din;
+         t.ena <= vif.cb_mon_mp.cb2.ena;
+         t.dout = vif.cb_mon_mp.cb2.dout;
          `uvm_info("MON", $sformatf("Data send to Scoreboard din : %0d , ena : %0d and dout : %0d", t.din,t.ena,t.dout), UVM_NONE);
          send.write(t);
       end
@@ -307,21 +311,21 @@ module tb();
 
    bit clk, rstn;
 
-    always #10 clk = ~clk;
+   always #10 clk = ~clk;
 
-    initial rstn = 1;
+   initial rstn = 1;
    
    dff_if vif(clk);
    
-/* -----\/----- EXCLUDED -----\/-----
-   initial begin
-      vif.clk = 0;
-      vif.cb_drv_mp.rst = 0;
+   /* -----\/----- EXCLUDED -----\/-----
+    initial begin
+    vif.clk = 0;
+    vif.cb_drv_mp.rst = 0;
    end  
-   
-   always #10 vif.clk = ~vif.clk;
-   
- -----/\----- EXCLUDED -----/\----- */
+    
+    always #10 vif.clk = ~vif.clk;
+    
+    -----/\----- EXCLUDED -----/\----- */
    
    dff dut (.din(vif.cb.din), .ena(vif.cb.ena), .dout(vif.cb2.dout), .clk(vif.clk), .rst(vif.cb.rst));
    
