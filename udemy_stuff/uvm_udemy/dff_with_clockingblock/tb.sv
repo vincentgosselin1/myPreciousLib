@@ -29,8 +29,8 @@ interface dff_if(input bit clk);
    //ARE WITH RESPECT TO THE TESTBENCH AND NOT
    //THE DUT
    clocking cb @(posedge clk);
-      input		      #1ns rst,din,ena;
-      output		      #5  dout;
+      output		      #1ns rst,din,ena;
+      input		      #5  dout;
    endclocking // cb
 
    clocking cb2 @(posedge clk);
@@ -312,13 +312,14 @@ endclass
 module tb();
    
 
-   bit clk, rstn;
+  // bit clk, rstn;
 
-   always #10 clk = ~clk;
+   always #10 vif.clk = ~vif.clk;
 
-   initial rstn = 1;
+//   initial rstn = 1;
    
-   dff_if vif(clk);
+   dff_if vif();
+   
    
    /* -----\/----- EXCLUDED -----\/-----
     initial begin
@@ -330,7 +331,7 @@ module tb();
     
     -----/\----- EXCLUDED -----/\----- */
    
-   dff dut (.din(vif.cb.din), .ena(vif.cb.ena), .dout(vif.cb2.dout), .clk(vif.clk), .rst(vif.cb.rst));
+   dff dut (.din(vif.cb_drv_mp.cb.din), .ena(vif.cb_drv_mp.cb.ena), .dout(vif.cb_mon_mp.cb2.dout), .clk(vif.clk), .rst(vif.cb_drv_mp.cb.rst));
    
    initial begin
       $dumpfile("dump.vcd");
