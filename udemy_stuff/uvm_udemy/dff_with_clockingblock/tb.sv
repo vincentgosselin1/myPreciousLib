@@ -18,8 +18,8 @@
 import uvm_pkg::*;
 
 //////////////////////////////////////////////////////////////interface
-interface dff_if();
-   logic 		      clk;
+interface dff_if(input bit clk);
+   //logic 		      clk;
    logic		      rst;
    logic		      din;
    logic		      ena;
@@ -29,12 +29,12 @@ interface dff_if();
    //ARE WITH RESPECT TO THE TESTBENCH AND NOT
    //THE DUT
    clocking cb @(posedge clk);
-      output		      #1ns rst,din,ena;
-      input		      #5  dout;
+      output		      #1  rst,din,ena;
+      input		      #2  dout;
    endclocking // cb
 
    clocking cb2 @(posedge clk);
-      input		      #4ns rst,din,ena,dout;
+      input		      #1ns rst,din,ena,dout;
    endclocking // cb
 
    modport cb_drv_mp (clocking cb);
@@ -103,8 +103,8 @@ class driver extends uvm_driver #(transaction);
    endfunction
    
    transaction data;
-//   virtual dff_if.cb_drv_mp vif;
-     virtual dff_if vif; 
+   //   virtual dff_if.cb_drv_mp vif;
+   virtual dff_if vif; 
    
    
    ///////////////////reset logic
@@ -167,7 +167,7 @@ class monitor extends uvm_monitor;
    virtual task run_phase(uvm_phase phase);
       @(negedge vif.cb_mon_mp.cb2.rst);
       forever begin
-//         repeat(2)@(posedge vif.clk);
+	 //         repeat(2)@(posedge vif.clk);
 	 repeat(2) @(vif.cb2);	
          t.din <= vif.cb_mon_mp.cb2.din;
          t.ena <= vif.cb_mon_mp.cb2.ena;
@@ -312,15 +312,20 @@ endclass
 module tb();
    
 
-  // bit clk, rstn;
+   reg clk;
+   //, rstn;
 
-
-
-//   initial rstn = 1;
+   dff_if vif(clk);
    
-   dff_if vif();
+      initial begin
+	 clk = 0;      
+	 forever #10 clk = ~clk;
+      end
    
-   always #10 vif.clk = ~vif.clk;   
+   //   initial rstn = 1;
+  
+   
+   //   always #10 vif.clk = ~vif.clk;   
    /* -----\/----- EXCLUDED -----\/-----
     initial begin
     vif.clk = 0;
