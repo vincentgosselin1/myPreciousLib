@@ -18,8 +18,8 @@
 import uvm_pkg::*;
 
 //////////////////////////////////////////////////////////////interface
-interface dff_if(input bit clk);
-   //   logic 		      clk;
+interface dff_if();
+   logic 		      clk;
    logic		      rst;
    logic		      din;
    logic		      ena;
@@ -314,13 +314,13 @@ module tb();
 
   // bit clk, rstn;
 
-   always #10 vif.clk = ~vif.clk;
+
 
 //   initial rstn = 1;
    
    dff_if vif();
    
-   
+   always #10 vif.clk = ~vif.clk;   
    /* -----\/----- EXCLUDED -----\/-----
     initial begin
     vif.clk = 0;
@@ -331,7 +331,8 @@ module tb();
     
     -----/\----- EXCLUDED -----/\----- */
    
-   dff dut (.din(vif.cb_drv_mp.cb.din), .ena(vif.cb_drv_mp.cb.ena), .dout(vif.cb_mon_mp.cb2.dout), .clk(vif.clk), .rst(vif.cb_drv_mp.cb.rst));
+   //dff dut (.din(vif.cb_drv_mp.cb.din), .ena(vif.cb_drv_mp.cb.ena), .dout(vif.cb_mon_mp.cb2.dout), .clk(vif.clk), .rst(vif.cb_drv_mp.cb.rst));
+   dff dut (.din(vif.din), .ena(vif.ena), .dout(vif.dout), .clk(vif.clk), .rst(vif.rst));
    
    initial begin
       $dumpfile("dump.vcd");
