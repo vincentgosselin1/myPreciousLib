@@ -29,12 +29,12 @@ interface dff_if(input bit clk);
    //ARE WITH RESPECT TO THE TESTBENCH AND NOT
    //THE DUT
    clocking cb @(posedge clk);
-      output		      #1  rst,din,ena;
-      input		      #2  dout;
+      output		      #2  rst,din,ena;
+      input		      #1  dout;
    endclocking // cb
 
    clocking cb2 @(posedge clk);
-      input		      #1ns rst,din,ena,dout;
+      input		      #1 rst,din,ena,dout;
    endclocking // cb
 
    modport cb_drv_mp (clocking cb);
@@ -135,8 +135,8 @@ class driver extends uvm_driver #(transaction);
          vif.cb_drv_mp.cb.din <= data.din;
          vif.cb_drv_mp.cb.ena <= data.ena;
          seq_item_port.item_done(); 
-         `uvm_info("DRV", $sformatf("Trigger DUT ena: %0d , din :  %0d",data.ena, data.din), UVM_NONE);
-	 repeat(2)@(vif.cb);
+         `uvm_info("DRV", $sformatf("Trigger DUT din: %0d , ena :  %0d",data.din, data.ena), UVM_NONE);
+	 repeat(1)@(vif.cb);
 	 //         repeat(2) @(posedge vif.clk);
       end
       
@@ -168,7 +168,7 @@ class monitor extends uvm_monitor;
       @(negedge vif.cb_mon_mp.cb2.rst);
       forever begin
 	 //         repeat(2)@(posedge vif.clk);
-	 repeat(2) @(vif.cb2);	
+	 repeat(1) @(vif.cb2);	
          t.din <= vif.cb_mon_mp.cb2.din;
          t.ena <= vif.cb_mon_mp.cb2.ena;
          t.dout = vif.cb_mon_mp.cb2.dout;
