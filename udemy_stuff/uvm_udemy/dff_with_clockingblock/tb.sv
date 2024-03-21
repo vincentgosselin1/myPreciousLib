@@ -29,12 +29,12 @@ interface dff_if(input bit clk);
    //ARE WITH RESPECT TO THE TESTBENCH AND NOT
    //THE DUT
    clocking cb @(posedge clk);
-      output		      #2  rst,din,ena;
-      input		      #1  dout;
+      output		      #1  rst,din,ena;
+      input		      #0  dout;
    endclocking // cb
 
    clocking cb2 @(posedge clk);
-      input		      #1 rst,din,ena,dout;
+      input		      #0 rst,din,ena,dout;
    endclocking // cb
 
    modport cb_drv_mp (clocking cb);
@@ -136,7 +136,7 @@ class driver extends uvm_driver #(transaction);
          vif.cb_drv_mp.cb.ena <= data.ena;
          seq_item_port.item_done(); 
          `uvm_info("DRV", $sformatf("Trigger DUT din: %0d , ena :  %0d",data.din, data.ena), UVM_NONE);
-	 repeat(1)@(vif.cb);
+	 repeat(2)@(vif.cb);
 	 //         repeat(2) @(posedge vif.clk);
       end
       
@@ -169,8 +169,8 @@ class monitor extends uvm_monitor;
       forever begin
 	 //         repeat(2)@(posedge vif.clk);
 	 repeat(1) @(vif.cb2);	
-         t.din <= vif.cb_mon_mp.cb2.din;
-         t.ena <= vif.cb_mon_mp.cb2.ena;
+         t.din = vif.cb_mon_mp.cb2.din;
+         t.ena = vif.cb_mon_mp.cb2.ena;
          t.dout = vif.cb_mon_mp.cb2.dout;
          `uvm_info("MON", $sformatf("Data send to Scoreboard din : %0d , ena : %0d and dout : %0d", t.din,t.ena,t.dout), UVM_NONE);
          send.write(t);
@@ -298,7 +298,7 @@ class test extends uvm_test;
    virtual task run_phase(uvm_phase phase);
       phase.raise_objection(this);
       gen.start(e.a.seqr);
-      #60;
+      #40;
       phase.drop_objection(this);
       
    endtask
