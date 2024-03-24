@@ -54,7 +54,7 @@
 (defalias 'sw6 (read-kbd-macro "C-x r w 9")) ; set-window-Config-w6 + 3 = reg 9
 
 ;my own stuff
-(defalias 'wss (read-kbd-macro "M-x window-swap-states"))
+(defalias 'rab (read-kbd-macro "<<bm-remove-all-all-buffers>>")) ;; Remove All Bookmarks
 (defalias 'sss (read-kbd-macro "C-u M-x shell"))
 (defalias 'ooo (read-kbd-macro "C-u 100 C-x }"))
 (defalias 'iii (read-kbd-macro "C-u 100 C-^ }"))
