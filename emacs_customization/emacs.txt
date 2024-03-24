@@ -19,6 +19,15 @@
 ;;(add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
 (require 'animate)
 
+;;git clone https://github.com/joodland/bm.git
+(add-to-list 'load-path "~/.emacs.d/downloads/bm")
+(require 'bm)
+(global-set-key (read-kbd-macro "C-`") 'bm-toggle)
+(global-set-key (read-kbd-macro "C-<tab>") 'bm-next)
+
+(setq bm-cycle-all-buffers t)
+
+
 ;;put this in your ‘~/.emacs’:
 
 ; Window configuration setters/
