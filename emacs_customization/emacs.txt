@@ -55,7 +55,7 @@
 
 ;my own stuff
 ;;(defalias 'iap (read-kbd-macro "<<info-apropos>>"))
-(defalias 'ggg "grep -r --exclude-dir=.git")
+(defalias 'ggg "grep -r --exclude-dir=.git ")
 (defalias 'rab (read-kbd-macro "<<bm-remove-all-all-buffers>>")) ;; Remove All Bookmarks
 (defalias 'sss (read-kbd-macro "C-u M-x shell"))
 (defalias 'ooo (read-kbd-macro "C-u 100 C-x }"))
