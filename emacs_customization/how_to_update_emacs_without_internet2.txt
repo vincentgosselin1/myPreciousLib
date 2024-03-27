@@ -1,0 +1,34 @@
+Updating Emacs to the latest version on a Linux machine without internet access and potentially without root access can be a bit tricky but it's definitely possible. Here's a general outline of how you might approach it:
+
+1. **Download Emacs binaries:** You'll need to find a machine with internet access and download the Emacs 29.2 binaries for your Linux distribution. Ensure that you download the version compatible with your Linux distribution and architecture.
+
+2. **Transfer files to your Linux machine:** As you mentioned, you can use Samba to transfer files. Make sure you can access the downloaded Emacs binaries from your Linux machine.
+
+3. **Extract the binaries:** Once the Emacs binaries are on your Linux machine, extract them to a suitable location. You can use the `tar` command to extract the contents of the downloaded archive. For example:
+   ```bash
+   tar -xvf emacs-29.2.tar.gz
+   ```
+
+4. **Run Emacs locally:** Since you might not have root access, you'll need to install Emacs locally. You can do this by specifying the installation directory with the `--prefix` option when configuring Emacs. For example:
+   ```bash
+   ./configure --prefix=$HOME/local
+   make
+   make install
+   ```
+
+   This will install Emacs locally to your home directory under the `local` subdirectory.
+
+5. **Update your PATH:** After installing Emacs locally, you need to ensure that your shell can find the new Emacs binary. You can do this by adding the following line to your `.bashrc` or `.bash_profile` file:
+   ```bash
+   export PATH=$HOME/local/bin:$PATH
+   ```
+   Then, reload your shell configuration:
+   ```bash
+   source ~/.bashrc
+   ```
+
+6. **Test the new Emacs version:** You can now test if the new Emacs version is installed correctly by running `emacs --version` in your terminal.
+
+Remember that this approach will only affect your user account. Other users on the system won't have access to the updated version unless they repeat the same process.
+
+Also, note that Emacs might have dependencies that need to be satisfied. If you encounter any errors during the configuration or installation process, you might need to install the required dependencies manually or seek assistance from someone with root access.
