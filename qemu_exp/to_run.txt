@@ -1,35 +1,18 @@
-./qemu-system-aarch64 \
--M arm-generic-fdt \
+#GOT IT
+
+#Download qemu-devicetrees , r5_stl_tests.elf
+
+gcc -E -nostdinc -undef -D__DTS__ -x assembler-with-cpp -o zcu102-arm.dts.preprocessed zcu102-arm.dts	
+dtc -I dts -O dtb -f -o zynqmp-zcu102.dtb zcu102-arm.dts.preprocessed
+
+qemu-system-aarch64 --machine help
+
+qemu-system-aarch64 \
+--machine xilinx-zynq-a9
 -serial mon:stdio \
 -device loader,file=r5_stl_tests.elf,cpu-num=4 \
 -device loader,addr=0XFF5E023C,data=0x80088fde,data-len=4 \
 -device loader,addr=0xff9a0000,data=0x80000218,data-len=4 \
--hw-dtb zcu102-arm.dtb \
+-dtb zynqmp-zcu102.dtb \
  -display none
-
-#convert dts into dtb
-dtc -I dts -O dtb -f devicetree_file_name.dts -o devicetree_file_name.dtb
-dtc -I dts -O dtb -f zcu102-arm.dts -o zcu102-arm.dtb
-dtc -I dts -O dtb -f board-zynqmp-zcu102.dts -o board-zynqmp-zcu102.dtb
-
-cpp -nostdinc -I include -I arch  -undef -x assembler-with-cpp  zcu102-arm.dts zcu102-arm.dts.preprocessed
-
-cpp -nostdinc -I arch  -undef -x assembler-with-cpp  zcu102-arm.dts zcu102-arm.dts.preprocessed
-
-cpp zcu102-arm.dts zcu102-arm.dts.preprocessed 
-
-dtc -I dts -O dtb -p 0x1000 meson-gxl-s905x-khadas-vim.dts.preprocessed -o kvim1.dtb
-
-
-cpp -I include zcu102-arm.dts zcu102-arm.dts.preprocessed
-cpp zcu102-arm.dts zcu102-arm.dts.preprocessed
-
-cpp  -undef -x assembler-with-cpp zcu102-arm.dts zcu102-arm.dts.preprocessed
-o
-
-
-
-#GOT IT
-gcc -E -nostdinc -undef -D__DTS__ -x assembler-with-cpp -o zcu102-arm.dts.preprocessed zcu102-arm.dts	
-dtc -I dts -O dtb -f -o zynqmp-zcu102.dts zcu102-arm.dts.preprocessed
 
