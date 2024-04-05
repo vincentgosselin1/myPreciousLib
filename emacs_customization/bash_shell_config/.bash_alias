@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# My nice alias cheatsheet
+# alias alias_name="command_to_run"
+
+# Long format list
+alias ll="ls -la"
+alias aaa="env"

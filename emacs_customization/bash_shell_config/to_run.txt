@@ -1,0 +1,7 @@
+#put this in home directory ~
+
+#To display current shell
+#echo $SHELL
+#to change current shell to bash
+#chsh -s /bin/bash 
+

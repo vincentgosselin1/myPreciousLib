@@ -1,3 +1,4 @@
+
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (custom-set-variables
@@ -19,12 +20,10 @@
 ;;(add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
 (require 'animate)
 
-;;git clone https://github.com/joodland/bm.git
-(add-to-list 'load-path "~/.emacs.d/downloads/bm")
+(add-to-list 'load-path "~/.emacs.d/downloads/bm_old")
 (require 'bm)
 (global-set-key (read-kbd-macro "C-`") 'bm-toggle)
 (global-set-key (read-kbd-macro "C-<tab>") 'bm-next)
-
 (setq bm-cycle-all-buffers t)
 
 
