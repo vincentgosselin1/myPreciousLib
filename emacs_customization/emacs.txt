@@ -115,3 +115,16 @@
 
 
 (url-handler-mode)
+
+
+;;for macosx
+(setq mac-option-modifier 'super)
+(setq mac-command-modifier 'meta)
+
+(global-display-line-numbers-mode 1)
+
+(setq ring-bell-function 'ignore)
+
+
+;;C-x C-q to unlock the dired window
+;;C-c C-x when done
