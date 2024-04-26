@@ -109,8 +109,11 @@
 
 ;; M-x global-linum-mode
 
+;;Display line number on the left
 (global-linum-mode t)
+;;To prevent Emacs to open a new window when invoking a new shell
 (push (cons "\\*shell\\*" display-buffer--same-window-action) display-buffer-alist)
+;;Whats that one again? not sure
 (setq dired-dwim-target t)
 
 
