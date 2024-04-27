@@ -131,3 +131,11 @@
 
 ;;C-x C-q to unlock the dired window
 ;;C-c C-x when done
+
+;;universal-ctags
+;;https://www.emacswiki.org/emacs/BuildTags
+;;https://github.com/universal-ctags/ctags
+
+;;after building/installing it
+;; cd /path/to/my/project
+;;  ctags -e -R *.sv *.svh
