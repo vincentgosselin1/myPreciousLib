@@ -138,4 +138,4 @@
 
 ;;after building/installing it
 ;; cd /path/to/my/project
-;;  ctags -e -R *.sv *.svh
+;;  ctags -e -R . *.sv *.svh
