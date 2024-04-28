@@ -139,3 +139,9 @@
 ;;after building/installing it
 ;; cd /path/to/my/project
 ;;  ctags -e -R . *.sv *.svh
+
+
+;; TAGS setup, where to find TAGS file, giving paths
+(setq tags-table-list
+      '("/Users/vincentgosselin1/Desktop/uvm-core-2020.3.0/src" "/Users/vincentgosselin1/Desktop/myPreciousLib/uvm_example"))
+
