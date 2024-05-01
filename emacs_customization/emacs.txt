@@ -139,6 +139,7 @@
 ;;after building/installing it
 ;; cd /path/to/my/project
 ;;  ctags -e -R . *.sv *.svh
+;;  ctags -e -R --languages=systemverilog
 
 
 ;; TAGS setup, where to find TAGS file, giving paths
