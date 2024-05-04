@@ -146,3 +146,8 @@
 (setq tags-table-list
       '("/Users/vincentgosselin1/Desktop/uvm-core-2020.3.0/src" "/Users/vincentgosselin1/Desktop/myPreciousLib/uvm_example"))
 
+
+
+;;The internet is really great
+(icomplete-mode) ; TODO: Add condition since this replaces iswitchb-mode >= emacs-24.4
+;;(iswitchb-mode)
