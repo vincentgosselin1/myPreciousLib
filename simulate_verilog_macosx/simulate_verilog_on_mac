@@ -1,0 +1,15 @@
+#How to simulate verilog on macos
+
+#install these on mac
+brew install --HEAD randomplum/gtkwave/gtkwave
+#verilog simulator
+brew install icarus-verilog
+
+#compile the following files, output file is my_design
+iverilog -o my_design  counter_tb.v counter.v
+
+#runs the simulator
+vvp my_design
+
+#show waveform
+gtkwave test.vcd
