@@ -140,7 +140,7 @@
 ;; cd /path/to/my/project
 ;;  ctags -e -R . *.sv *.svh
 ;;  ctags -e -R --languages=systemverilog
-
+;;  ctags -e -R --languages=vhdl
 
 ;; TAGS setup, where to find TAGS file, giving paths
 (setq tags-table-list
