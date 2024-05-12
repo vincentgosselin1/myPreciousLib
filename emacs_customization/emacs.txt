@@ -20,7 +20,9 @@
 ;;(add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
 (require 'animate)
 
-(add-to-list 'load-path "~/.emacs.d/downloads/bm_old")
+
+;;Bookmarks just like VisualStudio
+(add-to-list 'load-path "~/.emacs.d/downloads/bm")
 (require 'bm)
 (global-set-key (read-kbd-macro "C-`") 'bm-toggle)
 (global-set-key (read-kbd-macro "C-<tab>") 'bm-next)
@@ -29,7 +31,21 @@
 
 ;;put this in your ‘~/.emacs’:
 
-; Window configuration setters/
+;;yet another snippet, Emacs code completion
+(add-to-list 'load-path "~/.emacs.d/downloads/yasnippet")
+(require 'yasnippet)
+;;install snippets in following path
+(add-to-list 'load-path "~/.emacs.d/snippets/yasnippet-snippets")
+(setq yas-snippet-dirs
+      '("~/.emacs.d/snippets"                 ;; personal snippets
+        ;;"/path/to/some/collection/"           ;; foo-mode and bar-mode snippet collection
+        ;;"/path/to/yasnippet/yasmate/snippets" ;; the yasmate collection
+        ))
+(yas-global-mode 1)
+;;after that type M-x yas-reload-all , and then you are good to go!!
+
+
+
 (defalias 'W  'rw )  ; Return-To-Window-Config-
 (defalias 'W2 'rw2)  ; Return-To-Window-Config-
 (defalias 'W3 'rw3)  ; Return-To-Window-Config-
