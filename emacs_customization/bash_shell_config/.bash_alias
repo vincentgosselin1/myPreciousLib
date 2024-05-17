@@ -6,3 +6,10 @@
 # Long format list
 alias ll="ls -la"
 alias aaa="env"
+alias debian="ssh debian@127.0.0.1 -p 2222"
+#Generate Tags SystemVerilog
+alias gtsv="ctags -e -R --languages=systemverilog"
+#alias debianpp="sshpass -p debian ssh debian@127.0.0.1 -p 2222 | cd /home/debian/Desktop"
+
+alias gs="git status ."
+alias gtree="git log --graph --oneline --all"
