@@ -173,6 +173,6 @@
 ;;custom keybindings
 (local-set-key [C-up] 'backward-paragraph)
 (local-set-key [C-down] 'forward-paragraph)
-;;The bind a key
+;;To bind a key simply:
 ;;M-x local-set-key RET key cmd RET. 
-;;the trick C-x ESC ESC C-a C-k C-g into .emacs
+;;the trick to copy it back to .emacs : C-x ESC ESC C-a C-k C-g 
