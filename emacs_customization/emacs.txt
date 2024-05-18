@@ -1,4 +1,3 @@
-
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (custom-set-variables
@@ -160,10 +159,20 @@
 
 ;; TAGS setup, where to find TAGS file, giving paths
 (setq tags-table-list
-      '("/Users/vincentgosselin1/Desktop/uvm-core-2020.3.0/src" "/Users/vincentgosselin1/Desktop/myPreciousLib/uvm_example"))
+      '("/way_to/path/path1" "/way_to/path/path2"))
 
 
 
 ;;The internet is really great
 (icomplete-mode) ; TODO: Add condition since this replaces iswitchb-mode >= emacs-24.4
 ;;(iswitchb-mode)
+
+;;rename current buffer
+;;C-x x r 
+
+;;custom keybindings
+(local-set-key [C-up] 'backward-paragraph)
+(local-set-key [C-down] 'forward-paragraph)
+;;The bind a key
+;;M-x local-set-key RET key cmd RET. 
+;;the trick C-x ESC ESC C-a C-k C-g into .emacs
