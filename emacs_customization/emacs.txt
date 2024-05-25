@@ -187,13 +187,9 @@
 	  (quote (("default"
 		   ("dired" (mode . dired-mode))
 		   ("shell" (mode . shell-mode))
-		    ("magit" (name . "^magit"))
-		   ("planner" (or
-				(name . "^\\*Calendar\\*$")
-				(name . "^\\*Org Agenda\\*")))
-		   ("emacs" (or
-			     (name . "^\\*scratch\\*$")
-			     (name . "^\\*Messages\\*$")))))))
+		   ("vhd" (mode . vhdl-mode))
+		   ("sv" (mode . verilog-mode))
+))))
 
 (add-hook 'ibuffer-mode-hook
 	  (lambda ()
