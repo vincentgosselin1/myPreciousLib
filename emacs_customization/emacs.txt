@@ -176,5 +176,29 @@
 (local-set-key [C-x x r] 'rename-buffer)
 
 ;;To bind a key simply:
-;;M-x local-set-key RET key cmd RET. 
-;;the trick to copy it back to .emacs : C-x ESC ESC C-a C-k C-g 
+;;M-x local-set-key RET key cmd RET.
+;;the trick to copy it back to .emacs : C-x ESC ESC C-a C-k C-g
+
+;;ibuffer
+(global-set-key (kbd "C-x C-b") 'ibuffer) ; instead of buffer-list
+(setq ibuffer-expert t) ; stop yes no prompt on delete
+
+ (setq ibuffer-saved-filter-groups
+	  (quote (("default"
+		   ("dired" (mode . dired-mode))
+		   ("shell" (mode . shell-mode))
+		    ("magit" (name . "^magit"))
+		   ("planner" (or
+				(name . "^\\*Calendar\\*$")
+				(name . "^\\*Org Agenda\\*")))
+		   ("emacs" (or
+			     (name . "^\\*scratch\\*$")
+			     (name . "^\\*Messages\\*$")))))))
+
+(add-hook 'ibuffer-mode-hook
+	  (lambda ()
+	    (ibuffer-switch-to-saved-filter-groups "default")))
+
+;;to prevent the annoying "Buffer shell123 has a running process; kill it? (yes or no)
+(setq kill-buffer-query-functions nil)
+
