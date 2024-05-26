@@ -147,22 +147,6 @@
 ;;C-x C-q to unlock the dired window
 ;;C-c C-x when done
 
-;;universal-ctags
-;;https://www.emacswiki.org/emacs/BuildTags
-;;https://github.com/universal-ctags/ctags
-
-;;after building/installing it
-;; cd /path/to/my/project
-;;  ctags -e -R . *.sv *.svh
-;;  ctags -e -R --languages=systemverilog
-;;  ctags -e -R --languages=vhdl
-
-;; TAGS setup, where to find TAGS file, giving paths
-(setq tags-table-list
-      '("/way_to/path/path1" "/way_to/path/path2"))
-
-
-
 ;;The internet is really great
 (icomplete-mode) ; TODO: Add condition since this replaces iswitchb-mode >= emacs-24.4
 ;;(iswitchb-mode)
@@ -197,4 +181,74 @@
 
 ;;to prevent the annoying "Buffer shell123 has a running process; kill it? (yes or no)
 (setq kill-buffer-query-functions nil)
+
+
+;;universal-ctags
+;;https://www.emacswiki.org/emacs/BuildTags
+;;https://github.com/universal-ctags/ctags
+
+;;after building/installing it
+;; cd /path/to/my/project
+;;  ctags -e -R . *.sv *.svh
+;;  ctags -e -R --languages=systemverilog
+;;  ctags -e -R --languages=vhdl
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Learning Elisp with AI. ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;not working yet
+;; (defun delete-last-line-of-file (file)
+;;   "Delete the last line of FILE."
+;;   (with-current-buffer (find-file-noselect file)
+;;     (goto-char (point-max))
+;;     (beginning-of-line)
+;;     (kill-line)
+;;     (save-buffer)))
+
+
+(defun gentags_systemverilog ()
+  "Generate tags for SystemVerilog files and write Dired path to a variable and tags-table-list."
+  (interactive)
+    ;; Step 1. Remove the last line starting with '(setq tags-table-list' in .emacs file
+  ;;(delete-last-line-of-file "~/.emacs")
+  ;; Step 2: Generate tags for SystemVerilog files
+  (shell-command "ctags -e -R --languages=systemverilog")
+  ;; Step 3: Write Dired path to a variable and tags-table-list
+  (write-dired-path-to-var-and-tags-table)
+)
+
+
+(defun gentags_vhdl ()
+  "Generate tags for SystemVerilog files and write Dired path to a variable and tags-table-list."
+  (interactive)
+  ;; 1. Remove the last line starting with '(setq tags-table-list' in .emacs file
+  ;;(delete-last-line-of-file "~/.emacs")
+  ;; Step 2: Generate tags for SystemVerilog files
+  (shell-command "ctags -e -R --languages=vhdl")
+  ;; Step 3: Write Dired path to a variable and tags-table-list
+  (write-dired-path-to-var-and-tags-table)
+  )
+
+
+;;custom elisp, thx ai. 
+(defun write-dired-path-to-var-and-tags-table ()
+  "Write the current path of a Dired buffer to a variable and add it to tags-table-list in .emacs file."
+  (interactive)
+  ;; 1. Get the current path of the Dired buffer
+  (let ((dired-path (if (derived-mode-p 'dired-mode)
+                        (expand-file-name default-directory)
+                      (error "Not in a Dired buffer"))))
+    ;; 2. Write the path to a variable
+    (setq var1 dired-path)
+    ;; 3. Write to .emacs file
+    (with-current-buffer (find-file-noselect "~/.emacs")
+      (goto-char (point-max))
+      (insert (format "(setq tags-table-list '(\"%s\"))\n" dired-path)))
+    ;; 4. Provide feedback
+    (message "Path '%s' written to variable 'var1' and added to tags-table-list in .emacs." dired-path)))
+
+
+;; TAGS will appear after this line after running write-dired-path-to-var-and-tags-table.
+
 
