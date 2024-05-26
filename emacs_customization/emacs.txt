@@ -212,6 +212,8 @@
       ;; Step 3: Git push
       (shell-command "git push"))))
 
+;;it works or not?
+
 (defun my-get-quick-commit-number ()
   "Get the latest quick commit number."
   (let ((commit-log (shell-command-to-string "git log --oneline")))
