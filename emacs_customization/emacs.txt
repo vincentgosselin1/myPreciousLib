@@ -197,6 +197,32 @@
 ;; Learning Elisp with AI. ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+
+(defun my-quick-git-commit-and-push ()
+  "Add the current buffer's file to Git, do a quick commit with an auto-incremented message, and push to the remote repository."
+  (interactive)
+  ;; Get the current buffer's file name
+  (let ((file-name (buffer-file-name)))
+    (when file-name
+      ;; Step 1: Git add the file
+      (shell-command (format "git add %s" (shell-quote-argument file-name)))
+      ;; Step 2: Quick commit with auto-incremented message
+      (let* ((commit-message (format "quick_commit_%d" (1+ (my-get-quick-commit-number)))))
+        (shell-command (format "git commit -m \"%s\"" commit-message)))
+      ;; Step 3: Git push
+      (shell-command "git push"))))
+
+(defun my-get-quick-commit-number ()
+  "Get the latest quick commit number."
+  (let ((commit-log (shell-command-to-string "git log --oneline")))
+    (if (string-match "^quick_commit_\\([0-9]+\\):" commit-log)
+        (string-to-number (match-string 1 commit-log))
+      0)))
+
+;; Bind the function to a key combination, for example, C-c g
+;;(global-set-key (kbd "C-c g") 'my-quick-git-commit-and-push)
+
+
 (defun return-to-specific-buffer (buffer-name)
   "Return to the buffer named BUFFER-NAME."
   (if (get-buffer buffer-name)
