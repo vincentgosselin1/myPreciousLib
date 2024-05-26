@@ -197,21 +197,19 @@
 ;; Learning Elisp with AI. ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;not working yet
-;; (defun delete-last-line-of-file (file)
-;;   "Delete the last line of FILE."
-;;   (with-current-buffer (find-file-noselect file)
-;;     (goto-char (point-max))
-;;     (beginning-of-line)
-;;     (kill-line)
-;;     (save-buffer)))
+(defun return-to-specific-buffer (buffer-name)
+  "Return to the buffer named BUFFER-NAME."
+  (if (get-buffer buffer-name)
+      (switch-to-buffer buffer-name)
+    (message "Buffer %s does not exist" buffer-name)))
 
+;;(return-to-specific-buffer "*scratch*")
 
 (defun gentags_systemverilog ()
   "Generate tags for SystemVerilog files and write Dired path to a variable and tags-table-list."
   (interactive)
     ;; Step 1. Remove the last line starting with '(setq tags-table-list' in .emacs file
-  ;;(delete-last-line-of-file "~/.emacs")
+;;  (override-setq-value 'tags-table-list "")
   ;; Step 2: Generate tags for SystemVerilog files
   (shell-command "ctags -e -R --languages=systemverilog")
   ;; Step 3: Write Dired path to a variable and tags-table-list
@@ -223,9 +221,22 @@
   "Generate tags for SystemVerilog files and write Dired path to a variable and tags-table-list."
   (interactive)
   ;; 1. Remove the last line starting with '(setq tags-table-list' in .emacs file
-  ;;(delete-last-line-of-file "~/.emacs")
+
+  ;;  (override-setq-value 'tags-table-list "")
   ;; Step 2: Generate tags for SystemVerilog files
   (shell-command "ctags -e -R --languages=vhdl")
+  ;; Step 3: Write Dired path to a variable and tags-table-list
+  (write-dired-path-to-var-and-tags-table)
+  )
+
+
+(defun gentags_python ()
+  "Generate tags for SystemVerilog files and write Dired path to a variable and tags-table-list."
+  (interactive)
+  ;; 1. Remove the last line starting with '(setq tags-table-list' in .emacs file
+;;  (override-setq-value 'tags-table-list "")
+  ;; Step 2: Generate tags for SystemVerilog files
+  (shell-command "ctags -e -R --languages=python")
   ;; Step 3: Write Dired path to a variable and tags-table-list
   (write-dired-path-to-var-and-tags-table)
   )
@@ -248,7 +259,8 @@
     ;; 4. Provide feedback
     (message "Path '%s' written to variable 'var1' and added to tags-table-list in .emacs." dired-path)))
 
-
 ;; TAGS will appear after this line after running write-dired-path-to-var-and-tags-table.
 
-
+;; TAGS setup, where to find TAGS file, giving paths
+;;(setq tags-table-list
+;;      '("/way_to/path/path1" "/way_to/path/path2"))
