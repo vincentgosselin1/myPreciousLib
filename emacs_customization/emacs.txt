@@ -231,7 +231,15 @@
       (comint-send-string new-shell-buffer-name ssh-command)
       (comint-send-input))))
 
-(defalias 'sssh 'my-shell-ssh);
+(defun my-shell-ssh2 ()
+  "execute my-shell-ssh then rename-buffer with user input
+"
+  (interactive)
+  (my-shell-ssh)
+  (let ((new-name (read-string "Enter new shell buffer name: ")))
+    (rename-buffer new-name t)))
+
+(defalias 'ssshh 'my-shell-ssh2);
 (defalias 'rb 'rename-buffer);
 
 (defun my-quick-git-commit-and-push ()
