@@ -196,6 +196,25 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Learning Elisp with AI. ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun my-backup-emacs-config ()
+  "Copy the current .emacs file to ~/ with a timestamp appended to the filename."
+  (interactive)
+  (let* ((emacs-file (expand-file-name "~/.emacs"))
+         (timestamp (format-time-string "%Y%m%d_%H%M%S"))
+         (backup-file (expand-file-name (concat "~/.emacs_" timestamp))))
+    (if (file-exists-p emacs-file)
+        (progn
+          (copy-file emacs-file backup-file t)
+          (message "Backup created: %s" backup-file))
+      (message ".emacs file does not exist"))))
+
+(defalias 'backup 'my-backup-emacs-config)
+
+
+;; Optionally, bind the function to a key combination, e.g., C-c b
+;;(global-set-key (kbd "C-c b") 'backup-emacs-config)
+
 (defun my-shell-ssh ()
   "Open a new shell buffer with a different name in a bottom window and SSH into another machine."
   (interactive)
