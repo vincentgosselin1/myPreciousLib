@@ -211,6 +211,8 @@
       (comint-send-string new-shell-buffer-name ssh-command)
       (comint-send-input))))
 
+(defalias 'sssh 'my-shell-ssh);
+(defalias 'rb 'rename-buffer);
 
 (defun my-quick-git-commit-and-push ()
   "Add the current buffer's file to Git, do a quick commit with an auto-incremented message, and push to the remote repository."
@@ -235,6 +237,7 @@
         (string-to-number (match-string 1 commit-log))
       0)))
 
+(defalias 'quicky 'my-quick-git-commit-and-push);
 ;; Bind the function to a key combination, for example, C-c g
 ;;(global-set-key (kbd "C-c g") 'my-quick-git-commit-and-push)
 
