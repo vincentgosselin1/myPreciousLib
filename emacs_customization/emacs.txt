@@ -211,33 +211,16 @@
 
 (defalias 'backup 'my-backup-emacs-config)
 
-
-;; Optionally, bind the function to a key combination, e.g., C-c b
-;;(global-set-key (kbd "C-c b") 'backup-emacs-config)
-
-(defun my-shell-ssh ()
-  "Open a new shell buffer with a different name in a bottom window and SSH into another machine."
-  (interactive)
-  ;; Name for the new shell buffer
-  (let ((new-shell-buffer-name "*My SSH Shell*")
-        (default-directory (expand-file-name default-directory)))
-    ;; Open a new shell buffer with the specified name
-    (split-window-below)
-    (other-window 1)
-    (shell new-shell-buffer-name)
-    ;; SSH into another machine with the same path
-    ;;    (let ((ssh-command (format "ssh user@hostname 'cd \"%s\" && exec $SHELL -l'" default-directory)))
-    (let ((ssh-command (format "debianp 'cd \"%s\" && exec $SHELL -l'" default-directory)))
-      (comint-send-string new-shell-buffer-name ssh-command)
-      (comint-send-input))))
+;;this is my creation
 
 (defun my-shell-ssh2 ()
-  "execute my-shell-ssh then rename-buffer with user input
-"
+  "execute my-shell-ssh then rename-buffer with user input"
   (interactive)
-  (my-shell-ssh)
-  (let ((new-name (read-string "Enter new shell buffer name: ")))
-    (rename-buffer new-name t)))
+  (setq my-dirs-output (shell-command-to-string "dirs"))
+  (message "Dirs output saved: %s" my-dirs-output)
+  (execute-kbd-macro (kbd "M-x sssd"))
+  (insert (format "cd %s" my-dirs-output))
+  (execute-kbd-macro (kbd "RET")))
 
 (defalias 'ssshh 'my-shell-ssh2);
 (defalias 'rb 'rename-buffer);
