@@ -83,7 +83,7 @@
 (defalias 'vghome (read-kbd-macro "C-x C-f c:/mydev/myPreciousLib"))
 (defalias 'sssr (read-kbd-macro "C-x 3 C-x o M-x sss")) ;;open a shell from current dired buffer on
 (defalias 'sssd (read-kbd-macro "C-x 2 C-x o M-x sss")) ;;open a shell from current dired buffer on
-(defalias 'getc (read-kbd-macro "C-x 3 C-x o C-x C-f c:/mydev/myPreciousLib/emacs_customization/emacs.txt")) ;; Get the clone
+(defalias 'getc (read-kbd-macro "C-x 3 C-x + C-x o C-x C-f /Users/vincentgosselin1/Desktop/myPreciousLib/emacs_customization/emacs.txt RET C-x o RET")) ;; Get the clone
 (defalias 'gss "git status .")
 (defalias 'grf "git checkout HEAD -- ");; Git Reset File -- file.txt to input.
 (defalias 'uuu (read-kbd-macro "C-x 1 C-x C-f c:/mydev/myPreciousLib/udemy_stuff RET C-x 3 C-x o C-x C-f c:/mydev/myPreciousLib/vhdl_fsm RET C-x 3 C-x o C-x C-f c:/mydev/myPreciousLib/unsigned_counter RET C-x +")) ;;open 3 dired side to side at specific files location
@@ -197,6 +197,10 @@
 ;; Learning Elisp with AI. ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(global-visual-line-mode t)
+(setq-default truncate-lines nil)
+(setq word-wrap t)
+
 (defun my-backup-emacs-config ()
   "Copy the current .emacs file to ~/ with a timestamp appended to the filename."
   (interactive)
@@ -212,17 +216,17 @@
 (defalias 'backup 'my-backup-emacs-config)
 
 ;;this is my creation
-
-(defun my-shell-ssh2 ()
-  "execute my-shell-ssh then rename-buffer with user input"
+(defun my-dive-into-ssh-shell ()
   (interactive)
-  (setq my-dirs-output (shell-command-to-string "dirs"))
-  (message "Dirs output saved: %s" my-dirs-output)
-  (execute-kbd-macro (kbd "M-x sssd"))
-  (insert (format "cd %s" my-dirs-output))
-  (execute-kbd-macro (kbd "RET")))
+  (dirs)
+  (execute-kbd-macro (kbd "C-p C-a C-SPC C-e M-w M->"))
+  (insert "debianp")
+  (execute-kbd-macro (kbd "RET"))
+  (insert "cd ")
+  (execute-kbd-macro (kbd "C-y")))
 
-(defalias 'ssshh 'my-shell-ssh2);
+
+(defalias 'ssshh 'my-dive-into-ssh-shell);
 (defalias 'rb 'rename-buffer);
 
 (defun my-quick-git-commit-and-push ()
