@@ -83,7 +83,7 @@
 (defalias 'vghome (read-kbd-macro "C-x C-f c:/mydev/myPreciousLib"))
 (defalias 'sssr (read-kbd-macro "C-x 3 C-x o M-x sss")) ;;open a shell from current dired buffer on
 (defalias 'sssd (read-kbd-macro "C-x 2 C-x o M-x sss")) ;;open a shell from current dired buffer on
-(defalias 'getc (read-kbd-macro "C-x 3 C-x + C-x o C-x C-f /Users/vincentgosselin1/Desktop/myPreciousLib/emacs_customization/emacs.txt RET C-x o RET")) ;; Get the clone
+(defalias 'getc (read-kbd-macro "C-x 3 C-x + C-x o C-x C-f /Users/vincentgosselin1/Desktop/myPreciousLib/emacs_customization/emacs.txt RET C-x o")) ;; Get the clone
 (defalias 'gss "git status .")
 (defalias 'grf "git checkout HEAD -- ");; Git Reset File -- file.txt to input.
 (defalias 'uuu (read-kbd-macro "C-x 1 C-x C-f c:/mydev/myPreciousLib/udemy_stuff RET C-x 3 C-x o C-x C-f c:/mydev/myPreciousLib/vhdl_fsm RET C-x 3 C-x o C-x C-f c:/mydev/myPreciousLib/unsigned_counter RET C-x +")) ;;open 3 dired side to side at specific files location
@@ -173,6 +173,7 @@
 		   ("shell" (mode . shell-mode))
 		   ("vhd" (mode . vhdl-mode))
 		   ("sv" (mode . verilog-mode))
+		   ("python" (mode . python-mode))
 ))))
 
 (add-hook 'ibuffer-mode-hook
