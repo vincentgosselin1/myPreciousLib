@@ -139,6 +139,14 @@
 (setq mac-option-modifier 'super)
 (setq mac-command-modifier 'meta)
 
+
+;;for debian
+;;(push (cons "\\*shell\\*" display-buffer--same-window-action) display-buffer-alist)
+;;(setq  x-meta-keysym 'super
+       x-super-keysym 'meta)
+;;(setq ring-bell-function 'ignore)
+
+
 (global-display-line-numbers-mode 1)
 
 (setq ring-bell-function 'ignore)
