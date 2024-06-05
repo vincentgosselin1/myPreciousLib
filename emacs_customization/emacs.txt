@@ -210,6 +210,22 @@
 (setq-default truncate-lines nil)
 (setq word-wrap t)
 
+(defun newday ()
+  "i enter this command everyday"
+  "format is following"
+  " ~~~
+    #
+    #
+    #
+    2024/XX/XX"
+  (interactive)
+  (execute-kbd-macro (kbd "C-SPC"))
+  (search-backward "~~~")
+  (execute-kbd-macro (kbd "M-w M-> C-y"))
+  (search-backward "~~~")
+  (execute-kbd-macro (kbd "C-u 4 C-n")))
+
+  
 (defun my-backup-emacs-config ()
   "Copy the current .emacs file to ~/ with a timestamp appended to the filename."
   (interactive)
