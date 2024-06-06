@@ -117,7 +117,7 @@
 ;;(load-theme 'sanityinc-tomorrow-day t)
 ;;(load-theme 'sanityinc-tomorrow-night t)
 
-;;(windmove-default-keybindings) ;;to change window super fast, Shift + Arrows
+(windmove-default-keybindings) ;;to change window super fast, Shift + Arrows
 
 ;;(add-to-list 'load-path "~/.emacs.d/elpa/psvn")
 ;;(require 'psvn)
@@ -225,6 +225,24 @@
   (search-backward "~~~")
   (execute-kbd-macro (kbd "C-u 4 C-n")))
 
+
+(defun execute-this-in-shell (text)
+  "Insert the provided TEXT into the current buffer."
+  ;;(interactive "sEnter text to insert: ")
+  (insert text)
+  (execute-kbd-macro (kbd "RET")))
+
+
+(defun ttop ()
+  "go to the top directory when deep in it!"
+  (interactive)
+  (execute-this-in-shell "cd ../../.."))
+
+
+(defun deep1 ()
+  "go to the deep directory1 when all the way from the top!"
+  (interactive)
+  (execute-this-in-shell "cd */*/adder_example"))
   
 (defun my-backup-emacs-config ()
   "Copy the current .emacs file to ~/ with a timestamp appended to the filename."
