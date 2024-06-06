@@ -240,7 +240,7 @@
 
 
 (defun deep1 ()
-  "go to the deep directory1 when all the way from the top!"
+  "go to the deep directory1 from the top!"
   (interactive)
   (execute-this-in-shell "cd */*/adder_example"))
   
