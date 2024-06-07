@@ -232,6 +232,33 @@
   (insert text)
   (execute-kbd-macro (kbd "RET")))
 
+(defun sssd2 ()
+  "passing the previous path from shell to prevent confusion in dired"
+ (interactive)
+ (dirs)
+ (execute-kbd-macro (kbd "C-p C-a C-SPC C-e M-w M->"))
+ (execute-kbd-macro (kbd "M-x sssd"))
+ (insert "cd ")
+ (execute-kbd-macro (kbd "C-y RET")))
+
+
+(defun sssr2 ()
+  "passing the previous path from shell to prevent confusion in dired"
+ (interactive)
+ (dirs)
+ (execute-kbd-macro (kbd "C-p C-a C-SPC C-e M-w M->"))
+ (execute-kbd-macro (kbd "M-x sssr"))
+ (insert "cd ")
+ (execute-kbd-macro (kbd "C-y RET")))
+
+(defun sss2 ()
+  "passing the previous path from shell to prevent confusion in dired"
+ (interactive)
+ (dirs)
+ (execute-kbd-macro (kbd "C-p C-a C-SPC C-e M-w M->"))
+ (execute-kbd-macro (kbd "M-x sss"))
+ (insert "cd ")
+ (execute-kbd-macro (kbd "C-y RET")))
 
 (defun ttop ()
   "go to the top directory when deep in it!"
