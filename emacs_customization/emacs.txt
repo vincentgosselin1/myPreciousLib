@@ -232,6 +232,31 @@
   (insert text)
   (execute-kbd-macro (kbd "RET")))
 
+
+(defun merge-tags (start end)
+  "Merge the selected lines into a single '(setq tags-table-list ...)' statement."
+  (interactive "r")
+  (let ((text (buffer-substring-no-properties start end))
+        lines combined-tags-table-list)
+    (setq lines (split-string text "\n" t "[[:space:]]*")) ; Split the selected text into lines
+    (setq combined-tags-table-list
+          (mapconcat (lambda (line)
+                       (if (string-match "(setq tags-table-list '(\\(.*\\)))" line)
+                           (match-string 1 line)
+                         line))
+                     lines
+                     " "))
+    ;; Delete the original lines
+    (delete-region start end)
+    ;; Insert the combined line
+    (insert (concat "(setq tags-table-list '(" combined-tags-table-list "))"))))
+
+;;format i want
+;; TAGS setup, where to find TAGS file, giving paths
+;;(setq tags-table-list
+;;      '("/way_to/path/path1" "/way_to/path/path2"))
+;;(setq tags-table-list '("/Users/vincentgosselin1/Desktop/myPreciousLib/uvm_example/" "/Users/vincentgosselin1/Desktop/uvm-core-2020.3.0/src/"))
+
 (defun sssd2 ()
   "passing the previous path from shell to prevent confusion in dired"
  (interactive)
