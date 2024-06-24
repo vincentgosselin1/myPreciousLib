@@ -43,6 +43,8 @@
 (yas-global-mode 1)
 ;;after that type M-x yas-reload-all , and then you are good to go!!
 
+;;For python : C-c C-p to start the python shell
+(defalias 'py  'python-shell-send-buffer )
 
 
 (defalias 'W  'rw )  ; Return-To-Window-Config-
