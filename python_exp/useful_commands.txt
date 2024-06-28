@@ -1,0 +1,6 @@
+
+#to install build in order to generate .whl files, --user option doesnt require admin rights
+python3 -m pip install --user --upgrade build
+
+#to build .whl file from python source
+python3 -m build
