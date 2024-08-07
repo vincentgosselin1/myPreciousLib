@@ -421,3 +421,38 @@
 ;; TAGS setup, where to find TAGS file, giving paths
 ;;(setq tags-table-list
 ;;      '("/way_to/path/path1" "/way_to/path/path2"))
+
+
+;;try this
+;; (defun add-header-to-file (filename header)
+;;   "Add HEADER to the beginning of FILENAME."
+;;   (with-temp-buffer
+;;     (insert-file-contents filename)
+;;     (goto-char (point-min))
+;;     (insert header "\n")
+;;     (write-region (point-min) (point-max) filename)))
+
+;; (defun get-header-for-extension (extension)
+;;   "Return the appropriate header for a given file EXTENSION."
+;;   (cond
+;;    ((string-equal extension "py") "# This is a Python file")
+;;    ((string-equal extension "el") ";; This is an Emacs Lisp file")
+;;    ((string-equal extension "js") "// This is a JavaScript file")
+;;    ((string-equal extension "sh") "# This is a Shell script")
+;;    ((string-equal extension "c") "/* This is a C file */")
+;;    ((string-equal extension "cpp") "/* This is a C++ file */")
+;;    ((string-equal extension "java") "// This is a Java file")
+;;    ;; Add more extensions and headers as needed
+;;    (t "")))
+
+;; (defun add-headers-to-directory (directory)
+;;   "Add headers to all files in DIRECTORY based on their file extensions."
+;;   (dolist (file (directory-files directory t "\\w+"))
+;;     (when (file-regular-p file)
+;;       (let* ((extension (file-name-extension file))
+;;              (header (get-header-for-extension extension)))
+;;         (when (not (string-equal header ""))
+;;           (add-header-to-file file header))))))
+
+;; ;; Use the function on the desired directory
+;; (add-headers-to-directory "/path/to/your/directory")
