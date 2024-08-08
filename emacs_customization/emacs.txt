@@ -418,36 +418,23 @@
 
 
 ;;try this
-;; (defun add-header-to-files (header-file-path directory-path)
-;;   "Add a header to all files in a directory based on their programming language.
-;; HEADER-FILE-PATH is the path to the header file.
-;; DIRECTORY-PATH is the path to the directory containing the files."
-;;   (interactive
-;;    (list
-;;     (read-file-name "Path to header file: ")
-;;     (read-directory-name "Path to directory: ")))
-;;   (let ((header-content (with-temp-buffer
-;;                           (insert-file-contents header-file-path)
-;;                           (buffer-string))))
-;;     (dolist (file (directory-files-recursively directory-path ".*"))
-;;       (with-temp-buffer
-;;         (insert-file-contents file)
-;;         (goto-char (point-min))
-;;         (let ((file-extension (file-name-extension file)))
-;;           (cond
-;;            ((member file-extension '("c" "cpp" "h"))
-;;             (insert header-content "\n/* C/C++ Header */\n\n"))
-;;            ((member file-extension '("py"))
-;;             (insert header-content "\n# Python Header\n\n"))
-;;            ((member file-extension '("el"))
-;;             (insert header-content "\n;; Emacs Lisp Header\n\n"))
-;;            ((member file-extension '("java"))
-;;             (insert header-content "\n// Java Header\n\n"))
-;;            ((member file-extension '("js"))
-;;             (insert header-content "\n// JavaScript Header\n\n"))
-;;            (t
-;;             (insert header-content "\n// Generic Header\n\n"))))
-;;         (write-region (point-min) (point-max) file)))))
+(defun add-header-to-files (dir header-file)
+  "Add a header from HEADER-FILE to each file in directory DIR."
+  (interactive "DDirectory: \nfHeader file: ")
+  (let ((header-content (with-temp-buffer
+                          (insert-file-contents header-file)
+                          (split-string (buffer-string) "\n" t))))
+    (dolist (file (directory-files dir t "\\`[^.]"))
+      (when (file-regular-p file)
+        (let ((comment-syntax (get-comment-syntax file)))
+          (with-temp-buffer
+            (insert-file-contents file)
+            (let ((file-content (buffer-string)))
+              (erase-buffer)
+              (dolist (line header-content)
+                (insert (concat comment-syntax " " line "\n")))
+              (insert file-content)
+              (write-region (point-min) (point-max) file))))))))
 
 ;; Example usage:
 ;; M-x add-header-to-files
