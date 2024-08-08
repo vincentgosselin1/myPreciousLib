@@ -422,7 +422,10 @@
 ;;   "Add a header to all files in a directory based on their programming language.
 ;; HEADER-FILE-PATH is the path to the header file.
 ;; DIRECTORY-PATH is the path to the directory containing the files."
-;;   (interactive)
+;;   (interactive
+;;    (list
+;;     (read-file-name "Path to header file: ")
+;;     (read-directory-name "Path to directory: ")))
 ;;   (let ((header-content (with-temp-buffer
 ;;                           (insert-file-contents header-file-path)
 ;;                           (buffer-string))))
@@ -447,7 +450,7 @@
 ;;         (write-region (point-min) (point-max) file)))))
 
 ;; Example usage:
-;; (add-header-to-files "/path/to/header.txt" "/path/to/directory")
+;; M-x add-header-to-files
 
 
 
