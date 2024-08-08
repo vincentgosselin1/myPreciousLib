@@ -422,6 +422,7 @@
 ;;   "Add a header to all files in a directory based on their programming language.
 ;; HEADER-FILE-PATH is the path to the header file.
 ;; DIRECTORY-PATH is the path to the directory containing the files."
+;;   (interactive)
 ;;   (let ((header-content (with-temp-buffer
 ;;                           (insert-file-contents header-file-path)
 ;;                           (buffer-string))))
