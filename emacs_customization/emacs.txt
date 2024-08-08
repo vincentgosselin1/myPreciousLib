@@ -416,6 +416,42 @@
     ;; 4. Provide feedback
     (message "Path '%s' written to variable 'var1' and added to tags-table-list in .emacs." dired-path)))
 
+
+;;try this
+;; (defun add-header-to-files (header-file-path directory-path)
+;;   "Add a header to all files in a directory based on their programming language.
+;; HEADER-FILE-PATH is the path to the header file.
+;; DIRECTORY-PATH is the path to the directory containing the files."
+;;   (let ((header-content (with-temp-buffer
+;;                           (insert-file-contents header-file-path)
+;;                           (buffer-string))))
+;;     (dolist (file (directory-files-recursively directory-path ".*"))
+;;       (with-temp-buffer
+;;         (insert-file-contents file)
+;;         (goto-char (point-min))
+;;         (let ((file-extension (file-name-extension file)))
+;;           (cond
+;;            ((member file-extension '("c" "cpp" "h"))
+;;             (insert header-content "\n/* C/C++ Header */\n\n"))
+;;            ((member file-extension '("py"))
+;;             (insert header-content "\n# Python Header\n\n"))
+;;            ((member file-extension '("el"))
+;;             (insert header-content "\n;; Emacs Lisp Header\n\n"))
+;;            ((member file-extension '("java"))
+;;             (insert header-content "\n// Java Header\n\n"))
+;;            ((member file-extension '("js"))
+;;             (insert header-content "\n// JavaScript Header\n\n"))
+;;            (t
+;;             (insert header-content "\n// Generic Header\n\n"))))
+;;         (write-region (point-min) (point-max) file)))))
+
+;; Example usage:
+;; (add-header-to-files "/path/to/header.txt" "/path/to/directory")
+
+
+
+
+
 ;; TAGS will appear after this line after running write-dired-path-to-var-and-tags-table.
 
 ;; TAGS setup, where to find TAGS file, giving paths
@@ -423,36 +459,4 @@
 ;;      '("/way_to/path/path1" "/way_to/path/path2"))
 
 
-;;try this
-;; (defun add-header-to-file (filename header)
-;;   "Add HEADER to the beginning of FILENAME."
-;;   (with-temp-buffer
-;;     (insert-file-contents filename)
-;;     (goto-char (point-min))
-;;     (insert header "\n")
-;;     (write-region (point-min) (point-max) filename)))
 
-;; (defun get-header-for-extension (extension)
-;;   "Return the appropriate header for a given file EXTENSION."
-;;   (cond
-;;    ((string-equal extension "py") "# This is a Python file")
-;;    ((string-equal extension "el") ";; This is an Emacs Lisp file")
-;;    ((string-equal extension "js") "// This is a JavaScript file")
-;;    ((string-equal extension "sh") "# This is a Shell script")
-;;    ((string-equal extension "c") "/* This is a C file */")
-;;    ((string-equal extension "cpp") "/* This is a C++ file */")
-;;    ((string-equal extension "java") "// This is a Java file")
-;;    ;; Add more extensions and headers as needed
-;;    (t "")))
-
-;; (defun add-headers-to-directory (directory)
-;;   "Add headers to all files in DIRECTORY based on their file extensions."
-;;   (dolist (file (directory-files directory t "\\w+"))
-;;     (when (file-regular-p file)
-;;       (let* ((extension (file-name-extension file))
-;;              (header (get-header-for-extension extension)))
-;;         (when (not (string-equal header ""))
-;;           (add-header-to-file file header))))))
-
-;; ;; Use the function on the desired directory
-;; (add-headers-to-directory "/path/to/your/directory")
