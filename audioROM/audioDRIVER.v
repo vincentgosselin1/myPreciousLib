@@ -1,24 +1,27 @@
 module audio_driver (
-    input wire clk,
-    input wire ena,
-    output reg [7:0] audio_out
+    input  wire        clk,
+    input  wire        ena,
+    output reg  [7:0]  audio_out
 );
 
-    reg [7:0] addr;
+    reg [7:0] address;
     wire [7:0] rom_data;
 
     // Instantiate the ROM
-    rom audio_rom (
-        .clk(clk),
-        .addr(addr),
+    audio_rom rom_inst (
+        .address(address),
         .data(rom_data)
     );
 
     always @(posedge clk) begin
         if (ena) begin
-            audio_out <= rom_data; // Drive the output with ROM data
-            addr <= addr + 1;      // Increment address to read next sample
+            audio_out <= rom_data;
+            address <= address + 1;
         end
+    end
+
+    initial begin
+        address = 0;
     end
 
 endmodule
