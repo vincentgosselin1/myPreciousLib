@@ -416,31 +416,15 @@
     ;; 4. Provide feedback
     (message "Path '%s' written to variable 'var1' and added to tags-table-list in .emacs." dired-path)))
 
+;;this is my second creation
+(defun add_string_to_end_of_buffer ()
+  (interactive)
+  (save-excursion
+  (execute-kbd-macro (kbd "C-SPC C-a C-<right> C-<left> M-w M-> C-y"))
+  (insert " ")))
 
-;;try this
-(defun add-header-to-files (dir header-file)
-  "Add a header from HEADER-FILE to each file in directory DIR."
-  (interactive "DDirectory: \nfHeader file: ")
-  (let ((header-content (with-temp-buffer
-                          (insert-file-contents header-file)
-                          (split-string (buffer-string) "\n" t))))
-    (dolist (file (directory-files dir t "\\`[^.]"))
-      (when (file-regular-p file)
-        (let ((comment-syntax (get-comment-syntax file)))
-          (with-temp-buffer
-            (insert-file-contents file)
-            (let ((file-content (buffer-string)))
-              (erase-buffer)
-              (dolist (line header-content)
-                (insert (concat comment-syntax " " line "\n")))
-              (insert file-content)
-              (write-region (point-min) (point-max) file))))))))
-
-;; Example usage:
-;; M-x add-header-to-files
-
-
-
+;;kick it!
+(defalias 'k 'add_string_to_end_of_buffer);
 
 
 ;; TAGS will appear after this line after running write-dired-path-to-var-and-tags-table.
