@@ -31,9 +31,27 @@ def mp3_to_8bit_samples(mp3_file, output_file=None):
 
     return samples_8bit
 
+
+def visualize_samples(samples, sample_rate=44100, title="Audio Waveform"):
+    # Create time axis in seconds based on sample rate
+    time_axis = np.linspace(0, len(samples) / sample_rate, num=len(samples))
+
+    # Plot the waveform
+    plt.figure(figsize=(12, 6))
+    plt.plot(time_axis, samples, color='blue')
+    plt.title(title)
+    plt.xlabel("Time (seconds)")
+    plt.ylabel("Amplitude")
+    plt.grid(True)
+    plt.show()
+
 # Example usage:
 mp3_file_path = "input.mp3"
 output_file_path = "output_8bit.raw"
 samples_8bit = mp3_to_8bit_samples(mp3_file_path, output_file_path)
 
 print(f"First 10 samples (8-bit): {samples_8bit[:10]}")
+
+
+# Visualize the first 2 seconds of samples
+visualize_samples(samples_8bit[:2 * 44100], title="8-bit Audio Waveform (First 2 seconds)")
