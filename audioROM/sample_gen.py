@@ -1,3 +1,13 @@
+
+#pip install pydub numpy
+
+# For Ubuntu:
+#sudo apt install ffmpeg
+
+# For MacOS:
+#brew install ffmpeg
+
+
 from pydub import AudioSegment
 import numpy as np
 
