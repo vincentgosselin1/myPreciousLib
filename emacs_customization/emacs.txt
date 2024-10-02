@@ -16,6 +16,9 @@
 
 ;;put this in your ‘~/.emacs’:
 
+;;disable linux bell
+(setq ring-bell-function 'ignore)
+
 ;;Bookmarks just like VisualStudio, requires emacs 26
 (add-to-list 'load-path "~/.emacs.d/downloads/bm")
 (require 'bm)
