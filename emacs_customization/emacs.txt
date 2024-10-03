@@ -16,6 +16,15 @@
 
 ;;put this in your ‘~/.emacs’:
 
+;;useful dired commands
+;;use 'a' instead of 'RET' to travel in dired.
+;;that will make sure that only 1 dired buffer is open at time.
+(put 'dired-find-alternate-file 'disabled nil)
+(add-hook 'dired-mode-hook
+          (lambda ()
+            (define-key dired-mode-map (kbd "^")
+                        (lambda () (interactive) (find-alternate-file "..")))))
+
 ;;disable linux bell
 (setq ring-bell-function 'ignore)
 
