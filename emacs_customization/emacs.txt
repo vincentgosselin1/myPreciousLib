@@ -49,6 +49,12 @@
 (yas-global-mode 1)
 ;;after that type M-x yas-reload-all , and then you are good to go!!
 
+;;ztree for directory tree compare
+;; git clone https://codeberg.org/fourier/ztree.git
+;; use 'M-x ztree-diff' to compare directory trees.
+(add-to-list 'load-path "~/.emacs.d/downloads/ztree")
+(require 'ztree)
+
 ;;For python : C-c C-p to start the python shell
 (defalias 'py  'python-shell-send-buffer )
 
