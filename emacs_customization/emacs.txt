@@ -326,6 +326,20 @@
   (execute-kbd-macro (kbd "C-x 0"))
   (execute-kbd-macro (kbd "S-<down>")))
 
+(defalias 'moi 'my-window-splitter_v1);
+
+;;line duplicate
+(defun my-line-duplicate ()
+  (interactive)
+  (execute-kbd-macro (kbd "C-e"))
+  (execute-kbd-macro (kbd "C-SPC"))
+  (execute-kbd-macro (kbd "C-a"))
+  (execute-kbd-macro (kbd "M-w"))
+  (execute-kbd-macro (kbd "C-e"))
+  (execute-kbd-macro (kbd "<return>"))
+  (execute-kbd-macro (kbd "C-a C-y")))
+
+(defalias 'd 'my-line-duplicate);
 
 (defalias 'ssshh 'my-dive-into-ssh-shell);
 
