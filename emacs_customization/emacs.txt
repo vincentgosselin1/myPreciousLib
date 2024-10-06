@@ -310,6 +310,22 @@
   (insert "cd ")
   (execute-kbd-macro (kbd "C-y")))
 
+;;window splitter v1
+(defun my-window-splitter_v1 ()
+  "when 2 windows are open side by side"
+  "this command puts a 3rd buffer on the horizontal"
+  (interactive)
+  (execute-kbd-macro (kbd "S-<left>"))
+  (execute-kbd-macro (kbd "C-x 2 C-x 3"))
+  (execute-kbd-macro (kbd "S-<right> S-<right>"))  
+  (execute-kbd-macro (kbd "C-x d"))
+  (execute-kbd-macro (kbd "0 w"))
+  (execute-kbd-macro (kbd "S-<left>"))
+  (execute-kbd-macro (kbd "C-x b RET"))
+  (execute-kbd-macro (kbd "S-<right>"))
+  (execute-kbd-macro (kbd "C-x 0"))
+  (execute-kbd-macro (kbd "S-<down>")))
+
 
 (defalias 'ssshh 'my-dive-into-ssh-shell);
 
