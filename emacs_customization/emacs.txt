@@ -150,6 +150,17 @@
 ;; end debian section ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;
 
+;;;;;;;;;;;;;;;;
+;; Xref tweak ;;
+;;;;;;;;;;;;;;;;
+;;(setq xref-show-definitions-function #'xref-show-definitions-completing-read)
+(add-to-list 'display-buffer-alist
+             '("\\*xref\\*"
+               (display-buffer-reuse-window
+                display-buffer-same-window)))
+
+
+
 ;;Important stuff!
 (global-display-line-numbers-mode 1)
 (setq ring-bell-function 'ignore)
@@ -418,6 +429,17 @@
   ;; Step 3: Write Dired path to a variable and tags-table-list
   (write-dired-path-to-var-and-tags-table)
   )
+
+(defun gentags_all ()
+  "Generate tags for SystemVerilog AND VHDL files and write Dired path to a variable and tags-table-list."
+  (interactive)
+    ;; Step 1. Remove the last line starting with '(setq tags-table-list' in .emacs file
+;;  (override-setq-value 'tags-table-list "")
+  ;; Step 2: Generate tags for SystemVerilog files
+  (shell-command "ctags -e -R --languages=systemverilog,vhdl")
+  ;; Step 3: Write Dired path to a variable and tags-table-list
+  (write-dired-path-to-var-and-tags-table)
+)
 
 
 ;;custom elisp, thx ai. 
