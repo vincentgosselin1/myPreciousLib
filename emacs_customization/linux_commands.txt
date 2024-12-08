@@ -1,0 +1,7 @@
+#Copying a bunch of modified files from one SVN repository to another can be streamlined by identifying the changed files and copying only those.
+#List Modified Files in the Source Repository
+svn status | grep '^M' | awk '{print $2}' > modified_files.txt
+#Copy Modified Files to the Destination Repository
+xargs -a modified_files.txt -I {} cp --parents {} ../repo2/
+
+
