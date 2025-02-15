@@ -29,6 +29,9 @@
 ;;(setq dired-kill-when-opening-new-dired-buffer nil)
 ;;(setq dired-dwim-target nil)  ;; Prevent automatic guessing of target buffers
 
+;;removing annoying new line after ; in verilog mode
+(setq verilog-auto-newline nil)
+
 ;;proper indent
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
