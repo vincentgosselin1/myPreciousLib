@@ -1,37 +1,44 @@
 //==============================================================================
 // axi_agent.sv
 //
-// UVM agent for AXI4.
-// Bundles the sequencer, driver, and monitor.  When configured as PASSIVE
-// (UVM_PASSIVE) only the monitor is created; the driver and sequencer are
-// omitted so the agent can be used on the slave side or for snooping.
+// Parameterized UVM agent.
+// Bundles sequencer, driver, and monitor for one AXI bus.
+// Multiple specialisations can coexist in the same environment:
+//
+//   axi_agent #(axi32_p)  hp_agent;   // 32-bit AXI
+//   axi_agent #(axi64_p)  ddr_agent;  // 64-bit AXI
 //==============================================================================
 
-class axi_agent extends uvm_agent;
-    `uvm_component_utils(axi_agent)
+class axi_agent #(type P = axi_params) extends uvm_agent;
+
+    typedef axi_agent    #(P)  this_t;
+    typedef axi_seq_item #(P)  item_t;
+    typedef axi_driver   #(P)  driver_t;
+    typedef axi_monitor  #(P)  monitor_t;
+    typedef axi_vip_master_mst_t vip_agent_t;
+
+    `uvm_component_param_utils(axi_agent #(P))
 
     //--------------------------------------------------------------------------
     // Sub-components
     //--------------------------------------------------------------------------
-    uvm_sequencer #(axi_seq_item) sequencer;
-    axi_driver                    driver;
-    axi_monitor                   monitor;
+    uvm_sequencer #(item_t) sequencer;
+    driver_t                driver;
+    monitor_t               monitor;
 
     //--------------------------------------------------------------------------
-    // Analysis ports – forwarded from the monitor for external subscribers
-    // (scoreboards, coverage collectors, etc.)
+    // Analysis ports (forwarded from monitor for external subscribers)
     //--------------------------------------------------------------------------
-    uvm_analysis_port #(axi_seq_item) ap_write;
-    uvm_analysis_port #(axi_seq_item) ap_read;
+    uvm_analysis_port #(item_t) ap_write;
+    uvm_analysis_port #(item_t) ap_read;
 
     //--------------------------------------------------------------------------
-    // Configuration knob: handle to the Xilinx VIP master agent.
-    // Must be set in the testbench before run_phase when is_active == UVM_ACTIVE.
-    // Alternatively set via uvm_config_db #(axi_mst_agent_t).
+    // VIP handle – assign directly OR set via config_db before build_phase:
+    //   uvm_config_db #(axi_vip_master_mst_t)::set(null,
+    //       "uvm_test_top.env.axi_agent", "vip_agent", h);
     //--------------------------------------------------------------------------
-    axi_mst_agent_t vip_agent;
+    vip_agent_t vip_agent;
 
-    //--------------------------------------------------------------------------
     function new(string name, uvm_component parent);
         super.new(name, parent);
     endfunction
@@ -42,17 +49,14 @@ class axi_agent extends uvm_agent;
     function void build_phase(uvm_phase phase);
         super.build_phase(phase);
 
-        // Analysis ports are always created
         ap_write = new("ap_write", this);
         ap_read  = new("ap_read",  this);
 
-        // Monitor is always created (active and passive agents observe)
-        monitor = axi_monitor::type_id::create("monitor", this);
+        monitor  = monitor_t::type_id::create("monitor", this);
 
         if (get_is_active() == UVM_ACTIVE) begin
-            sequencer = uvm_sequencer #(axi_seq_item)::type_id::create(
-                            "sequencer", this);
-            driver    = axi_driver::type_id::create("driver", this);
+            sequencer = uvm_sequencer #(item_t)::type_id::create("sequencer", this);
+            driver    = driver_t::type_id::create("driver", this);
         end
     endfunction
 
@@ -60,21 +64,18 @@ class axi_agent extends uvm_agent;
     // connect_phase
     //--------------------------------------------------------------------------
     function void connect_phase(uvm_phase phase);
-        // Forward monitor analysis ports upward
         monitor.ap_write.connect(ap_write);
         monitor.ap_read .connect(ap_read);
 
         if (get_is_active() == UVM_ACTIVE) begin
-            // Wire sequencer → driver
             driver.seq_item_port.connect(sequencer.seq_item_export);
 
-            // Pass VIP agent handle to the driver
-            // (can also be set via config_db before build_phase completes)
+            // Resolve VIP handle: direct assignment wins, else config_db
             if (vip_agent == null) begin
-                if (!uvm_config_db #(axi_mst_agent_t)::get(
+                if (!uvm_config_db #(vip_agent_t)::get(
                         this, "", "vip_agent", vip_agent))
                     `uvm_fatal(`gtn,
-                        "vip_agent not set: assign agent.vip_agent or use config_db")
+                        "vip_agent not found: set agent.vip_agent or use config_db")
             end
             driver.vip_agent = vip_agent;
         end

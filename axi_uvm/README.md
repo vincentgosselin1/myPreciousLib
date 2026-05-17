@@ -1,121 +1,146 @@
-# AXI UVM VIP Wrapper
+# AXI UVM VIP – Parameterized Multi-Agent
 
-A UVM agent that wraps the Xilinx AXI VIP master, providing a clean
-sequence-based API for AXI4 write and read burst transactions.
+A fully parameterized UVM AXI4 agent library.  A single set of source
+files supports any number of AXI buses with different widths coexisting
+in the same testbench.
+
+---
+
+## Key design decision: why a parameter class instead of `#(int ADDR_W, ...)`?
+
+SystemVerilog packages cannot be parameterized.  The classic workaround
+is to parameterize every class individually, but that means every
+instantiation must repeat all width values and they can easily get out
+of sync.
+
+The solution here is a **parameter container class** (`axi_params`).
+Each bus configuration is a single typedef:
+
+```systemverilog
+typedef axi_params #(.ADDR_W(32), .DATA_W(64), .ID_W(1), .USER_W(1))
+    hp_params_t;
+```
+
+Every component is then parameterized with that one type:
+
+```systemverilog
+axi_agent    #(hp_params_t) hp_agent;
+axi_seq_item #(hp_params_t) item;
+axi_write_seq#(hp_params_t) seq;
+```
+
+All widths and enum types are accessed through the parameter type as
+`P::DATA_W`, `P::AXI_SIZE_4B`, `P::axi_resp_t`, etc.
 
 ---
 
 ## File structure
 
 ```
-axi_uvm_pkg.sv       ← top-level package; `include`s everything below
-  axi_seq_item.sv    ← transaction object (rand fields + response fields)
-  axi_driver.sv      ← UVM driver; calls Xilinx VIP AXI4_WRITE/READ_BURST
-  axi_monitor.sv     ← UVM monitor + axi_if virtual interface definition
-  axi_agent.sv       ← bundles sequencer, driver, monitor; forwards ap_write/ap_read
-  axi_sequences.sv   ← axi_base_seq, axi_write_seq, axi_read_seq,
-                        axi_write_read_seq, axi_rand_seq
-tb_uvm.sv            ← updated top-level testbench + example tests
+axi_params.sv       ← virtual class axi_params + axi_if interface definition
+axi_uvm_pkg.sv      ← package; `include`s the files below
+  axi_seq_item.sv   ← parameterized transaction object
+  axi_driver.sv     ← parameterized driver (calls Xilinx VIP)
+  axi_monitor.sv    ← parameterized monitor
+  axi_agent.sv      ← parameterized agent (sequencer + driver + monitor)
+  axi_sequences.sv  ← parameterized sequence library
+tb_multi_agent.sv   ← example TB with two agents + env + tests
+```
+
+> **Note:** `axi_params.sv` is compiled outside the package because
+> `axi_if` (an `interface`) cannot be declared inside a `package`.
+
+---
+
+## Compilation order
+
+```
+1. axi_vip_pkg              (Xilinx)
+2. axi_vip_master_pkg       (Xilinx, one per VIP instance variant)
+3. uvm_pkg                  (simulator built-in)
+4. axi_params.sv            (interface + param class, outside package)
+5. axi_uvm_pkg.sv           (pulls in seq_item, driver, monitor, agent, seqs)
+6. tb_multi_agent.sv        (top-level TB + env + tests)
 ```
 
 ---
 
-## Integration steps
+## Adding a new bus to an existing TB
 
-### 1 – Compile order
-
-```
-axi_vip_pkg          (Xilinx, from IP catalog)
-axi_vip_master_pkg   (Xilinx, from IP catalog)
-uvm_pkg              (simulator built-in)
-axi_uvm_pkg.sv       (this repo – pulls in all sub-files via `include)
-tb_uvm.sv
-```
-
-### 2 – Virtual interface
-
-`axi_if` is defined at the top of `axi_monitor.sv`.
-Instantiate it in `tb_uvm` (already done) and connect every signal to the
-flat bus wires that feed both the Xilinx VIP and the DUT.
-
-### 3 – VIP agent handle
-
-The UVM driver delegates bus cycles to the Xilinx VIP.
-Pass the handle via `uvm_config_db` **before** `run_test()`:
-
+**Step 1 – Declare the parameter typedef** (once, anywhere visible):
 ```systemverilog
-axi_mst_agent_t h = new("h", axi_mst.inst.IF);
-h.start_master();
-uvm_config_db #(axi_mst_agent_t)::set(null, "uvm_test_top.*", "vip_agent", h);
-run_test();
+typedef axi_params #(.ADDR_W(64), .DATA_W(512), .ID_W(8), .USER_W(4))
+    hbm_params_t;
 ```
 
-Alternatively, assign it directly on the agent object after creation:
-
+**Step 2 – Add a virtual interface** to the TB module:
 ```systemverilog
-agent.vip_agent = h;
+axi_if #(.ADDR_W(64), .DATA_W(512), .ID_W(8), .USER_W(4))
+    hbm_if (.aclk(aclk), .aresetn(aresetn));
 ```
 
-### 4 – Running a test
+**Step 3 – Add an agent** to the environment:
+```systemverilog
+axi_agent #(hbm_params_t) hbm_agent;
+```
 
+**Step 4 – Publish to config_db** in the TB `initial` block:
+```systemverilog
+uvm_config_db #(hbm_params_t::vif_t)::set(
+    null, "uvm_test_top.env.hbm_agent.*", "vif", hbm_if);
+uvm_config_db #(axi_vip_master_mst_t)::set(
+    null, "uvm_test_top.env.hbm_agent",   "vip_agent", hbm_vip_h);
 ```
-vsim tb_uvm +UVM_TESTNAME=axi_write_read_test
-vsim tb_uvm +UVM_TESTNAME=axi_rand_test
-```
+
+That's it – no changes to any shared library file.
 
 ---
 
-## Sequence API quick-reference
+## Sequence API
 
-| Sequence               | Key fields to set                         | Outputs              |
-|------------------------|-------------------------------------------|----------------------|
-| `axi_write_seq`        | `addr`, `len`, `size`, `burst`, `data[]`  | `wresp`              |
-| `axi_read_seq`         | `addr`, `len`, `size`, `burst`            | `rdata[]`, `rresp[]` |
-| `axi_write_read_seq`   | `addr`, `len`, `size`, `burst`, `check_data` | `wresp`, `rdata[]`, `rresp[]` |
-| `axi_rand_seq`         | `num_txns`                                | —                    |
+All sequences take the same `P` type as the agent they target.
 
-### Example: directed write then read
+| Sequence                  | Key knobs                                    | Outputs                       |
+|---------------------------|----------------------------------------------|-------------------------------|
+| `axi_write_seq #(P)`      | `addr`, `len`, `id`, `size`, `burst`, `data[]` | `wresp`                     |
+| `axi_read_seq  #(P)`      | `addr`, `len`, `id`, `size`, `burst`         | `rdata[]`, `rresp[]`          |
+| `axi_write_read_seq #(P)` | above + `check_data`                         | `wresp`, `rdata[]`, `rresp[]` |
+| `axi_rand_seq  #(P)`      | `num_txns`                                   | —                             |
+
+### Parallel sequences on two ports
 
 ```systemverilog
-task run_sequences();
-    axi_write_seq wr = axi_write_seq::type_id::create("wr");
-    axi_read_seq  rd = axi_read_seq ::type_id::create("rd");
-
-    wr.addr = 32'h0000_1000;
-    wr.len  = 3;                      // 4 beats
-    wr.data = new[4];
-    wr.data = '{32'hAABBCCDD, 32'h11223344, 32'hDEADBEEF, 32'hC0DECAFE};
-    wr.start(agent.sequencer);
-
-    rd.addr = 32'h0000_1000;
-    rd.len  = 3;
-    rd.start(agent.sequencer);
-
-    foreach (rd.rdata[i])
-        `uvm_info("TEST", $sformatf("beat[%0d] = 0x%08h resp=%0s",
-            i, rd.rdata[i], rd.rresp[i].name()), UVM_MEDIUM)
-endtask
+fork
+    begin
+        axi_write_read_seq #(hp_params_t) hp_seq = ...;
+        hp_seq.start(env.hp_agent.sequencer);
+    end
+    begin
+        axi_rand_seq #(gp_params_t) gp_seq = ...;
+        gp_seq.start(env.gp_agent.sequencer);
+    end
+join
 ```
 
 ---
 
 ## Analysis ports
 
-Both `axi_agent.ap_write` and `axi_agent.ap_read` broadcast completed
-`axi_seq_item` transactions.  Connect a scoreboard or coverage collector:
+Each agent exposes `ap_write` and `ap_read`.  Connect a scoreboard:
 
 ```systemverilog
-agent.ap_write.connect(scoreboard.analysis_export);
-agent.ap_read .connect(coverage.analysis_export);
+env.hp_agent.ap_write.connect(scoreboard.hp_write_export);
+env.gp_agent.ap_read .connect(scoreboard.gp_read_export);
 ```
 
 ---
 
-## Extending
+## UVM factory overrides
 
-* **Add an ID field** – extend `axi_seq_item` with `rand logic [ID_W-1:0] id`
-  and pass it through driver calls.
-* **Passive snooping** – set `is_active = UVM_PASSIVE` on a second agent
-  instance; only the monitor is created, no driver or sequencer.
-* **Out-of-order IDs** – add a TLM FIFO per ID in the monitor's write path
-  to handle interleaved B-channel responses.
+Each specialisation registers independently with the factory:
+
+```systemverilog
+// Replace the default seq_item with an extended one for the HP port only
+axi_seq_item #(hp_params_t)::type_id::set_type_override(
+    my_hp_seq_item #(hp_params_t)::get_type());
+```
