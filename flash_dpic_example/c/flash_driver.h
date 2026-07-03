@@ -16,11 +16,25 @@ extern void c_flash_test_main(void);
 
 /*---------------------------------------------------------------------------
  * Imported FROM SystemVerilog.
- * Implemented as "export DPI-C" tasks inside rtl/spi_bfm.sv.
+ * Implemented as "export DPI-C" tasks inside rtl/tb_top.sv (the AHB
+ * agent). Both use plain 32-bit `int`, which is the standard DPI-C
+ * mapping for SystemVerilog's `int` type -- no svLogicVecVal handling
+ * needed.
  *-------------------------------------------------------------------------*/
-extern void sv_spi_cs_assert(void);
-extern void sv_spi_cs_deassert(void);
-extern void sv_spi_xfer_byte(char tx_byte, char *rx_byte);
+extern void sv_ahb_write(int addr, int data);
+extern void sv_ahb_read(int addr, int *data);
+
+/*---------------------------------------------------------------------------
+ * ahb_spi_bridge.sv register map (see rtl/ahb_spi_bridge.sv header comment
+ * for full protocol description). Single-slave subsystem, no address
+ * decoder, so these are simply byte offsets from 0.
+ *-------------------------------------------------------------------------*/
+#define REG_CS       0x00u  /* [0]   R/W  1 = assert CS (drive low)   */
+#define REG_TXRX     0x04u  /* [7:0] W: tx byte (triggers transfer)   */
+                             /*       R: last rx byte                 */
+#define REG_STATUS   0x08u  /* [0]   R    BUSY                        */
+
+#define STATUS_BUSY  0x1u
 
 /*---------------------------------------------------------------------------
  * Micron-style SPI NOR flash opcodes (N25Q/MT25Q family, subset).
@@ -41,8 +55,9 @@ extern void sv_spi_xfer_byte(char tx_byte, char *rx_byte);
 #define FLASH_SR_WEL  0x02u  /* Status Register: Write Enable Latch    */
 
 /*---------------------------------------------------------------------------
- * Driver API - flash commands built on top of the low-level SPI byte
- * transfer primitives exported from spi_bfm.sv.
+ * Driver API - flash commands. Internally these go through the AHB
+ * register layer (ahb_spi_xfer_byte() etc. in flash_driver.c), which in
+ * turn is translated into SPI bus activity by ahb_spi_bridge.sv.
  *-------------------------------------------------------------------------*/
 void    flash_write_enable(void);
 void    flash_write_disable(void);

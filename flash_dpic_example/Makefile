@@ -23,7 +23,7 @@ GCC  = gcc
 WORK = work
 TOP  = tb_top
 
-RTL_SRCS = rtl/spi_bfm.sv rtl/spi_flash_model.sv rtl/tb_top.sv
+RTL_SRCS = rtl/ahb_spi_bridge.sv rtl/spi_flash_model.sv rtl/tb_top.sv
 C_SRCS   = c/flash_driver.c
 C_HDRS   = c/flash_driver.h
 

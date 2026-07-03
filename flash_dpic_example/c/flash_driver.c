@@ -1,55 +1,91 @@
 /*=============================================================================
  * flash_driver.c
  *
- * DPI-C "driver" for a Micron-style SPI NOR flash. This file contains no
- * SystemVerilog and no pin-level timing -- it only issues byte sequences
- * via sv_spi_xfer_byte()/sv_spi_cs_assert()/sv_spi_cs_deassert(), which are
- * exported "DPI-C" tasks implemented in rtl/spi_bfm.sv.
+ * DPI-C "driver" for a Micron-style SPI NOR flash sitting behind an
+ * AHB-Lite-to-SPI controller (ahb_spi_bridge.sv).
+ *
+ * Layering in this file:
+ *   - flash_*()          Flash command layer (opcodes, address framing,
+ *                         status polling). Unchanged in spirit from the
+ *                         direct-SPI version of this example.
+ *   - ahb_spi_*()        AHB register layer: turns "assert CS" / "send
+ *                         byte, get byte back" into sv_ahb_write()/
+ *                         sv_ahb_read() register pokes against
+ *                         ahb_spi_bridge.sv's register map.
+ *   - sv_ahb_write/read() Imported "DPI-C" tasks implemented as the AHB
+ *                         agent directly inside rtl/tb_top.sv.
  *
  * c_flash_test_main() is exported "DPI-C" and is called once from
- * tb_top.sv's initial block; it exercises RDID, sector erase, page program
- * and read-back / verify.
+ * tb_top.sv's initial block; it exercises RDID, sector erase, page
+ * program and read-back / verify -- identical test sequence to before,
+ * now traveling over the AHB bus.
  *===========================================================================*/
 #include <stdio.h>
 #include <string.h>
 #include "flash_driver.h"
 
 /*---------------------------------------------------------------------------
- * send_addr - send a 24-bit address, MSB byte first (standard for the
- * Micron command set used here).
+ * AHB register layer
+ *-------------------------------------------------------------------------*/
+static void ahb_spi_cs_assert(void)
+{
+    sv_ahb_write((int)REG_CS, 1);
+}
+
+static void ahb_spi_cs_deassert(void)
+{
+    sv_ahb_write((int)REG_CS, 0);
+}
+
+/* Kick off one SPI byte exchange via REG_TXRX, poll REG_STATUS until the
+ * bridge's SPI engine is done, then read back the received byte. */
+static uint8_t ahb_spi_xfer_byte(uint8_t tx)
+{
+    int status = 0;
+    int rx = 0;
+
+    sv_ahb_write((int)REG_TXRX, (int)tx);
+
+    do {
+        sv_ahb_read((int)REG_STATUS, &status);
+    } while (status & (int)STATUS_BUSY);
+
+    sv_ahb_read((int)REG_TXRX, &rx);
+    return (uint8_t)(rx & 0xFF);
+}
+
+/*---------------------------------------------------------------------------
+ * Flash command layer
  *-------------------------------------------------------------------------*/
 static void send_addr(uint32_t addr)
 {
-    char rx;
-    sv_spi_xfer_byte((char)((addr >> 16) & 0xFFu), &rx);
-    sv_spi_xfer_byte((char)((addr >> 8) & 0xFFu), &rx);
-    sv_spi_xfer_byte((char)(addr & 0xFFu), &rx);
+    (void)ahb_spi_xfer_byte((uint8_t)((addr >> 16) & 0xFFu));
+    (void)ahb_spi_xfer_byte((uint8_t)((addr >> 8) & 0xFFu));
+    (void)ahb_spi_xfer_byte((uint8_t)(addr & 0xFFu));
 }
 
 void flash_write_enable(void)
 {
-    char rx;
-    sv_spi_cs_assert();
-    sv_spi_xfer_byte((char)CMD_WREN, &rx);
-    sv_spi_cs_deassert();
+    ahb_spi_cs_assert();
+    (void)ahb_spi_xfer_byte((uint8_t)CMD_WREN);
+    ahb_spi_cs_deassert();
 }
 
 void flash_write_disable(void)
 {
-    char rx;
-    sv_spi_cs_assert();
-    sv_spi_xfer_byte((char)CMD_WRDI, &rx);
-    sv_spi_cs_deassert();
+    ahb_spi_cs_assert();
+    (void)ahb_spi_xfer_byte((uint8_t)CMD_WRDI);
+    ahb_spi_cs_deassert();
 }
 
 uint8_t flash_read_status(void)
 {
-    char rx = 0;
-    sv_spi_cs_assert();
-    sv_spi_xfer_byte((char)CMD_RDSR, &rx);
-    sv_spi_xfer_byte(0x00, &rx);
-    sv_spi_cs_deassert();
-    return (uint8_t)rx;
+    uint8_t sr;
+    ahb_spi_cs_assert();
+    (void)ahb_spi_xfer_byte((uint8_t)CMD_RDSR);
+    sr = ahb_spi_xfer_byte(0x00);
+    ahb_spi_cs_deassert();
+    return sr;
 }
 
 void flash_wait_wip_clear(uint32_t max_polls)
@@ -67,36 +103,27 @@ void flash_wait_wip_clear(uint32_t max_polls)
 
 void flash_read_id(uint8_t *manuf, uint8_t *memtype, uint8_t *capacity)
 {
-    char rx;
-    sv_spi_cs_assert();
-    sv_spi_xfer_byte((char)CMD_RDID, &rx);
-
-    sv_spi_xfer_byte(0x00, &rx);
-    *manuf = (uint8_t)rx;
-
-    sv_spi_xfer_byte(0x00, &rx);
-    *memtype = (uint8_t)rx;
-
-    sv_spi_xfer_byte(0x00, &rx);
-    *capacity = (uint8_t)rx;
-
-    sv_spi_cs_deassert();
+    ahb_spi_cs_assert();
+    (void)ahb_spi_xfer_byte((uint8_t)CMD_RDID);
+    *manuf    = ahb_spi_xfer_byte(0x00);
+    *memtype  = ahb_spi_xfer_byte(0x00);
+    *capacity = ahb_spi_xfer_byte(0x00);
+    ahb_spi_cs_deassert();
 }
 
 void flash_page_program(uint32_t addr, const uint8_t *data, uint32_t len)
 {
     uint32_t i;
-    char rx;
 
     flash_write_enable();
 
-    sv_spi_cs_assert();
-    sv_spi_xfer_byte((char)CMD_PP, &rx);
+    ahb_spi_cs_assert();
+    (void)ahb_spi_xfer_byte((uint8_t)CMD_PP);
     send_addr(addr);
     for (i = 0; i < len; i++) {
-        sv_spi_xfer_byte((char)data[i], &rx);
+        (void)ahb_spi_xfer_byte(data[i]);
     }
-    sv_spi_cs_deassert();
+    ahb_spi_cs_deassert();
 
     flash_wait_wip_clear(1000);
 }
@@ -104,41 +131,35 @@ void flash_page_program(uint32_t addr, const uint8_t *data, uint32_t len)
 void flash_read(uint32_t addr, uint8_t *data, uint32_t len)
 {
     uint32_t i;
-    char rx;
 
-    sv_spi_cs_assert();
-    sv_spi_xfer_byte((char)CMD_READ, &rx);
+    ahb_spi_cs_assert();
+    (void)ahb_spi_xfer_byte((uint8_t)CMD_READ);
     send_addr(addr);
     for (i = 0; i < len; i++) {
-        sv_spi_xfer_byte(0x00, &rx);
-        data[i] = (uint8_t)rx;
+        data[i] = ahb_spi_xfer_byte(0x00);
     }
-    sv_spi_cs_deassert();
+    ahb_spi_cs_deassert();
 }
 
 void flash_sector_erase(uint32_t addr)
 {
-    char rx;
-
     flash_write_enable();
 
-    sv_spi_cs_assert();
-    sv_spi_xfer_byte((char)CMD_SE, &rx);
+    ahb_spi_cs_assert();
+    (void)ahb_spi_xfer_byte((uint8_t)CMD_SE);
     send_addr(addr);
-    sv_spi_cs_deassert();
+    ahb_spi_cs_deassert();
 
     flash_wait_wip_clear(5000);
 }
 
 void flash_chip_erase(void)
 {
-    char rx;
-
     flash_write_enable();
 
-    sv_spi_cs_assert();
-    sv_spi_xfer_byte((char)CMD_CE, &rx);
-    sv_spi_cs_deassert();
+    ahb_spi_cs_assert();
+    (void)ahb_spi_xfer_byte((uint8_t)CMD_CE);
+    ahb_spi_cs_deassert();
 
     flash_wait_wip_clear(50000);
 }
@@ -151,6 +172,10 @@ void flash_chip_erase(void)
  *   2. Erase the first 4KB sector
  *   3. Program 16 bytes
  *   4. Read them back and verify
+ *
+ * Every one of these now travels: flash_*() -> ahb_spi_*() ->
+ * sv_ahb_write()/sv_ahb_read() -> AHB bus -> ahb_spi_bridge.sv -> SPI bus
+ * -> spi_flash_model.sv.
  *-------------------------------------------------------------------------*/
 void c_flash_test_main(void)
 {
@@ -159,7 +184,7 @@ void c_flash_test_main(void)
     uint8_t rbuf[16];
     int i, errors = 0;
 
-    printf("\n===== DPI-C Flash Driver Test =====\n");
+    printf("\n===== DPI-C Flash Driver Test (AHB -> SPI bridge) =====\n");
 
     flash_read_id(&manuf, &memtype, &capacity);
     printf("[flash_driver] RDID -> Manufacturer=0x%02X MemType=0x%02X "
