@@ -46,6 +46,29 @@
 (global-set-key (read-kbd-macro "C-<tab>") 'bm-next)
 (setq bm-cycle-all-buffers t)
 
+;;gptel
+(add-to-list 'load-path "~/.emacs.d/downloads/gptel")
+(use-package gptel
+  :ensure t
+  :config
+  ;; Define OpenRouter as an OpenAI-compatible backend
+  (setq gptel-backend
+        (gptel-make-openai "OpenRouter"
+          :host "openrouter.ai"
+          :endpoint "/api/v1/chat/completions"
+          :stream t
+          :key #'api_key ; Replace with your actual key
+          :models '(meta-llama/llama-3.3-70b-instruct
+                    anthropic/claude-3.7-sonnet
+                    google/gemini-2.5-pro
+                    deepseek/deepseek-r1)))
+
+;; Optional: Set a default model from the list above
+(setq gptel-model 'meta-llama/llama-3.3-70b-instruct))
+(global-set-key (read-kbd-macro "C-c C-s") 'gptel-send)
+(defun api_key () "my_api_key")
+
+
 ;;Not really using it right now, but i keep it here...
 ;;yet another snippet, Emacs code completion
 (add-to-list 'load-path "~/.emacs.d/downloads/yasnippet")
