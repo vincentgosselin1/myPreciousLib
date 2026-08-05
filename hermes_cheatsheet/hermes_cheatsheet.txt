@@ -11,5 +11,12 @@ model:
   provider: openrouter
   base_url: openrouter.ai/api/v1
 
+
+reallly good one for free :
+  model:
+  default: inclusionai/ling-3.0-flash:free
+  provider: openrouter
+  base_url: openrouter.ai/api/v1
+
 to run:
 hermes 
