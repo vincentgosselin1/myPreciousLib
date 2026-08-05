@@ -1,0 +1,12 @@
+what i found.
+
+download hermes from https://github.com/nousresearch/hermes-agent
+set the API KEY in ~/.hermes .env file
+set the model + provider in config.yaml.
+
+example in config.yaml
+
+model:
+  default: llama-3.1-8b-instruct
+  provider: openrouter
+  base_url: openrouter.ai/api/v1
