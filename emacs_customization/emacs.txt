@@ -66,7 +66,15 @@
 ;; Optional: Set a default model from the list above
 (setq gptel-model 'meta-llama/llama-3.3-70b-instruct))
 (global-set-key (read-kbd-macro "C-c C-s") 'gptel-send)
+(global-set-key (read-kbd-macro "C-c C-r") 'gptel-rewrite)
+(global-set-key (read-kbd-macro "C-c C-a") 'gptel-add)
 (defun api_key () "my_api_key")
+
+;;patching verilog mode bindings to avoid colisions.
+(with-eval-after-load 'verilog-mode
+  (define-key verilog-mode-map (kbd "C-c C-s") 'gptel-send)
+  (define-key verilog-mode-map (kbd "C-c C-r") 'gptel-rewrite)
+  (define-key verilog-mode-map (kbd "C-c C-a") 'gptel-add))
 
 
 ;;Not really using it right now, but i keep it here...
