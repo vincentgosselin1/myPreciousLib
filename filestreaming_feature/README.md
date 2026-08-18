@@ -90,10 +90,26 @@ Implement a hardware-to-software streaming pipeline that demonstrates the VCK190
 
 ## 5. Future Enhancements (Post-v1)
 
-- **Scatter-Gather DMA + ring buffer:** replace single-burst Simple mode with an SG descriptor ring so the DMA writes continuously into DDR4 without CPU re-arming each transfer — needed for sustained high sample rates.
+### 5.1 Scatter-Gather DMA + Ring Buffer
+
+Simple mode (v1) requires the CPU to re-arm a new transfer after every burst completes — the DMA engine sits idle between the CPU noticing completion and reprogramming the next transfer. For sustained high sample rates, upgrade to **Scatter-Gather (SG) mode**:
+
+- A **ring of descriptors** is built in the reserved DDR4 region, each describing one burst's worth of samples and pointing to the next descriptor (wrapping at the end).
+- The AXI DMA engine walks the ring continuously and independently of the CPU, writing counter samples into successive buffers as long as there are "armed" descriptors ahead of its current position (tracked via the **tail descriptor pointer**).
+- The PS app trails behind: it waits for a descriptor's `STATUS.Cmplt` bit, drains that descriptor's buffer over TCP, clears/resets the descriptor, and advances the tail pointer to recycle that slot back into the ring — so the DMA never runs out of work as long as the CPU keeps up.
+- This decouples PL production rate from PS consumption rate (within the depth of the ring), smoothing out scheduling jitter on the PS side.
+
+A reference skeleton (`dma_stream_sg.c`) is included with this proposal. It is **not a drop-in final driver** — descriptor field offsets and control/status bit positions must be verified against the AXI DMA Product Guide (PG021) for the exact IP version/configuration used in the Vivado design before relying on it in the lab. Recommended follow-up before use:
+- Confirm descriptor struct layout (`NXTDESC`, `BUFFER_ADDRESS`, `CONTROL`, `STATUS` fields) matches the generated IP.
+- Replace the busy-wait polling loop with an **interrupt-driven** wait (S2MM introduction interrupt) once functionally correct, to reduce CPU load further.
+- Tune `N_DESC` (ring depth) and `BURST_LEN` (samples per descriptor) against the reserved DDR4 region size and desired latency/throughput trade-off.
+
+### 5.2 Other Enhancements
+
 - **UDP instead of TCP:** lower overhead if occasional dropped samples are acceptable.
 - **Cache coherency review:** if routing DMA writes through the coherent interconnect (CCI) instead of marking the region non-cacheable, revisit device tree cacheability attributes.
 - **Configurable sample rate / burst size:** expose via AXI-Lite control register instead of RTL parameter.
+- **IRQ-driven completion (both modes):** replace register polling with a proper interrupt handler for lower CPU overhead and lower latency.
 
 ---
 
@@ -105,10 +121,16 @@ Implement a hardware-to-software streaming pipeline that demonstrates the VCK190
 
 ---
 
-## 7. Reference Implementation Snippets
+## 7. Reference Implementation Files
 
-Full code (RTL, device tree, PS app, PC receiver) has been developed and reviewed in the accompanying working session — available on request as separate source files:
-- `axis_counter.v` — PL counter (AXI4-Stream)
-- `system-user.dtsi` — reserved-memory device tree overlay
-- `dma_stream.c` — PS userspace DMA control + TCP streaming app
-- `pc_receiver.py` — Windows PC TCP receiver / file logger
+The following source files accompany this proposal:
+
+| File | Description |
+|---|---|
+| `axis_counter.v` | PL counter with AXI4-Stream master interface, configurable burst length via `TLAST` |
+| `system-user.dtsi` | PetaLinux device tree overlay reserving the DDR4 region for the DMA target buffer |
+| `dma_stream.c` | PS userspace app — **v1, Simple mode**: single-burst DMA transfers, CPU re-arms each one, streams to PC over TCP |
+| `dma_stream_sg.c` | PS userspace app — **v2, Scatter-Gather mode (reference skeleton)**: descriptor ring for continuous DMA streaming; verify against PG021 before lab use |
+| `pc_receiver.py` | Windows PC TCP server, appends received counter values to `counter_log.txt` |
+
+**Recommended build order:** get `axis_counter.v` + `dma_stream.c` (v1, Simple mode) working end-to-end first, validate the full PL→PS→Ethernet→PC pipeline, then swap in `dma_stream_sg.c` once the SG descriptor fields have been confirmed against the actual AXI DMA IP configuration in the Vivado design.

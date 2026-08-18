@@ -1,0 +1,31 @@
+/*
+ * system-user.dtsi
+ * PetaLinux device tree overlay: reserves a DDR4 region for the
+ * AXI DMA (S2MM) target buffer, kept out of the Linux memory pool
+ * and marked non-cacheable to avoid PL-write / PS-read coherency issues.
+ *
+ * Region: 256MB @ 0x60000000 (adjust to match Vivado Address Editor
+ * assignment for the AXI DMA's M_AXI_S2MM master).
+ */
+
+/ {
+    reserved-memory {
+        #address-cells = <2>;
+        #size-cells = <2>;
+        ranges;
+
+        dma_buffer: dmabuffer@60000000 {
+            no-map;
+            reg = <0x0 0x60000000 0x0 0x10000000>; // 256MB
+        };
+    };
+};
+
+/* If your BSP does not automatically treat reserved-memory as
+ * non-cacheable, explicitly mark the mapping attributes here or in
+ * the corresponding memory-region reference in your DMA node, e.g.:
+ *
+ * &your_dma_node {
+ *     memory-region = <&dma_buffer>;
+ * };
+ */
