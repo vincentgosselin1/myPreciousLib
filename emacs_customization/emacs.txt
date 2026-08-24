@@ -76,6 +76,12 @@
   (define-key verilog-mode-map (kbd "C-c C-r") 'gptel-rewrite)
   (define-key verilog-mode-map (kbd "C-c C-a") 'gptel-add))
 
+;;patching verilog mode bindings to avoid colisions.
+(with-eval-after-load 'vhdl-mode
+  (define-key vhdl-mode-map (kbd "C-c C-s") 'gptel-send)
+  (define-key vhdl-mode-map (kbd "C-c C-r") 'gptel-rewrite)
+  (define-key vhdl-mode-map (kbd "C-c C-a") 'gptel-add))
+
 
 ;;Not really using it right now, but i keep it here...
 ;;yet another snippet, Emacs code completion
