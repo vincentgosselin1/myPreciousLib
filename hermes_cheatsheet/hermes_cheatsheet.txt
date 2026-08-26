@@ -18,5 +18,29 @@ reallly good one for free :
   provider: openrouter
   base_url: openrouter.ai/api/v1
 
+reallllllyyyy good one for free (no limits):
+stealth/ox-alpha
+
 to run:
 hermes 
+
+
+To run hermes in docker:
+start docker desktop, whale apears
+docker ps , shows that its running
+
+docker pull nousresearch/hermes-agent , to download hermes-agent docker image from nous research
+
+docker run -it -v ~/.hermes:/opt/data nousresearch/hermes-agent
+
+docker ps , shows that its running
+docker exec -u root -it <container_id_or_name> bash
+apt-get update && apt-get install -y iverilog
+
+
+now in docker go to Exec tab, start a shell
+then 'hermes'
+than start vibecoding.
+
+files could be access in .hermes directory on my pc
+
