@@ -130,7 +130,7 @@
 ;my own stuff
 ;;(defalias 'iap (read-kbd-macro "<<info-apropos>>"))
 (defalias 'ebh (read-kbd-macro "<<erase-buffer>>"))
-(defalias 'ggg "grep -r --exclude-dir=.git ")
+(defalias 'ggg "grep -r -i --exclude-dir=.git ")
 (defalias 'rab (read-kbd-macro "<<bm-remove-all-all-buffers>>")) ;; Remove All Bookmarks
 (defalias 'sss (read-kbd-macro "C-u M-x shell"))
 (defalias 'aaa (read-kbd-macro "M-! run_sim.sh"))
